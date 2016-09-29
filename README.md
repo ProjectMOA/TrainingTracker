@@ -8,4 +8,5 @@ jettyWar - Deploys a Jetty server in http://localhost:8080, using the .war file 
 we won't be able to see any modification in hot, but in exachange it'll allow us to test the .war after the compiling and 
 packaging process.
 
-jettyStop - Stops the Jetty server, if any deployed.
+jettyStop - Stops the Jetty server, if any deployed. It's necessary to execute this command in a different terminal in which
+'jettyRun' or 'jettyRunWar' were executed, unless they were executed in background with '&'.
