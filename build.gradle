@@ -18,7 +18,14 @@ dependencies {
     providedCompile "javax.servlet:javax.servlet-api:3.0.1"
 }
 
-jettyRun {
+jettyRun{
     contextPath = ''
     scanIntervalSeconds = 2
+    stopPort = 2020
+    stopKey = 'stop'
+}
+
+[jettyRunWar, jettyStop]*.with{
+    stopPort = 2020
+    stopKey = 'stop'
 }
