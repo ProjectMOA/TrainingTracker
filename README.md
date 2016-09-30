@@ -2,9 +2,9 @@
 
 ## Start using this App
 
-Assuming you have [JDK 8](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html) and [Gradle](https://docs.gradle.org/current/userguide/installation.html) installed, you must to fork this repo. After that, you have to clone your fork on your local machine somewhere: `git clone git clone https://github.com/your-github-username/trainingTracker`.
+Assuming you already have [JDK 8](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html) and [Gradle](https://docs.gradle.org/current/userguide/installation.html) installed, you must fork this repo. After that, you have to clone your forked repo on your local machine on the directory you desire: `git clone https://github.com/your-github-username/trainingTracker`.
 
-In order to check that all is working well, you can to use the command `gradle build` or `gradle check`.
+In order to check that everything is working well, you can execute the commands `gradle build` or `gradle check`.
 
 ## Build & Run
 
