@@ -1,0 +1,48 @@
+.theme-color {color:#fff !important;background-color:#3F51B5 !important} /*500*/
+.theme-color-strong {color:#fff !important;background-color:#303F9F !important} /*700*/
+.theme-color-soft {color:rgba(77,77,77,0.7) !important;background-color:#C5CAE9 !important} /*100*/
+.theme-accent {color:#fff !important;background-color:#FF4081 !important;
+  border: 1px solid #FF4081;padding: 10px 20px;font-weight: 600;} /*action 200*/
+.theme-accent-strong {color:#fff !important;background-color: #F50057 !important;
+  border: 1px solid #F50057;padding: 10px 20px;font-weight: 600;} /*action 400*/
+.theme-accent-soft {color:#fff !important;background-color:#FF80AB !important;
+  border: 1px solid #FF80AB;font-weight: 600;} /*action 100*/
+.theme-color-text {color:#3F51B5 !important}
+.theme-color-text-action{color:#FF4081 !important}
+
+body {
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+  background-color: #f1f1f1;
+  font-family: 'Vollkorn', serif;
+}
+
+/* remove the underline link style */
+a:focus, a:hover {
+  text-decoration: none;
+}
+
+/* add a gap under the navbar */
+#firstContent:before {
+  display: block;
+  content: " ";
+  height: 100px;
+  visibility: hidden;
+}
+
+
+/* user alert if input is too long
+.maxLength {
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(247, 0, 0, 0.79);
+}
+
+.maxLength:focus {
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(247, 0, 0, 0.79);
+}
+
+.textMaxLength {
+  color: rgba(247, 0, 0, 0.79) !important;
+  font-size: 90%;
+}*/
