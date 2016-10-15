@@ -1,0 +1,26 @@
+/* color de los botones del navbar */
+.navbar-inverse .navbar-nav>li>a {
+  color:#fff;
+}
+/*color de hover del boton home del navbar */
+.navbar-brand:hover {
+  background-color:#3F51B5 !important;
+}
+/* color del boton home */
+.navbar-inverse .navbar-brand {
+  color: #fff;
+}
+/*color del hover de los botones del navbar */
+.navbar-inverse .navbar-nav>li>a:focus, .navbar-inverse .navbar-nav>li>a:hover {
+  background-color:#3F51B5 !important;
+}
+
+/* color del boton colapsado en focus*/
+.navbar-inverse .navbar-toggle:focus, .navbar-inverse .navbar-toggle:hover {
+  background-color: #3F51B5;
+}
+
+/* color del borde del boton colapsado */
+.navbar-inverse .navbar-toggle {
+  border-color: #1A237E
+}
