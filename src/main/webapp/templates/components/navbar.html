@@ -1,0 +1,29 @@
+<!--menu -->
+<nav class="navbar navbar-inverse navbar-fixed-top">
+  <div class="container-fluid">
+    <!-- collapsed NavBar-->
+    <div class="navbar-header">
+      <!-- Boton de la derecha-->
+      <button type="button" class="navbar-toggle"
+              data-toggle="collapse"
+              data-target="#myNavbar">
+        <!--Barritas dentro del botón -->
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand theme-color" href="#/home" rel="home">
+        TrainingTracker <!--Logo pantalla pequeña-->
+      </a>
+    </div>
+    <!-- NavBar por defecto-->
+    <div  class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav navbar-right">
+        <!-- sign up button -->
+        <li ng-if="!logged()"><a href="#/signUp">Registrarse</a></li>
+        <!-- log out button -->
+        <li ng-if="logged()"><a ng-click="logout()">Salir</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
