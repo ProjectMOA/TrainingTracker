@@ -10,8 +10,3 @@ before_script:
   - "sh -e /etc/init.d/xvfb start"
   - sleep 3 # give xvfb some time to start
 
-script:
-  - which firefox
-  - firefox --version
-  - which firefox-bin
-  - firefox-bin --version
