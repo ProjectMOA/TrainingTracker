@@ -1,4 +1,4 @@
-#signUpStyle input {
+#signUpStyle .form-group {
   margin: 3% 0;
 }
 /* user alert if input is too long*/
