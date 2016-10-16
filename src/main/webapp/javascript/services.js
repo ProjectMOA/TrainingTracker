@@ -55,7 +55,7 @@ angular.module('trainingTrackerApp')
                     url: 'signIn',
                     headers: {
                         'Authorization': 'Basic ' +
-                        base64.encode(user + ":" + password)
+                        $base64.encode(user + ":" + password)
                     }
                 }).success(function (data) {
                     that.authenticate(data);
