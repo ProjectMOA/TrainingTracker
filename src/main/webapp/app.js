@@ -17,6 +17,7 @@ angular.module('trainingTrackerApp', ['ui.router', 'base64'])
             .state('signUp', {
                 url: "/signUp",
                 templateUrl: "templates/signUp.html",
+                controller: "signUpCtrl",
                 onEnter: function ($state, auth) {
                     if (auth.isAuthenticated()) {
                         $state.go('home');
