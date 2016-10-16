@@ -31,7 +31,8 @@ angular.module('trainingTrackerApp')
 
             //logout function
             logout: function () {
-
+                auth.authenticate(null);
+                $state.go('starter');
             },
 
             getUserObject: function () {
@@ -44,6 +45,25 @@ angular.module('trainingTrackerApp')
 
             getEmail: function () {
                 return _identity.email;
+            },
+
+            //send the login info to the server
+            login: function (user, password, callback) {
+                var that = this;
+                $http({
+                    method: 'GET',
+                    url: 'signIn',
+                    headers: {
+                        'Authorization': 'Basic ' +
+                        $base64.encode(user + ":" + password)
+                    }
+                }).success(function (data) {
+                    that.authenticate(data);
+                    $state.go('home');
+
+                }).error(function (data) {
+                    callback(data);
+                });
             },
 
             //send the register info to the server

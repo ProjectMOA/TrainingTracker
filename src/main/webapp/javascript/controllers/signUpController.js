@@ -1,7 +1,6 @@
 angular.module('trainingTrackerApp')
 
-    .controller('signUpCtrl', ['$scope', '$location', '$state', 'auth',
-        function ($scope, $location, $state, auth) {
+    .controller('signUpCtrl', ['$scope', '$state', 'auth', function ($scope, $state, auth) {
 
             // inputs visual variables
             $scope.userName = "";

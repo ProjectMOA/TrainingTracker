@@ -7,7 +7,6 @@ angular.module('trainingTrackerApp')
         };
 
         $scope.logout = function () {
-            auth.authenticate(null);
-            $state.go('starter');
+            auth.logout();
         }
     }]);
