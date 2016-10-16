@@ -5,7 +5,7 @@ angular.module('trainingTrackerApp')
         return {
             restrict: 'E',
             templateUrl: 'templates/components/navbar.html',
-            controller: 'navbarController'
+            controller: 'navbarCtrl'
         }
     })
 
