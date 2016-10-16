@@ -31,7 +31,8 @@ angular.module('trainingTrackerApp')
 
             //logout function
             logout: function () {
-
+                auth.authenticate(null);
+                $state.go('starter');
             },
 
             getUserObject: function () {
