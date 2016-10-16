@@ -1,26 +1,31 @@
-/* color de los botones del navbar */
+/* navbar buttons */
 .navbar-inverse .navbar-nav>li>a {
   color:#fff;
 }
-/*color de hover del boton home del navbar */
+/* home button hover */
 .navbar-brand:hover {
   background-color:#3F51B5 !important;
 }
-/* color del boton home */
+/* home button */
 .navbar-inverse .navbar-brand {
   color: #fff;
 }
-/*color del hover de los botones del navbar */
+/* navbar buttons hover */
 .navbar-inverse .navbar-nav>li>a:focus, .navbar-inverse .navbar-nav>li>a:hover {
   background-color:#3F51B5 !important;
 }
 
-/* color del boton colapsado en focus*/
+/* collapsed button focus */
 .navbar-inverse .navbar-toggle:focus, .navbar-inverse .navbar-toggle:hover {
   background-color: #3F51B5;
 }
 
-/* color del borde del boton colapsado */
+/* collapsed button border */
 .navbar-inverse .navbar-toggle {
   border-color: #1A237E
+}
+
+/* font family of the home button */
+#hombeButton {
+  font-family: 'Abril Fatface', cursive;
 }
