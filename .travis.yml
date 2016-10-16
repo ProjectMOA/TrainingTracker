@@ -13,6 +13,6 @@ before_script:
   - sleep 3 # give xvfb some time to start
 
 after_script:
-  - "graddle jettyStop"
+  - "gradle jettyStop"
   - sleep 3 # give jetty some time to stop
 
