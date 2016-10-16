@@ -7,26 +7,14 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 /**
  * Created by inigo on 16/10/16.
  */
-public class SeleniumFirstTest {
+public class RegistrationTest {
 
     @Test
-    public void test(){
+    public void RegistrarionSimpleTest(){
         WebDriver driver = new FirefoxDriver();
         driver.get("http://localhost:8080");
-        try{
-            Thread.sleep(3000);
-        }
-        catch (InterruptedException e){
-            System.out.print("InterruptedException");
-        }
         WebElement register = driver.findElement(By.linkText("Registrarse"));
         register.click();
-        try{
-            Thread.sleep(3000);
-        }
-        catch (InterruptedException e){
-            System.out.print("InterruptedException");
-        }
         driver.close();
         driver.quit();
     }

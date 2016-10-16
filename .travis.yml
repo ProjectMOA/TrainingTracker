@@ -14,5 +14,4 @@ before_script:
 
 after_script:
   - "gradle jettyStop"
-  - sleep 3 # give jetty some time to stop
 
