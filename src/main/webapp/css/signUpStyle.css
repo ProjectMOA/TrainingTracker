@@ -1,0 +1,16 @@
+#signUpStyle .form-group {
+  margin: 3% 0;
+}
+/* user alert if input is too long*/
+#signUpStyle .maxLength {
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(247, 0, 0, 0.79);
+}
+
+#signUpStyle .maxLength:focus {
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(247, 0, 0, 0.79);
+}
+
+#signUpStyle .textMaxLength {
+  color: rgba(247, 0, 0, 0.79) !important;
+  font-size: 90%;
+}

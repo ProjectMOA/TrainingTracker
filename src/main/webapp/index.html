@@ -12,6 +12,7 @@
   <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
   <!-- Google fonts -->
   <link href='https://fonts.googleapis.com/css?family=Vollkorn' rel='stylesheet' type='text/css'>
+  <link href="https://fonts.googleapis.com/css?family=Abril+Fatface" rel="stylesheet">
 
   <!--load the favicons-->
   <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
@@ -23,14 +24,9 @@
 
   <!-- base64 library -->
   <script src="lib/angular-base64.min.js"></script>
-  <!-- ui.bootstrap library -->
-  <script src="lib/ui-bootstrap-1.3.2.min.js"></script>
 
   <!-- css own imports -->
   <link rel="stylesheet" href="css/colorTheme.css">
-  <link rel="stylesheet" href="css/starterStyle.css">
-  <link rel="stylesheet" href="css/exerciseCardStyle.css">
-  <link rel="stylesheet" href="css/homeStyle.css">
   <link rel="stylesheet" href="css/navbarStyle.css">
   <link rel="stylesheet" href="css/signUpStyle.css">
 
@@ -42,16 +38,14 @@
   <!-- directives -->
   <script src="javascript/directives.js"></script>
   <!-- controllers -->
-  <script src="javascript/controllers/exerciseCardController.js"></script>
-  <script src="javascript/controllers/homeController.js"></script>
-  <script src="javascript/controllers/navbarController.js"></script>
   <script src="javascript/controllers/signUpController.js"></script>
-  <script src="javascript/controllers/starterController.js"></script>
+  <script src="javascript/controllers/navbarController.js"></script>
 </head>
 
 
 <body ng-app="trainingTrackerApp">
 <!-- the content here will be the 'body page' and it will change dependending of the current state -->
+<navbar></navbar>
 <ui-view></ui-view>
 </body>
 
