@@ -9,8 +9,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.json.JSONObject;
-import org.json.JSONException;
+import net.sf.json.JSONObject;
+import net.sf.json.JSONException;
 
 
 /**
@@ -39,6 +39,7 @@ public class SignUp extends AbstractServlet {
         String pass = "";
         String repass = "";
         String email = "";
+        boolean emailValid;
         
         JSONObject json = null;
         try {
@@ -47,6 +48,7 @@ public class SignUp extends AbstractServlet {
             pass = json.getString("pass");
             repass = json.getString("repass");
             email = json.getString("email");
+            emailValid = Pattern.matches(EMAIL_PATTERN, email);
             
             response.setContentType("text/html; charset=UTF-8");
         }
@@ -69,7 +71,7 @@ public class SignUp extends AbstractServlet {
             response.getWriter().println("Las contraseñas no coinciden");
             error = true;
         }
-        if ((email==null) || (email.trim().equals("")) || !new Pattern().matches(EMAIL_PATTERN, email)) {
+        if ((email==null) || (email.trim().equals("")) || !emailValid) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             response.getWriter().println("Email no valido");
             error = true;
