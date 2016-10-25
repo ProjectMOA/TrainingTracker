@@ -27,6 +27,9 @@ public abstract class AbstractServlet extends HttpServlet {
         super();
     }
 	
+    /**
+     * Reads completelly a buffer and converts its content in a JSON Object.
+     */
 	protected JSONObject readJSON (BufferedReader bf) throws Exception {
 		StringBuffer jb = new StringBuffer();
 		String line = null;
@@ -37,4 +40,4 @@ public abstract class AbstractServlet extends HttpServlet {
 		
 		return JSONObject.fromObject(jb.toString());
 	}
-} 
+}

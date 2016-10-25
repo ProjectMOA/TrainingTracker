@@ -14,9 +14,9 @@ import net.sf.json.JSONException;
 
 
 /**
- * Servlet implementation class Registro
+ * Servlet implementation class SignUp
  */
-//@WebServlet("/signUp")
+//@WebServlet("/SignUp")
 public class SignUp extends AbstractServlet {
     
     private static final String EMAIL_PATTERN =
@@ -30,9 +30,6 @@ public class SignUp extends AbstractServlet {
         super();
     }
 
-    /**
-     * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-     */
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         boolean error = false;
         String usuario = "";
@@ -41,6 +38,7 @@ public class SignUp extends AbstractServlet {
         String email = "";
         boolean emailValid;
         
+        // Reads a JSON Object from request and captures his fields
         JSONObject json = null;
         try {
             json = readJSON(request.getReader());
@@ -48,7 +46,7 @@ public class SignUp extends AbstractServlet {
             pass = json.getString("pass");
             repass = json.getString("repass");
             email = json.getString("email");
-            emailValid = Pattern.matches(EMAIL_PATTERN, email);
+            emailValid = Pattern.matches(EMAIL_PATTERN, email); // Compares the email with his pattern
             
             response.setContentType("text/html; charset=UTF-8");
         }
@@ -56,6 +54,7 @@ public class SignUp extends AbstractServlet {
             System.out.printf("Error al leer el JSON");
         }
         
+        // Field revision
         if ((usuario==null) || (usuario.trim().equals(""))) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             response.getWriter().println("Usuario incorrecto");
@@ -79,6 +78,7 @@ public class SignUp extends AbstractServlet {
         
         if (!error) {
             try {
+                // Creates an user in BD
                 if (UsuariosDAO.addUser(usuario, "", pass, email)) {
                     response.setStatus(HttpServletResponse.SC_OK);
                     UsuarioVO vo = UsuariosDAO.findUser(usuario);
