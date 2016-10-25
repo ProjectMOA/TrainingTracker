@@ -1,13 +1,13 @@
 package org.trainingTracker.database.valueObject;
 
-public class UsuarioVO {
+public class UserVO {
 	private String nick;
 	private String pass;
     private String mail;
 	private String date;
 
 
-	public UsuarioVO ( String nick, String pass, String mail, String date){
+	public UserVO(String nick, String pass, String mail, String date){
 		this.nick = nick;
 		this.pass = pass;
         this.mail = mail;

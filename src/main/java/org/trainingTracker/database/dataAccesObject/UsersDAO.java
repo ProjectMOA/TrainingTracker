@@ -3,10 +3,10 @@ package org.trainingTracker.database.dataAccesObject;
 import java.sql.*;
 
 import org.trainingTracker.database.conection.ConnectionPool;
-import org.trainingTracker.database.valueObject.UsuarioVO;
+import org.trainingTracker.database.valueObject.UserVO;
 import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
 
-public class UsuariosDAO {
+public class UsersDAO {
 
     //Database Field
     public static final String DBF_TABLE_NAME = "Users";
@@ -58,9 +58,9 @@ public class UsuariosDAO {
 	/**Busca y devuelve un usuario por nickname
 	 * 
 	 * @param nick
-	 * @return UsuarioVO poblado si existe el ususario y null si no existe
+	 * @return UserVO poblado si existe el ususario y null si no existe
 	 */
-	public static UsuarioVO findUser(String nick ){
+	public static UserVO findUser(String nick ){
 		Connection conn = null;
 		try{
 			Class.forName(ConnectionPool.JDBC_DRIVER);
@@ -76,7 +76,7 @@ public class UsuariosDAO {
             ResultSet rs = stmt.executeQuery();
 
 			if( rs.next() ){
-				return new UsuarioVO (rs.getString(DBF_NICK), rs.getString(DBF_PASS), rs.getString(DBF_MAIL), rs.getString(DBF_REGDATE));
+				return new UserVO(rs.getString(DBF_NICK), rs.getString(DBF_PASS), rs.getString(DBF_MAIL), rs.getString(DBF_REGDATE));
 			}
 			System.out.println("El usuario no existe");
 			return null;
@@ -101,7 +101,7 @@ public class UsuariosDAO {
 //     * @throws SQLException
 //     * @throws ClassNotFoundException
 //     */
-//	public static ArrayList<UsuarioVO> findAllUsers() throws SQLException, ClassNotFoundException{
+//	public static ArrayList<UserVO> findAllUsers() throws SQLException, ClassNotFoundException{
 //
 //		Connection conn = null;
 //		try{
@@ -115,10 +115,10 @@ public class UsuariosDAO {
 //
 //			ResultSet rs = stmt.executeQuery(sql);
 //
-//			ArrayList<UsuarioVO> list = new ArrayList<UsuarioVO>();
+//			ArrayList<UserVO> list = new ArrayList<UserVO>();
 //
 //			while( rs.next() ){
-//				list.add( new UsuarioVO (rs.getInt("_id"), rs.getString("nickname"), rs.getString("nombre"),
+//				list.add( new UserVO (rs.getInt("_id"), rs.getString("nickname"), rs.getString("nombre"),
 //						rs.getString("pass"), rs.getString("fecha")) );
 //			}
 //
