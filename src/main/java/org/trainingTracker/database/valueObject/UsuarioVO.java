@@ -1,41 +1,39 @@
 package org.trainingTracker.database.valueObject;
 
 public class UsuarioVO {
-	private String nickname;
-	private String nombre;
-	private String passwd;
-	private String fecha;
-	
-	
-	public UsuarioVO (int _id, String nickname, String nombre, String passwd, String fecha){
-		this.nickname = nickname;
-		this.nombre = nombre;
-		this.passwd = passwd;
-		this.fecha = fecha;
+	private String nick;
+	private String pass;
+    private String mail;
+	private String date;
+
+
+	public UsuarioVO ( String nick, String pass, String mail, String date){
+		this.nick = nick;
+		this.pass = pass;
+        this.mail = mail;
+		this.date = date;
 	}
 
-	public String getNickname() {
-		return nickname;
+	public String getNick() { return nick; }
+	public String getPass() {
+		return pass;
 	}
-	public String getNombre() {
-		return nombre;
-	}
-	public String getPasswd() {
-		return passwd;
-	}
-	public String getFecha() {
-		return fecha;
+    public String getMail() {
+        return mail;
+    }
+	public String getDate() {
+		return date;
 	}
 	
 	@Override
 	public String toString() {
-		return String.format("Nickname: %s Nombre: %s Pass: %s Fecha: %s;", nickname, nombre, passwd, fecha);
+		return String.format("Nickname: %s Nombre: %s Pass: %s Fecha: %s;", nick, mail, pass, date);
 		
 	}
 	
 	public String serialize(){	
-		return String.format("{\"nombreUsuario\": \"%s\",  \"nombreReal\": \"%s\", \"fecha\": \"%s\" }",
-				nickname, nombre, fecha);
+		return String.format("{\"nombreUsuario\": \"%s\",  \"nombreReal\": \"%s\", \"date\": \"%s\" }",
+            nick, mail, date);
 	}
 		
 }

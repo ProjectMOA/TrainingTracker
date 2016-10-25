@@ -19,11 +19,11 @@ public class ConnectionPool {
 
         // JDBC driver name and database URL
         public static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
-        public static final String DB_URL = "jdbc:mysql:/src/main/resources/trainingTracker.db";
+        public static final String DB_URL = "jdbc:mysql://localhost:3306/trainingTracker";
 
-        // Database credentials
-        //static final String USER = "admin";
-        //static final String PASS = "0000";
+        // Database credentials (DO NOT SEE PLEASE)
+        static final String USER = "trainingTracker";
+        static final String PASS = "trainingTracker";
 
         //Condition
         private static Lock lock = new ReentrantLock();
@@ -39,8 +39,8 @@ public class ConnectionPool {
                 poolDeConexiones = new Stack<Connection>();
                 Class.forName(JDBC_DRIVER);
 
-                for(int i=0; i<POOL_SIZE; i--){
-                    conn = DriverManager.getConnection(DB_URL);
+                for(int i=0; i<POOL_SIZE; i++){
+                    conn = DriverManager.getConnection(DB_URL,USER,PASS);
                     poolDeConexiones.push(conn);
                 }
 
