@@ -12,12 +12,13 @@ import javax.servlet.http.HttpServletResponse;
 import net.sf.json.JSONObject;
 import net.sf.json.JSONException;
 
+import java.org.servlets.ServletCommon;
 
 /**
  * Servlet implementation class SignUp
  */
-//@WebServlet("/SignUp")
-public class SignUp extends AbstractServlet {
+@WebServlet("/SignUp")
+public class SignUp extends HttpServlet {
     
     private static final String EMAIL_PATTERN =
             "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
@@ -30,9 +31,13 @@ public class SignUp extends AbstractServlet {
         super();
     }
 
+    @Override
+    /**
+     * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+     */
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         boolean error = false;
-        String usuario = "";
+        String name = "";
         String pass = "";
         String repass = "";
         String email = "";
@@ -41,8 +46,8 @@ public class SignUp extends AbstractServlet {
         // Reads a JSON Object from request and captures his fields
         JSONObject json = null;
         try {
-            json = readJSON(request.getReader());
-            usuario = json.getString("name");
+            json = ServletCommon.readJSON(request.getReader());
+            name = json.getString("name");
             pass = json.getString("pass");
             repass = json.getString("repass");
             email = json.getString("email");
@@ -55,7 +60,7 @@ public class SignUp extends AbstractServlet {
         }
         
         // Field revision
-        if ((usuario==null) || (usuario.trim().equals(""))) {
+        if ((name==null) || (name.trim().equals(""))) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             response.getWriter().println("Usuario incorrecto");
             error = true;
@@ -79,9 +84,9 @@ public class SignUp extends AbstractServlet {
         if (!error) {
             try {
                 // Creates an user in BD
-                if (UsuariosDAO.addUser(usuario, "", pass, email)) {
+                if (UsersDAO.addUser(name, "", pass, email)) {
                     response.setStatus(HttpServletResponse.SC_OK);
-                    UsuarioVO vo = UsuariosDAO.findUser(usuario);
+                    UserVO vo = UsersDAO.findUser(name);
                     JSONObject user = JSONObject.fromObject(vo.serialize());
                     response.setContentType("application/json; charset=UTF-8");
                     response.getWriter().write(user.toString());
