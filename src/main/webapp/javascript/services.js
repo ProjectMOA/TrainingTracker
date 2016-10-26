@@ -85,4 +85,25 @@ angular.module('trainingTrackerApp')
                 });
             }
         };
+    })
+
+    // 'exerciseService' service manage the exercise home functions of the page with the server
+    .factory('exerciseService', function ($state, $http, auth) {
+
+        return {
+            //get the exercises list
+            getExercisesList: function (callbackSuccess,CallbackError) {
+                $http({
+                    method: 'GET',
+                    url: 'listPerformed',
+                    headers: {
+                        'User': auth.getUsername()
+                    }
+                }).success(function (data) {
+                    callbackSuccess(data);
+                }).error(function (data) {
+                    CallbackError(data);
+                });
+            }
+        };
     });
