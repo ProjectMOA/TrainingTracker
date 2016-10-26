@@ -14,7 +14,7 @@ angular.module('trainingTrackerApp')
         return {
             restrict: 'E',
             templateUrl: 'templates/components/exerciseCard.html',
-            controller: 'exerciseCardController',
+            controller: 'exerciseCardCtrl',
             scope: true
         }
     });

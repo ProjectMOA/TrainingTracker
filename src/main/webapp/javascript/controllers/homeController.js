@@ -1,6 +1,6 @@
 angular.module('trainingTrackerApp')
 
-    .controller('exerciseCardController', ['$scope', '$state', 'exerciseService',
+    .controller('homeCtrl', ['$scope', '$state', 'exerciseService',
         function ($scope, $state, exerciseService) {
 
             $scope.exerciseList = []; //exercise list
