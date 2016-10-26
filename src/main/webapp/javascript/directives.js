@@ -10,11 +10,11 @@ angular.module('trainingTrackerApp')
     })
 
     //include the 'exerciserCard.html' into the <exerciserCard> tag
-    .directive('exerciserCard', function () {
+    .directive('exerciseCard', function () {
         return {
             restrict: 'E',
-            templateUrl: 'templates/components/exerciserCard.html',
-            controller: 'exerciserCardController',
+            templateUrl: 'templates/components/exerciseCard.html',
+            controller: 'exerciseCardController',
             scope: true
         }
     });
