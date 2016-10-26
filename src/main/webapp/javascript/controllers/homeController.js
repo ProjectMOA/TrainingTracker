@@ -3,14 +3,14 @@ angular.module('trainingTrackerApp')
     .controller('homeCtrl', ['$scope', '$state', 'exerciseService',
         function ($scope, $state, exerciseService) {
 
-            $scope.exerciseList = []; //exercise list
+            $scope.exercisesList = []; //exercise list
             // exercise list server request
-            $scope.getExerciseList = function () {
-                exerciseService.getExerciseList(function (exercises) {
-                    $scope.exerciseList = exercises;
-                });
+            $scope.getExercisesList = function () {
+                exerciseService.getExercisesList(function (exercises) {
+                    $scope.exercisesList = exercises;
+                },showError);
             };
-            $scope.getExerciseList();
+            $scope.getExercisesList();
 
             // feedback handling variables
             $scope.error = false;
