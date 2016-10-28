@@ -6,7 +6,13 @@ public class UserVO {
     private String mail;
 	private String date;
 
-
+    /**
+     * Constructor that initialises the class with the given fields
+     * @param nick
+     * @param pass
+     * @param mail
+     * @param date
+     */
 	public UserVO(String nick, String pass, String mail, String date){
 		this.nick = nick;
 		this.pass = pass;
@@ -24,16 +30,15 @@ public class UserVO {
 	public String getDate() {
 		return date;
 	}
-	
+
+    /**
+     * Represents the class fields in a human readable format
+     * @return
+     */
 	@Override
 	public String toString() {
-		return String.format("Nickname: %s Nombre: %s Pass: %s Fecha: %s;", nick, mail, pass, date);
+		return String.format("Nickname: %s Mail: %s Pass: %s Date: %s;", nick, mail, pass, date);
 		
-	}
-	
-	public String serialize(){	
-		return String.format("{\"nombreUsuario\": \"%s\",  \"nombreReal\": \"%s\", \"date\": \"%s\" }",
-            nick, mail, date);
 	}
 		
 }
