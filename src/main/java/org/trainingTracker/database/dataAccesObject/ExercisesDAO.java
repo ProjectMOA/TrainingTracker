@@ -61,7 +61,7 @@ public class ExercisesDAO {
 	}
 
     /**
-     *
+     * Returns a list with all exercises
      * @return
      */
 	public static List<ExerciseVO> listAllExercises(){
