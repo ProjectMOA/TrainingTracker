@@ -3,7 +3,8 @@ version '1.0-SNAPSHOT'
 
 apply plugin: 'java'
 apply plugin: 'war'
-apply plugin: 'jetty'
+//http://akhikhl.github.io/gretty-doc/Getting-started.html
+apply from: 'https://raw.github.com/akhikhl/gretty/master/pluginScripts/gretty.plugin'
 
 sourceCompatibility = 1.8
 
@@ -21,6 +22,13 @@ dependencies {
 
 }
 
+gretty {
+    contextPath = ''
+    interactiveMode = 'rebuildAndRestartOnKeyPress'
+}
+
+
+/*
 jettyRun{
     contextPath = ''
     scanIntervalSeconds = 2
@@ -31,4 +39,4 @@ jettyRun{
 [jettyRunWar, jettyStop]*.with{
     stopPort = 2020
     stopKey = 'stop'
-}
+}*/
