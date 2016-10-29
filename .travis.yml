@@ -6,12 +6,8 @@ addons:
   firefox: "47.0.1"
 
 before_script:
-  - "gradle jettyRun &"
+  - "gradle appRun &"
   - "sleep 3" # give jetty some time to start and deploy
   - "export DISPLAY=:99.0"
   - "sh -e /etc/init.d/xvfb start"
   - sleep 3 # give xvfb some time to start
-
-after_script:
-  - "gradle jettyStop"
-
