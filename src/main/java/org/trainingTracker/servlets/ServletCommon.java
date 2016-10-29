@@ -1,4 +1,4 @@
-package java.org.servlets;
+package org.trainingTracker.servlets;
 
 import java.lang.StringBuffer;
 import java.io.BufferedReader;

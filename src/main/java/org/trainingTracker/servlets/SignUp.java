@@ -1,4 +1,4 @@
-package java.org.servlets;
+package org.trainingTracker.servlets;
 
 import java.io.IOException;
 import java.util.regex.Pattern;
@@ -12,12 +12,14 @@ import javax.servlet.http.HttpServletResponse;
 import net.sf.json.JSONObject;
 import net.sf.json.JSONException;
 
-import java.org.servlets.ServletCommon;
+import org.trainingTracker.servlets.ServletCommon;
+import org.trainingTracker.database.dataAccesObject.UsersDAO;
+import org.trainingTracker.database.valueObject.UserVO;
 
 /**
  * Servlet implementation class SignUp
  */
-@WebServlet("/SignUp")
+@WebServlet("/signUp")
 public class SignUp extends HttpServlet {
     
     private static final String EMAIL_PATTERN =
@@ -41,7 +43,7 @@ public class SignUp extends HttpServlet {
         String pass = "";
         String repass = "";
         String email = "";
-        boolean emailValid;
+        boolean emailValid = false;
         
         // Reads a JSON Object from request and captures his fields
         JSONObject json = null;
@@ -84,7 +86,7 @@ public class SignUp extends HttpServlet {
         if (!error) {
             try {
                 // Creates an user in BD
-                if (UsersDAO.addUser(name, "", pass, email)) {
+                if (UsersDAO.addUser(name, pass, email)) {
                     response.setStatus(HttpServletResponse.SC_OK);
                     UserVO vo = UsersDAO.findUser(name);
                     JSONObject user = JSONObject.fromObject(vo.serialize());
