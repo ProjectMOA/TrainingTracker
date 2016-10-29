@@ -49,10 +49,12 @@ public class SignIn extends HttpServlet {
         // Field revision
         if((name==null) || (name.trim().equals(""))){
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            response.getWriter().println("Usuario incorrecto");
             error = true;
         }
         if((pass==null) || (pass.trim().equals(""))){
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            response.getWriter().println("Contraseña no válida");
             error = true;
         }
         
@@ -63,10 +65,12 @@ public class SignIn extends HttpServlet {
                 // If user don't exists
                 if (vo==null){
                     response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                    response.getWriter().println("El usuario " + name + " no existe");
                 }
                 // If pass don't match
                 else if(!(vo.getPass()).equals(pass)){
                     response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                    response.getWriter().println("Password incorrecto");
                 }
                 // User found
                 else{
