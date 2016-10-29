@@ -6,16 +6,16 @@
   version="3.0"
   metadata-complete="true">
 
-    <display-name>TrainingTracker</display-name>
+    <display-name>trainingTracker</display-name>
     <description>
-      TrainingTracker
+      trainingTracker
     </description>
   <welcome-file-list>
       <welcome-file>index.html</welcome-file>
   </welcome-file-list>
     <servlet>
     <servlet-name>SignUp</servlet-name>
-    <servlet-class>servlets.SignUp</servlet-class>
+    <servlet-class>org.trainingTracker.servlets.SignUp</servlet-class>
     </servlet>
     <servlet-mapping>
     <servlet-name>SignUp</servlet-name>
