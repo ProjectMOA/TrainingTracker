@@ -72,6 +72,8 @@ public class SignIn extends HttpServlet {
                 else{
                     response.setStatus(HttpServletResponse.SC_OK);
                     JSONObject user = JSONObject.fromObject(vo.serialize());
+                    user.remove("Pass");
+                    user.remove("Date");
                     response.setContentType("application/json; charset=UTF-8");
                     response.getWriter().write(user.toString());
                 }
