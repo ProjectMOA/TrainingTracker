@@ -14,11 +14,11 @@
       <welcome-file>index.html</welcome-file>
   </welcome-file-list>
     <servlet>
-    <servlet-name>SignUp</servlet-name>
-    <servlet-class>main.java.org.trainingTracker.servlets.SignUp</servlet-class>
+    <servlet-name>signUp</servlet-name>
+    <servlet-class>servlets.SignUp</servlet-class>
     </servlet>
     <servlet-mapping>
-    <servlet-name>SignUp</servlet-name>
-    <url-pattern>/SignUp</url-pattern>
+    <servlet-name>signUp</servlet-name>
+    <url-pattern>/signUp</url-pattern>
     </servlet-mapping>
 </web-app>
