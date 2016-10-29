@@ -41,6 +41,10 @@ public class UserVO {
 		
 	}
 
+    /**
+     * Returns a JSON representation of the object
+     * @return
+     */
     public String serialize(){
         return String.format("{\"Nick\": \"%s\",  \"Mail\": \"%s\",  \"Pass\": \"%s\", \"Date\": \"%s\" }",
             nick, mail, pass, date);
