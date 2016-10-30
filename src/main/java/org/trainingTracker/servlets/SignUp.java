@@ -92,8 +92,8 @@ public class SignUp extends HttpServlet {
                     response.setStatus(HttpServletResponse.SC_OK);
                     UserVO vo = UsersDAO.findUser(name);
                     JSONObject user = JSONObject.fromObject(vo.serialize());
-                    user.remove("Pass");
-                    user.remove("Date");
+                    user.remove("pass");
+                    user.remove("date");
                     response.setContentType("application/json; charset=UTF-8");
                     response.getWriter().write(user.toString());
                 }

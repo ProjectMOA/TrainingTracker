@@ -46,7 +46,7 @@ public class UserVO {
      * @return
      */
     public String serialize(){
-        return String.format("{\"Nick\": \"%s\",  \"Mail\": \"%s\",  \"Pass\": \"%s\", \"Date\": \"%s\" }",
+        return String.format("{\"user\": \"%s\",  \"email\": \"%s\",  \"pass\": \"%s\", \"date\": \"%s\" }",
             nick, mail, pass, date);
     }
 
