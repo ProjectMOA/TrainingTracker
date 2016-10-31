@@ -22,6 +22,8 @@ import org.trainingTracker.database.valueObject.UserVO;
 @WebServlet("/signUp")
 public class SignUp extends HttpServlet {
     
+    private static final long serialVersionUID = 1L;
+    
     private static final String EMAIL_PATTERN =
             "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
             + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
@@ -90,6 +92,8 @@ public class SignUp extends HttpServlet {
                     response.setStatus(HttpServletResponse.SC_OK);
                     UserVO vo = UsersDAO.findUser(name);
                     JSONObject user = JSONObject.fromObject(vo.serialize());
+                    user.remove("pass");
+                    user.remove("date");
                     response.setContentType("application/json; charset=UTF-8");
                     response.getWriter().write(user.toString());
                 }
