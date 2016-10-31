@@ -1,3 +1,4 @@
+USE trainingTracker;
 INSERT INTO MuscleGroup (name) VALUES ('Pecho');
 INSERT INTO MuscleGroup (name) VALUES ('Espalda');
 

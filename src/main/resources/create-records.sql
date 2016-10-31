@@ -1,3 +1,4 @@
+USE trainingTracker;
 DROP TABLE IF EXISTS Records;
 CREATE TABLE Records (
     exercise INTEGER NOT NULL,

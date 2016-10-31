@@ -1,3 +1,4 @@
+USE trainingTracker;
 DROP TABLE IF EXISTS MuscleGroup;
 CREATE TABLE MuscleGroup (
   name VARCHAR(50) NOT NULL,
