@@ -70,7 +70,7 @@ public class SignIn extends HttpServlet {
                 // If pass don't match
                 else if(!(vo.getPass()).equals(pass)){
                     response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-                    response.getWriter().println("Password incorrecto");
+                    response.getWriter().println("Contraseña incorrecta");
                 }
                 // User found
                 else{
