@@ -41,4 +41,53 @@ angular.module('trainingTrackerApp')
                 $scope.successMsg = "";
             };
 
+            // MODAL SECTION
+
+            $scope.recordModal = {    // temporal record data on modals
+                id: 0,
+                weight: "",
+                series: "",
+                repetitions: "",
+                commentary: ""
+            };
+
+            // open modal with [record] information
+            $scope.openRecordModal = function (exercise) {
+                $("#recordModal").modal("show");
+                $scope.exerciseModal = {
+                    id: exercise.id,
+                    weight: exercise.weight,
+                    series: exercise.series,
+                    repetitions: exercise.repetitions
+                }
+            };
+
+            // save record
+            $scope.saveRecord = function () {
+                $("#recordModal").modal("hide");
+                $scope.save = true; //flag to indicate that we are saving the record
+                $scope.aux = $scope.recordModal;
+                $scope.recordModal;
+                $("#recordModal").on('hidden.bs.modal', function () {
+                    if ($scope.save) {
+                        clothService.saveCloth($scope.aux, showSuccess, showError,
+                            function (exercises) {
+                                $scope.exercisesList = exercises;
+                            });
+                        $scope.save = false;
+                    }
+                });
+            };
+
+            //close record
+            $scope.closeRecordModal = function () {
+                $scope.recordModal = {
+                    id: 0,
+                    weight: "",
+                    series: "",
+                    repetitions: "",
+                    commentary: ""
+                };
+                $("#recordModal").modal("hide");
+            };
         }]);

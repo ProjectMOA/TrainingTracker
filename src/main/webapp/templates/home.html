@@ -8,5 +8,57 @@
     <exercise-card ng-repeat="exercise in exercisesList"
                    class="col-lg-3 col-md-4 col-sm-6"></exercise-card>
 
+
+    <!-- MODAL SECTION -->
+
+    <!-- exercise add record modal popup -->
+    <div id="recordModal" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+        <!-- modal content -->
+        <div class="modal-content">
+          <div class="modal-header">
+            <button class="close" data-dismiss="modal">&times;</button>
+          </div>
+          <div class="modal-body">
+            <form role="form" ng-submit="saveRecord()">
+              <!-- weight input exercise -->
+              <div class="form-group">
+                <label for="weightExercise"><strong>Peso*: </strong></label>
+                <input id="weightExercise" type="text" ng-model="exerciseModal.weight"
+                       class="form-control" required>
+              </div>
+              <!-- series input exercise -->
+              <div class="form-group">
+                <label for="seriesExercise"><strong>Series*: </strong></label>
+                <input id="seriesExercise" type="text" ng-model="exerciseModal.series"
+                       class="form-control" required>
+              </div>
+              <!-- repetitions input exercise -->
+              <div class="form-group">
+                <label for="repetitionsExercise"><strong>Repeticiones*: </strong></label>
+                <input id="repetitionsExercise" type="text" ng-model="exerciseModal.repetitions"
+                       class="form-control" required>
+              </div>
+              <!-- commentary input exercise -->
+              <div class="form-group">
+                <label
+                  for="commentaryExercise"><strong>Comentario: </strong></label>
+                <textarea id="commentaryExercise" rows="5"
+                          ng-model="exerciseModal.commentary" class="form-control"></textarea>
+              </div>
+              <button class="btn btn-default leftButton" ng-click="closeModal()">
+                Cancelar
+              </button>
+              <button type="submit" class="btn btn-danger rightButton">
+                Guardar
+              </button>
+            </form>
+          </div>
+          <div class="modal-footer">
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
 </div>
