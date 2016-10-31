@@ -3,7 +3,8 @@ version '1.0-SNAPSHOT'
 
 apply plugin: 'java'
 apply plugin: 'war'
-apply plugin: 'jetty'
+//http://akhikhl.github.io/gretty-doc/Getting-started.html
+apply from: 'https://raw.github.com/akhikhl/gretty/master/pluginScripts/gretty.plugin'
 
 sourceCompatibility = 1.8
 
@@ -14,6 +15,7 @@ repositories {
 }
 
 dependencies {
+    compile 'net.sf.json-lib:json-lib:2.4:jdk15'
     testCompile group: 'junit', name: 'junit', version: '4.11'
     testCompile group: 'org.seleniumhq.selenium', name: 'selenium-java', version: '2.53.1'
     providedCompile "javax.servlet:javax.servlet-api:3.0.1"
@@ -21,14 +23,7 @@ dependencies {
 
 }
 
-jettyRun{
+gretty {
     contextPath = ''
-    scanIntervalSeconds = 2
-    stopPort = 2020
-    stopKey = 'stop'
-}
-
-[jettyRunWar, jettyStop]*.with{
-    stopPort = 2020
-    stopKey = 'stop'
+    interactiveMode = 'rebuildAndRestartOnKeyPress'
 }
