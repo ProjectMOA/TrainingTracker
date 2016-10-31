@@ -24,7 +24,7 @@ public class ExercisesDAOTest {
     @Ignore
     public void listAllExercises() throws Exception {
 
-        List<ExerciseVO> list = ExercisesDAO.listAllExercises();
+        List<ExerciseVO> list = ExercisesDAO.listAllExercises("JohnDoe1");
 
         for (ExerciseVO exercise:list ) {
             System.out.println(exercise.toString());
