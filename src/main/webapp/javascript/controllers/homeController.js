@@ -54,7 +54,7 @@ angular.module('trainingTrackerApp')
             // open modal with [record] information
             $scope.openRecordModal = function (exercise) {
                 $("#recordModal").modal("show");
-                $scope.exerciseModal = {
+                $scope.recordModal = {
                     id: exercise.id,
                     weight: exercise.weight,
                     series: exercise.series,

@@ -97,10 +97,34 @@ angular.module('trainingTrackerApp')
                     method: 'GET',
                     url: 'listPerformed',
                     headers: {
-                        'User': auth.getUsername()
+                        'user': auth.getUsername()
                     }
                 }).success(function (data) {
                     callbackSuccess(data);
+                }).error(function (data) {
+                    CallbackError(data);
+                });
+            },
+            // save record of a exercise
+            saveRecord: function (record,callbackSuccess,callbackError,updateListRecord) {
+                var recordTemp = {
+                    user: auth.getUsername(),
+                    id: record.id,
+                    weight: record.weight,
+                    series: record.series,
+                    repetitions: record.repetitions,
+                    commentary: record.commentary
+                };
+                $http({
+                    method: 'POST',
+                    url: 'saveRecord',
+                    data: JSON.stringify(recordTemp),
+                    headers: {
+                        'Content-Type': 'application/json; charset=UTF-8'
+                    }
+                }).success(function (data) {
+                    callbackSuccess('Marca añadida correctamente');
+                    updateListRecord(data);
                 }).error(function (data) {
                     CallbackError(data);
                 });
