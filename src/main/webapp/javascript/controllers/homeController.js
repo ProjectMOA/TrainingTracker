@@ -55,26 +55,28 @@ angular.module('trainingTrackerApp')
             $scope.openRecordModal = function (exercise) {
                 $("#recordModal").modal("show");
                 $scope.recordModal = {
-                    id: exercise.id,
-                    weight: exercise.weight,
-                    series: exercise.series,
-                    repetitions: exercise.repetitions
-                }
+                    id: exercise.id
+                };
             };
 
             // save record
             $scope.saveRecord = function () {
                 $("#recordModal").modal("hide");
                 $scope.save = true; //flag to indicate that we are saving the record
-                $scope.aux = $scope.recordModal;
-                $scope.recordModal;
                 $("#recordModal").on('hidden.bs.modal', function () {
                     if ($scope.save) {
-                        clothService.saveCloth($scope.aux, showSuccess, showError,
+                        exerciseService.saveRecord($scope.recordModal, showSuccess, showError,
                             function (exercises) {
                                 $scope.exercisesList = exercises;
                             });
                         $scope.save = false;
+                        $scope.recordModal = {
+                            id: 0,
+                            weight: "",
+                            series: "",
+                            repetitions: "",
+                            commentary: ""
+                        };
                     }
                 });
             };
