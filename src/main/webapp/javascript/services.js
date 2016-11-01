@@ -126,7 +126,7 @@ angular.module('trainingTrackerApp')
                     callbackSuccess('Marca añadida correctamente');
                     updateListRecord(data);
                 }).error(function (data) {
-                    CallbackError(data);
+                    callbackError(data);
                 });
             }
         };

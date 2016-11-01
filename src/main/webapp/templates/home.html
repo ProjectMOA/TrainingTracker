@@ -27,6 +27,7 @@
         <div class="modal-content">
           <div class="modal-header">
             <button class="close" data-dismiss="modal">&times;</button>
+            <h2>¡Añade tu marca de hoy!</h2>
           </div>
           <div class="modal-body">
             <form role="form" ng-submit="saveRecord()">
@@ -58,10 +59,10 @@
                           placeholder="Introduce un comentario (opcional)"></textarea>
               </div>
               <p style="font-size: 75%">* Campos obligatorios.</p>
-              <button class="btn btn-default leftButton" ng-click="closeRecordModal()">
+              <button class="btn btn-default" ng-click="closeRecordModal()">
                 Cancelar
               </button>
-              <button type="submit" class="btn btn-danger rightButton">
+              <button type="submit" class="btn btn-danger">
                 Guardar
               </button>
             </form>
