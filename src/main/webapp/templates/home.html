@@ -4,9 +4,74 @@
     <h1 id="firstContent" style="text-align:center">Echa un vistazo rápido a los ejercicios que has
       realizados hasta el momento</h1>
 
+    <!-- this div will show only when an error login occurs -->
+    <div class="alert alert-danger" ng-if="error" name="error">
+      <strong>Woops!</strong> {{errorMsg}}
+    </div>
+    <!-- this div will show only when an error login occurs -->
+    <div class="alert alert-success" ng-if="success" name="success">
+      <strong>Éxito!</strong> {{successMsg}}
+    </div>
+
     <!-- Exercise Card -->
     <exercise-card ng-repeat="exercise in exercisesList"
                    class="col-lg-3 col-md-4 col-sm-6"></exercise-card>
+
+
+    <!-- MODAL SECTION -->
+
+    <!-- exercise add record modal popup -->
+    <div id="recordModal" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+        <!-- modal content -->
+        <div class="modal-content">
+          <div class="modal-header">
+            <button class="close" data-dismiss="modal">&times;</button>
+            <h2>¡Añade tu marca de hoy!</h2>
+          </div>
+          <div class="modal-body">
+            <form role="form" ng-submit="saveRecord()">
+              <!-- weight input exercise -->
+              <div class="form-group">
+                <label for="weightExercise"><strong>Peso*: </strong></label>
+                <input id="weightExercise" type="text" ng-model="recordModal.weight" required
+                       class="form-control" placeholder="Introduce el peso en kg (p.ej., 10.5)">
+              </div>
+              <!-- series input exercise -->
+              <div class="form-group">
+                <label for="seriesExercise"><strong>Series*: </strong></label>
+                <input id="seriesExercise" type="text" ng-model="recordModal.series" required
+                       class="form-control" placeholder="Introduce las series (p.ej., 4)">
+              </div>
+              <!-- repetitions input exercise -->
+              <div class="form-group">
+                <label for="repetitionsExercise"><strong>Repeticiones*: </strong></label>
+                <input id="repetitionsExercise" type="text" ng-model="recordModal.repetitions"
+                       class="form-control" placeholder="Introduce las repeticiones (p.ej., 12)"
+                       required>
+              </div>
+              <!-- commentary input exercise -->
+              <div class="form-group">
+                <label
+                  for="commentaryExercise"><strong>Comentario: </strong></label>
+                <textarea id="commentaryExercise" rows="5"
+                          ng-model="recordModal.commentary" class="form-control"
+                          placeholder="Introduce un comentario (opcional)"></textarea>
+              </div>
+              <p style="font-size: 75%">* Campos obligatorios.</p>
+              <button class="btn btn-default" ng-click="closeRecordModal()">
+                Cancelar
+              </button>
+              <button type="submit" class="btn btn-danger">
+                Guardar
+              </button>
+            </form>
+          </div>
+          <div class="modal-footer">
+          </div>
+        </div>
+      </div>
+    </div>
 
   </div>
 </div>

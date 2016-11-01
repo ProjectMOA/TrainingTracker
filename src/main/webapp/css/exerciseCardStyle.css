@@ -17,4 +17,9 @@
 
 .exerciseCardStyle h1 {
   text-align: center;
+  margin-top: 0;
+}
+
+.exerciseIcons {
+  float: right;
 }
