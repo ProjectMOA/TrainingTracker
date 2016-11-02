@@ -49,7 +49,7 @@ public class SignIn extends HttpServlet {
         // Field revision
         if((name==null) || (name.trim().equals(""))){
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            response.getWriter().println("Usuario incorrecto");
+            response.getWriter().println("Nombre de usuario no válido");
             error = true;
         }
         if((pass==null) || (pass.trim().equals(""))){
@@ -65,7 +65,7 @@ public class SignIn extends HttpServlet {
                 // If user don't exists
                 if (vo==null){
                     response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-                    response.getWriter().println("El usuario " + name + " no existe");
+                    response.getWriter().println("El usuario \"" + name + "\" no existe");
                 }
                 // If pass don't match
                 else if(!(vo.getPass()).equals(pass)){

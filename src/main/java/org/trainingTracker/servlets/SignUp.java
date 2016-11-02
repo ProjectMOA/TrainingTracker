@@ -66,7 +66,7 @@ public class SignUp extends HttpServlet {
         // Field revision
         if ((name==null) || (name.trim().equals(""))) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            response.getWriter().println("Usuario incorrecto");
+            response.getWriter().println("Nombre de usuario no válido");
             error = true;
         }
         if ((pass==null) || (pass.trim().equals(""))) {
@@ -81,7 +81,7 @@ public class SignUp extends HttpServlet {
         }
         if ((email==null) || (email.trim().equals("")) || !emailValid) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            response.getWriter().println("Email no valido");
+            response.getWriter().println("Email no válido");
             error = true;
         }
         
