@@ -31,7 +31,7 @@ angular.module('trainingTrackerApp')
 
             //logout function
             logout: function () {
-                auth.authenticate(null);
+                this.authenticate(null);
                 $state.go('starter');
             },
 
@@ -92,7 +92,7 @@ angular.module('trainingTrackerApp')
 
         return {
             //get the exercises list
-            getExercisesList: function (callbackSuccess,CallbackError) {
+            getExercisesList: function (callbackSuccess,callbackError) {
                 $http({
                     method: 'GET',
                     url: 'listPerformed',
@@ -102,7 +102,7 @@ angular.module('trainingTrackerApp')
                 }).success(function (data) {
                     callbackSuccess(data);
                 }).error(function (data) {
-                    CallbackError(data);
+                    callbackError(data);
                 });
             },
             // save record of a exercise
