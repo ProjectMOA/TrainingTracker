@@ -1,6 +1,7 @@
 package org.trainingTracker.database.dataAccesObject;
 
 import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
+import com.sun.corba.se.impl.orbutil.concurrent.Mutex;
 import com.sun.istack.internal.NotNull;
 import org.trainingTracker.database.conection.ConnectionPool;
 import org.trainingTracker.database.valueObject.ExerciseVO;
@@ -33,6 +34,7 @@ public class ExercisesDAO {
      * @param muscleGroup
      * @return
      */
+    @Deprecated
 	public static boolean addExercise(@NotNull String name, @NotNull String muscleGroup){
 		Connection conn = null;
 		try{
@@ -51,12 +53,12 @@ public class ExercisesDAO {
 			return true;
 		} catch (MySQLIntegrityConstraintViolationException e) {
 
-		} catch (ClassNotFoundException e) {
+        } catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (SQLException e){
 			e.printStackTrace();
 		} finally {
-			
+
 			if ( conn != null ) ConnectionPool.releaseConnection(conn);
 		}
 		return false;
@@ -67,8 +69,9 @@ public class ExercisesDAO {
      * @param muscleGroup
      * @return
      */
-	public static boolean addExercise(@NotNull String name, @NotNull String muscleGroup, @NotNull String owner){
+	public static synchronized int addExercise(@NotNull String name, @NotNull String muscleGroup, @NotNull String owner){
 		Connection conn = null;
+
 		try{
 			Class.forName(ConnectionPool.JDBC_DRIVER);
 			conn = ConnectionPool.requestConnection();
@@ -78,18 +81,15 @@ public class ExercisesDAO {
                     DBF_EXERCISES_TABLE_NAME, DBF_EXERCISE_NAME, DBF_EXERCISE_MUSCLEGROUP));
             stmt.setString(1, name);
             stmt.setString(2, muscleGroup);
-
-            PreparedStatement stmt2 = conn.prepareStatement( String.format( "SELECT * FROM %s WHERE %s=? AND %s=?;",
-               DBF_EXERCISES_TABLE_NAME, DBF_EXERCISE_NAME, DBF_OWN_EXERCISE));
-            stmt.setString(1, name);
-            stmt.setString(2, muscleGroup);
-
             stmt.execute(); //Executes the insert
+
+
+            PreparedStatement stmt2 = conn.prepareStatement( String.format( "SELECT LAST_INSERT_ID();"));
             ResultSet rs = stmt2.executeQuery(); //Executes the select
 
             rs.first();
 
-            int exercise_id = rs.getInt(DBF_EXERCISE_ID);
+            int exercise_id = rs.getInt("LAST_INSERT_ID()");
 
             stmt = conn.prepareStatement(
                 String.format("INSERT INTO %s ( %s, %s ) VALUES (?, ?);",
@@ -98,7 +98,7 @@ public class ExercisesDAO {
             stmt.setInt(2, exercise_id);
 
             stmt.execute();
-			return true;
+			return exercise_id;
 		} catch (MySQLIntegrityConstraintViolationException e) {
 
 		} catch (ClassNotFoundException e) {
@@ -106,11 +106,11 @@ public class ExercisesDAO {
 		} catch (SQLException e){
 			e.printStackTrace();
 		} finally {
-
 			if ( conn != null ) ConnectionPool.releaseConnection(conn);
 		}
-		return false;
+		return -1;
 	}
+
 
     /**
      * Returns a list of exercises that a user owns
@@ -135,14 +135,15 @@ public class ExercisesDAO {
 
             ArrayList<ExerciseVO> list = new ArrayList();
 
-            rs.first();
-
-            do{
-				list.add( new ExerciseVO(rs.getInt(DBF_EXERCISE_ID), rs.getString(DBF_EXERCISE_NAME), rs.getString(DBF_EXERCISE_MUSCLEGROUP),
-                    rs.getBoolean(DBF_EXERCISE_PREDEFINED)) );
-			} while( rs.next() );
+            if(rs.first()) {
+                do {
+                    list.add(new ExerciseVO(rs.getInt(DBF_EXERCISE_ID), rs.getString(DBF_EXERCISE_NAME), rs.getString(DBF_EXERCISE_MUSCLEGROUP),
+                        rs.getBoolean(DBF_EXERCISE_PREDEFINED)));
+                } while (rs.next());
+            }
 
 			return list;
+
 		} catch (ClassNotFoundException e){
 			e.printStackTrace();
 		} catch (SQLException e){
