@@ -1,4 +1,3 @@
-USE trainingTracker;
 DROP TABLE IF EXISTS MuscleGroup;
 CREATE TABLE MuscleGroup (
   name VARCHAR(50) NOT NULL,
@@ -23,5 +22,3 @@ CREATE TABLE Own (
     foreign key(exercise) references Exercises(_id),
     primary key(nick, exercise)
 );
-
-
