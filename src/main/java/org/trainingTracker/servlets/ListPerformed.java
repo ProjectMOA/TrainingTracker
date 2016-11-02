@@ -14,6 +14,8 @@ import net.sf.json.JSONArray;
 import net.sf.json.JSONException;
 
 import org.trainingTracker.database.dataAccesObject.ExercisesDAO;
+import org.trainingTracker.database.dataAccesObject.RecordsDAO;
+import org.trainingTracker.database.valueObject.RecordVO;
 import org.trainingTracker.database.valueObject.ExerciseVO;
 
 /**
@@ -42,13 +44,17 @@ public class ListPerformed extends HttpServlet {
         try {
             // Search for predifined exercises in BD
             JSONArray jsonExercises = new JSONArray();
-            JSONObject exercise;
+            JSONObject exercise, record;
             
             response.setStatus(HttpServletResponse.SC_OK);
-            for (ExerciseVO vo : ExercisesDAO.listAllExercises()) {
+            for (ExerciseVO vo : ExercisesDAO.listExercises(name)) {
                 exercise = JSONObject.fromObject(vo.serialize());
-                exercise.remove("id");
                 exercise.remove("predefines");
+                record = JSONObject.fromObject(RecordsDAO.listRecords(name, vo.getId(), 1).get(0).serialize());
+                record.remove("exercise");
+                record.remove("nick");
+                record.remove("date");
+                exercise.putAll(record);
                 jsonExercises.add(exercise);
             }
             response.setContentType("application/json; charset=UTF-8");
