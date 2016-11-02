@@ -17,6 +17,7 @@ import static org.junit.Assert.fail;
 /**
  * Test class to check if the login process works correctly.
  */
+@Ignore
 public class SignInTest {
 
     private static WebDriver driver;
@@ -32,7 +33,6 @@ public class SignInTest {
      * Tests the login process with correct inputs
      * in the form.
      */
-    @Ignore
     @Test
     public void okTest(){
         driver.get("http://localhost:8080");
@@ -67,7 +67,6 @@ public class SignInTest {
     /*
      * Tests the login process with some or all fields in blank.
      */
-    @Ignore
     @Test
     public void blankFields(){
         driver.get("http://localhost:8080");
@@ -103,7 +102,6 @@ public class SignInTest {
             e.printStackTrace();
         }
     }
-
 
     @AfterClass
     public static void tearDown(){

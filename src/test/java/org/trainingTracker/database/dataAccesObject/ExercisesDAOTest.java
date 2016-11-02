@@ -12,19 +12,18 @@ import static org.junit.Assert.*;
 /**
  * Created by sergio on 28/10/16.
  */
+@Ignore
 public class ExercisesDAOTest {
     @Test
-    @Ignore
     public void addExercise() throws Exception {
 
         ExercisesDAO.addExercise("Flexiones","Brazo");
     }
 
     @Test
-    @Ignore
     public void listAllExercises() throws Exception {
 
-        List<ExerciseVO> list = ExercisesDAO.listAllExercises();
+        List<ExerciseVO> list = ExercisesDAO.listExercises("JohnDoe1");
 
         for (ExerciseVO exercise:list ) {
             System.out.println(exercise.toString());

@@ -8,16 +8,15 @@ import org.trainingTracker.database.valueObject.UserVO;
 /**
  * Created by sergio on 25/10/16.
  */
+@Ignore
 public class UsersDAOTest {
 
     @Test
-    @Ignore
     public void addUser() throws Exception {
         UsersDAO.addUser("JohnDoe1","JohnPass1","John1@a.com");
     }
 
     @Test
-    @Ignore
     public void findUser() throws Exception {
             
         UserVO doe1 = UsersDAO.findUser("JohnDoe1");

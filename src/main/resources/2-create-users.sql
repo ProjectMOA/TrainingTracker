@@ -1,3 +1,4 @@
+USE trainingTracker;
 DROP TABLE IF EXISTS Users;
 CREATE TABLE Users (
   nick VARCHAR(50) PRIMARY KEY,
