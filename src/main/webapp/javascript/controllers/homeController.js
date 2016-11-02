@@ -10,7 +10,6 @@ angular.module('trainingTrackerApp')
                     $scope.exercisesList = exercises;
                 },showError);
             };
-            $scope.getExercisesList();
 
             // feedback handling variables
             $scope.error = false;
@@ -40,6 +39,8 @@ angular.module('trainingTrackerApp')
                 $scope.success = false;
                 $scope.successMsg = "";
             };
+
+            $scope.getExercisesList();
 
             // MODAL SECTION
 
