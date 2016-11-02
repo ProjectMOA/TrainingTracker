@@ -30,4 +30,13 @@
     <servlet-name>SignIn</servlet-name>
     <url-pattern>/signIn</url-pattern>
     </servlet-mapping>
+    
+    <servlet>
+    <servlet-name>ListPerformed</servlet-name>
+    <servlet-class>org.trainingTracker.servlets.ListPerformed</servlet-class>
+    </servlet>
+    <servlet-mapping>
+    <servlet-name>ListPerformed</servlet-name>
+    <url-pattern>/listPerformed</url-pattern>
+    </servlet-mapping>
 </web-app>
