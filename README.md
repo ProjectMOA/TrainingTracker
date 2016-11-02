@@ -28,6 +28,8 @@ You can also other [Gretty tasks](http://akhikhl.github.io/gretty-doc/Gretty-tas
 
 Gradle allows you to run the tests defined on src/test with `gradle test`.
 
+In order to run the Selenium test successfully, you have to install Firefox 47.0.1 or lower.
+
 # EditorConfig 
 [EditorConfig](http://editorconfig.org/) helps developers maintain consistent coding styles between different editors and IDEs. It is a file format for defining coding styles and a collection of text editor plugins that enable editors to read the file format and adhere to defined styles.
 You need to create a .editorconfig file in which you define the coding style rules. It is similar to the format accepted by gitignore.

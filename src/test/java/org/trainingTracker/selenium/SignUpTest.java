@@ -23,29 +23,44 @@ public class SignUpTest {
     private static WebDriver driver;
     private static final int SLEEP_FOR_DISPLAY = 1000;
     private static final int SLEEP_FOR_LOAD = 4000;
-    private static final String USERNAME = "ruben";
-    private static final String EMAIL= "prueba@prueba.com";
-    private static final String PASS = "pass";
+    private static final String STARTER_URL = "http://localhost:8080/#/starter";
+    private static final String HOME_URL = "http://localhost:8080/#/home";
+    private static final String SIGNUP_URL = "http://localhost:8080/#/signUp";
+    private static final String U_FIELD = "username";
+    private static final String E_FIELD = "email";
+    private static final String P_FIELD = "password";
+    private static final String RP_FIELD = "rePassword";
+    private static final String R_FIELD = "registrarse";
+    private static final String ER_FIELD = "errorSignUp";
+    private static final String USERNAME = "inigo";
+    private static final String EMAIL= "inigo@prueba.com";
+    private static final String PASS = "pass2";
 
     @BeforeClass
     public static void setUp(){
         driver = new FirefoxDriver();
+        driver.get(STARTER_URL);
+        try{
+            goToStarter();
+            goToSignUpPage();
+        }
+        catch (InterruptedException e){
+            e.printStackTrace();
+        }
     }
 
     /*
      * Tests the registration process with correct inputs
      * in the form.
      */
+    @Ignore
     @Test
     public void okTest(){
-        driver.get("http://localhost:8080");
         WebElement element;
         try{
-            // It calls a function to go to the signUp page.
-            goToSignUpPage();
             // It calls a function to fill the registration form and clicks the registration button.
             fillForm(USERNAME, EMAIL, PASS, PASS);
-            element = driver.findElement(By.name("registrarse"));
+            element = driver.findElement(By.name(R_FIELD));
             element.click();
             // In this case, the sleep time is larger cause it has to wait for the request
             // to reach the backend and the database, return and redirect to the homepage
@@ -58,14 +73,16 @@ public class SignUpTest {
 
         try{
             // Checks if there's been an error in the registration process. If so, a failure is forced.
-            driver.findElement(By.name("error"));
+            driver.findElement(By.name(ER_FIELD));
             fail();
         }
         catch (NoSuchElementException e){
             // Checks if the redirection to the homepage has been made, knowing that the registration
             // process has been successful.
-            assertTrue((driver.getCurrentUrl().equals("http://localhost:8080/#/home")));
+            assertTrue((driver.getCurrentUrl().equals(HOME_URL)));
+
 		}
+		driver.navigate().refresh();
     }
 
     /*
@@ -74,14 +91,11 @@ public class SignUpTest {
      */
     @Test
     public void wrongRepass(){
-        driver.get("http://localhost:8080");
         WebElement element;
         try{
-            // It calls a function to go to the signUp page.
-            goToSignUpPage();
             // It calls a function to fill the registration form and clicks the registration button.
             fillForm(USERNAME, EMAIL, PASS, "pas");
-            element = driver.findElement(By.name("registrarse"));
+            element = driver.findElement(By.name(R_FIELD));
             element.click();
             // In this case, the sleep time is larger cause it has to wait for the request
             // to reach the backend and the database, return and redirect to the homepage
@@ -94,13 +108,14 @@ public class SignUpTest {
         try{
             // Checks if there's been an error in the registration process. If so, the test has been
             // successful, since the two passwords were different.
-            driver.findElement(By.name("error"));
+            driver.findElement(By.name(ER_FIELD));
         }
         catch (NoSuchElementException e){
             // Checks if the registration process has been successful and a redirection to the homepage
             // has been made, which should not happen.
-            assertFalse((driver.getCurrentUrl().equals("http://localhost:8080/#/home")));
+            assertFalse((driver.getCurrentUrl().equals(HOME_URL)));
         }
+        driver.navigate().refresh();
     }
 
     /*
@@ -108,67 +123,62 @@ public class SignUpTest {
     */
     @Test
     public void wrongEmail(){
-        driver.get("http://localhost:8080");
         WebElement element;
         try{
-            // It calls a function to go to the signUp page.
-            goToSignUpPage();
             // It calls a function to fill the registration form and clicks the registration button.
             fillForm(USERNAME, "blablabla", PASS, PASS);
-            element = driver.findElement(By.name("registrarse"));
+            element = driver.findElement(By.name(R_FIELD));
             element.click();
             // In this case, the sleep time is larger cause it has to wait for the request
             // to reach the backend and the database, return and redirect to the homepage
             // if the registration has been successful.
             Thread.sleep(SLEEP_FOR_LOAD);
             // Checks whether the form is sent with the 'email' field having a wrong input.
-            assertFalse((driver.getCurrentUrl().equals("http://localhost:8080/#/home")));
+            assertFalse((driver.getCurrentUrl().equals(HOME_URL)));
         }
         catch (InterruptedException e){
             e.printStackTrace();
         }
+        driver.navigate().refresh();
     }
 
     /*
      * Tests the registration process with all the possible
      * combinations in the form.
      */
-    @Ignore
     @Test
     public void blankFields(){
         String [] [] signUpArray = new String[15][4];
         fillArray(signUpArray);
-        driver.get("http://localhost:8080");
         WebElement element;
         WebElement registration;
         try{
-            // It calls a function to go to the signUp page.
-            goToSignUpPage();
-            registration = driver.findElement(By.name("registrarse"));
+            registration = driver.findElement(By.name(R_FIELD));
             // Iterates the matrix
             for(int i=0;i<signUpArray.length;i++){
                 quickFillForm(signUpArray[i][0], signUpArray[i][1], signUpArray[i][2], signUpArray[i][3]);
                 registration.click();
                 Thread.sleep(SLEEP_FOR_DISPLAY);
-                assertFalse((driver.getCurrentUrl().equals("http://localhost:8080/#/home")));
+                assertFalse((driver.getCurrentUrl().equals(HOME_URL)));
                 clearForm();
             }
         }
         catch (InterruptedException e){
             e.printStackTrace();
         }
+        driver.navigate().refresh();
     }
 
     /**
      *  Redirects to 'signup' page begining from the 'starter' page.
      */
-    private void goToSignUpPage() throws InterruptedException{
+    private static void goToSignUpPage() throws InterruptedException{
         WebElement element;
         element = driver.findElement(By.linkText("Registrarse"));
         element.click();
         Thread.sleep(SLEEP_FOR_DISPLAY);
         // Checks if the redirection have been made correctly.
-        assertTrue((driver.getCurrentUrl().equals("http://localhost:8080/#/signUp")));
+        assertTrue((driver.getCurrentUrl().equals(SIGNUP_URL)));
     }
 
     /*
@@ -176,16 +186,16 @@ public class SignUpTest {
      */
     private void fillForm(String user, String email, String pass, String repass) throws InterruptedException{
         WebElement element;
-        element = driver.findElement(By.name("username"));
+        element = driver.findElement(By.name(U_FIELD));
         element.sendKeys(user);
         Thread.sleep(SLEEP_FOR_DISPLAY);
-        element = driver.findElement(By.name("email"));
+        element = driver.findElement(By.name(E_FIELD));
         element.sendKeys(email);
         Thread.sleep(SLEEP_FOR_DISPLAY);
-        element = driver.findElement(By.name("password"));
+        element = driver.findElement(By.name(P_FIELD));
         element.sendKeys(pass);
         Thread.sleep(SLEEP_FOR_DISPLAY);
-        element = driver.findElement(By.name("rePassword"));
+        element = driver.findElement(By.name(RP_FIELD));
         element.sendKeys(repass);
         Thread.sleep(SLEEP_FOR_DISPLAY);
     }
@@ -195,26 +205,26 @@ public class SignUpTest {
      */
     private void quickFillForm(String user, String email, String pass, String repass) throws InterruptedException{
         WebElement element;
-        element = driver.findElement(By.name("username"));
+        element = driver.findElement(By.name(U_FIELD));
         element.sendKeys(user);
-        element = driver.findElement(By.name("email"));
+        element = driver.findElement(By.name(E_FIELD));
         element.sendKeys(email);
-        element = driver.findElement(By.name("password"));
+        element = driver.findElement(By.name(P_FIELD));
         element.sendKeys(pass);
-        element = driver.findElement(By.name("rePassword"));
+        element = driver.findElement(By.name(RP_FIELD));
         element.sendKeys(repass);
     }
 
 
     private void clearForm(){
         WebElement element;
-        element = driver.findElement(By.name("username"));
+        element = driver.findElement(By.name(U_FIELD));
         element.clear();
-        element = driver.findElement(By.name("email"));
+        element = driver.findElement(By.name(E_FIELD));
         element.clear();
-        element = driver.findElement(By.name("password"));
+        element = driver.findElement(By.name(P_FIELD));
         element.clear();
-        element = driver.findElement(By.name("rePassword"));
+        element = driver.findElement(By.name(RP_FIELD));
         element.clear();
     }
 
@@ -280,6 +290,19 @@ public class SignUpTest {
         array [14][2] = "";
         array [14][3] = "";
 
+    }
+
+    private static void goToStarter() throws InterruptedException{
+        WebElement element;
+        if(driver.getCurrentUrl().equals(SIGNUP_URL)){
+            element = driver.findElement(By.id("hombeButton"));
+            element.click();
+        }
+        else if (!driver.getCurrentUrl().equals(STARTER_URL)){
+            element = driver.findElement(By.linkText("Salir"));
+            element.click();
+        }
+        Thread.sleep(SLEEP_FOR_LOAD);
     }
 
     @AfterClass
