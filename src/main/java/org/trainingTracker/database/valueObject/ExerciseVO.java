@@ -40,7 +40,7 @@ public class ExerciseVO {
      * @return
      */
     public String serialize(){
-        return String.format("{\"ID\": \"%s\",  \"Name\": \"%s\",  \"MuscleGroup\": \"%s\", \"Predefines\": \"%s\" }",
+        return String.format("{\"id\": \"%s\",  \"name\": \"%s\",  \"muscleGroup\": \"%s\", \"predefines\": \"%s\" }",
             id, name, muscleGroup, predefined);
     }
 }
