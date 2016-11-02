@@ -63,10 +63,10 @@ public class ExercisesDAO {
 	}
 
     /**
-     * Returns a list with all exercises
+     * Returns a list of exercises that a user owns
      * @return
      */
-	public static List<ExerciseVO> listAllExercises(String user){
+	public static List<ExerciseVO> listExercises(String user){
 		Connection conn = null;
 		try{
 			Class.forName(ConnectionPool.JDBC_DRIVER);

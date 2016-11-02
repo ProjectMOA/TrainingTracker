@@ -14,17 +14,15 @@ import static org.junit.Assert.*;
  */
 public class ExercisesDAOTest {
     @Test
-    @Ignore
     public void addExercise() throws Exception {
 
         ExercisesDAO.addExercise("Flexiones","Brazo");
     }
 
     @Test
-    @Ignore
     public void listAllExercises() throws Exception {
 
-        List<ExerciseVO> list = ExercisesDAO.listAllExercises("JohnDoe1");
+        List<ExerciseVO> list = ExercisesDAO.listExercises("JohnDoe1");
 
         for (ExerciseVO exercise:list ) {
             System.out.println(exercise.toString());
