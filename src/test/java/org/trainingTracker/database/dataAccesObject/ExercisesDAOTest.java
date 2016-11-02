@@ -13,14 +13,13 @@ import static org.junit.Assert.*;
  * Created by sergio on 28/10/16.
  */
 public class ExercisesDAOTest {
+
     @Test
-    public void addExercise() throws Exception {
+    public void test() throws Exception {
 
         ExercisesDAO.addExercise("Flexiones","Brazo");
-    }
+        ExercisesDAO.addExercise("Pesas","Brazo","JohnDoe1");
 
-    @Test
-    public void listAllExercises() throws Exception {
 
         List<ExerciseVO> list = ExercisesDAO.listExercises("JohnDoe1");
 

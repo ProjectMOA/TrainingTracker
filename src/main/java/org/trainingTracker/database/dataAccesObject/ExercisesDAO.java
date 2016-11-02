@@ -1,6 +1,7 @@
 package org.trainingTracker.database.dataAccesObject;
 
 import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
+import com.sun.istack.internal.NotNull;
 import org.trainingTracker.database.conection.ConnectionPool;
 import org.trainingTracker.database.valueObject.ExerciseVO;
 
@@ -26,28 +27,27 @@ public class ExercisesDAO {
     public static final String DBF_OWN_NICK = "nick";
     public static final String DBF_OWN_EXERCISE = "exercise";
 
-
-
     /**
-     * Adds the given exercise to the data base.
+     * Adds the given exercise to the data base as deffault.
      * @param name
      * @param muscleGroup
      * @return
      */
-	public static boolean addExercise( String name, String muscleGroup){
+	public static boolean addExercise(@NotNull String name, @NotNull String muscleGroup){
 		Connection conn = null;
 		try{
 			Class.forName(ConnectionPool.JDBC_DRIVER);
 			conn = ConnectionPool.requestConnection();
 
             PreparedStatement stmt = conn.prepareStatement(
-                String.format( "INSERT INTO %s ( %s, %s ) VALUES (?, ?);",
-                    DBF_EXERCISES_TABLE_NAME, DBF_EXERCISE_NAME, DBF_EXERCISE_MUSCLEGROUP));
+                String.format( "INSERT INTO %s ( %s, %s, %s ) VALUES (?, ?, ?);",
+                    DBF_EXERCISES_TABLE_NAME, DBF_EXERCISE_NAME, DBF_EXERCISE_MUSCLEGROUP, DBF_EXERCISE_PREDEFINED));
             stmt.setString(1,name);
             stmt.setString(2,muscleGroup);
+            stmt.setBoolean(3,true);
 
 			stmt.execute();
-			
+
 			return true;
 		} catch (MySQLIntegrityConstraintViolationException e) {
 
@@ -57,6 +57,56 @@ public class ExercisesDAO {
 			e.printStackTrace();
 		} finally {
 			
+			if ( conn != null ) ConnectionPool.releaseConnection(conn);
+		}
+		return false;
+	}
+	/**
+     * Adds the given exercise to the data base as a custom exercise owned by owner.
+     * @param name
+     * @param muscleGroup
+     * @return
+     */
+	public static boolean addExercise(@NotNull String name, @NotNull String muscleGroup, @NotNull String owner){
+		Connection conn = null;
+		try{
+			Class.forName(ConnectionPool.JDBC_DRIVER);
+			conn = ConnectionPool.requestConnection();
+
+            PreparedStatement stmt = conn.prepareStatement(
+                String.format("INSERT INTO %s ( %s, %s ) VALUES (?, ?);",
+                    DBF_EXERCISES_TABLE_NAME, DBF_EXERCISE_NAME, DBF_EXERCISE_MUSCLEGROUP));
+            stmt.setString(1, name);
+            stmt.setString(2, muscleGroup);
+
+            PreparedStatement stmt2 = conn.prepareStatement( String.format( "SELECT * FROM %s WHERE %s=? AND %s=?;",
+               DBF_EXERCISES_TABLE_NAME, DBF_EXERCISE_NAME, DBF_OWN_EXERCISE));
+            stmt.setString(1, name);
+            stmt.setString(2, muscleGroup);
+
+            stmt.execute(); //Executes the insert
+            ResultSet rs = stmt2.executeQuery(); //Executes the select
+
+            rs.first();
+
+            int exercise_id = rs.getInt(DBF_EXERCISE_ID);
+
+            stmt = conn.prepareStatement(
+                String.format("INSERT INTO %s ( %s, %s ) VALUES (?, ?);",
+                    DBF_OWN_TABLE_NAME, DBF_OWN_NICK, DBF_OWN_EXERCISE));
+            stmt.setString(1, owner);
+            stmt.setInt(2, exercise_id);
+
+            stmt.execute();
+			return true;
+		} catch (MySQLIntegrityConstraintViolationException e) {
+
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (SQLException e){
+			e.printStackTrace();
+		} finally {
+
 			if ( conn != null ) ConnectionPool.releaseConnection(conn);
 		}
 		return false;
