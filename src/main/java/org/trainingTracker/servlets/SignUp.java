@@ -59,7 +59,7 @@ public class SignUp extends HttpServlet {
         JSONObject json = null;
         try {
             json = ServletCommon.readJSON(request.getReader());
-            name = json.getString("name");
+            name = json.getString("user");
             pass = json.getString("pass");
             repass = json.getString("repass");
             email = json.getString("email");
@@ -68,7 +68,7 @@ public class SignUp extends HttpServlet {
             response.setContentType("text/html; charset=UTF-8");
         }
         catch (Exception e) {
-            System.out.printf("Error al leer el JSON");
+            System.out.println("Error al leer el JSON");
         }
         
         // Field revision
