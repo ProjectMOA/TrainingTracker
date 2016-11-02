@@ -1,8 +1,6 @@
 package org.trainingTracker.database.dataAccesObject;
 
 import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
-import com.sun.corba.se.impl.orbutil.concurrent.Mutex;
-import com.sun.istack.internal.NotNull;
 import org.trainingTracker.database.conection.ConnectionPool;
 import org.trainingTracker.database.valueObject.ExerciseVO;
 
@@ -35,7 +33,7 @@ public class ExercisesDAO {
      * @return
      */
     @Deprecated
-	public static boolean addExercise(@NotNull String name, @NotNull String muscleGroup){
+	public static boolean addExercise( String name, String muscleGroup){
 		Connection conn = null;
 		try{
 			Class.forName(ConnectionPool.JDBC_DRIVER);
@@ -69,7 +67,7 @@ public class ExercisesDAO {
      * @param muscleGroup
      * @return
      */
-	public static synchronized int addExercise(@NotNull String name, @NotNull String muscleGroup, @NotNull String owner){
+	public static synchronized int addExercise(String name, String muscleGroup, String owner){
 		Connection conn = null;
 
 		try{
