@@ -66,23 +66,22 @@ public class SignUpTest {
             // to reach the backend and the database, return and redirect to the homepage
             // if the registration has been successful.
             Thread.sleep(SLEEP_FOR_LOAD);
+            try{
+                // Checks if there's been an error in the registration process. If so, a failure is forced.
+                driver.findElement(By.name(ER_FIELD));
+                fail();
+            }
+            catch (NoSuchElementException e){
+                // Checks if the redirection to the homepage has been made, knowing that the registration
+                // process has been successful.
+                assertTrue((driver.getCurrentUrl().equals(HOME_URL)));
+                goToStarter();
+                goToSignUpPage();
+            }
         }
         catch (InterruptedException e){
             e.printStackTrace();
         }
-
-        try{
-            // Checks if there's been an error in the registration process. If so, a failure is forced.
-            driver.findElement(By.name(ER_FIELD));
-            fail();
-        }
-        catch (NoSuchElementException e){
-            // Checks if the redirection to the homepage has been made, knowing that the registration
-            // process has been successful.
-            assertTrue((driver.getCurrentUrl().equals(HOME_URL)));
-
-		}
-		driver.navigate().refresh();
     }
 
     /*
@@ -179,6 +178,23 @@ public class SignUpTest {
         Thread.sleep(SLEEP_FOR_DISPLAY);
         // Checks if the redirection have been made correctly.
         assertTrue((driver.getCurrentUrl().equals(SIGNUP_URL)));
+    }
+
+    /*
+     * Checks the current URL and redirects to the
+     * starter page if not already there.
+     */
+    private static void goToStarter() throws InterruptedException{
+        WebElement element;
+        if(driver.getCurrentUrl().equals(SIGNUP_URL)){
+            element = driver.findElement(By.id("hombeButton"));
+            element.click();
+        }
+        else if (!driver.getCurrentUrl().equals(STARTER_URL)){
+            element = driver.findElement(By.linkText("Salir"));
+            element.click();
+        }
+        Thread.sleep(SLEEP_FOR_LOAD);
     }
 
     /*
@@ -290,19 +306,6 @@ public class SignUpTest {
         array [14][2] = "";
         array [14][3] = "";
 
-    }
-
-    private static void goToStarter() throws InterruptedException{
-        WebElement element;
-        if(driver.getCurrentUrl().equals(SIGNUP_URL)){
-            element = driver.findElement(By.id("hombeButton"));
-            element.click();
-        }
-        else if (!driver.getCurrentUrl().equals(STARTER_URL)){
-            element = driver.findElement(By.linkText("Salir"));
-            element.click();
-        }
-        Thread.sleep(SLEEP_FOR_LOAD);
     }
 
     @AfterClass
