@@ -12,6 +12,7 @@ import static org.junit.Assert.*;
 /**
  * Created by sergio on 28/10/16.
  */
+@Ignore
 public class ExercisesDAOTest {
     @Test
     public void addExercise() throws Exception {

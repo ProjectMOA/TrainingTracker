@@ -17,6 +17,7 @@ import static org.junit.Assert.fail;
 /**
  * Test class to check if the registration process works correctly.
  */
+@Ignore
 public class SignUpTest {
 
     private static WebDriver driver;
@@ -35,7 +36,6 @@ public class SignUpTest {
      * Tests the registration process with correct inputs
      * in the form.
      */
-    @Ignore
     @Test
     public void okTest(){
         driver.get("http://localhost:8080");
@@ -72,7 +72,6 @@ public class SignUpTest {
      * Tests the registration process introducing a bad 'repass' input,
      * so both passwords doesn't match.
      */
-    @Ignore
     @Test
     public void wrongRepass(){
         driver.get("http://localhost:8080");
@@ -107,7 +106,6 @@ public class SignUpTest {
     /*
     * Tests the registration process introducing a bad 'email' input.
     */
-    @Ignore
     @Test
     public void wrongEmail(){
         driver.get("http://localhost:8080");
