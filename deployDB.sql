@@ -1,14 +1,15 @@
+SET SESSION sql_mode = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION';
+DROP DATABASE IF EXISTS trainingTracker;
 CREATE DATABASE trainingTracker;
-
 USE trainingTracker;
+
 DROP TABLE IF EXISTS Users;
 CREATE TABLE Users (
   nick VARCHAR(50) PRIMARY KEY,
   pass VARCHAR(50) NOT NULL ,
   email VARCHAR(50) NOT NULL UNIQUE,
-  registerDate DATETIME DEFAULT CURRENT_TIMESTAMP
+  registerDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
-USE trainingTracker;
 DROP TABLE IF EXISTS MuscleGroup;
 CREATE TABLE MuscleGroup (
   name VARCHAR(50) NOT NULL,
@@ -33,9 +34,6 @@ CREATE TABLE Own (
     foreign key(exercise) references Exercises(_id),
     primary key(nick, exercise)
 );
-
-
-USE trainingTracker;
 DROP TABLE IF EXISTS Records;
 CREATE TABLE Records (
     exercise INTEGER NOT NULL,
@@ -43,8 +41,16 @@ CREATE TABLE Records (
     weigth DOUBLE NOT NULL,
     series INTEGER NOT NULL,
     repetitions INTEGER NOT NULL,
-    record_date DATETIME DEFAULT CURRENT_TIMESTAMP,
+    record_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     foreign key(exercise) references Exercises(_id),
     foreign key(user_nick) references Users(nick),
     primary key(exercise, user_nick, record_date)
 );
+USE trainingTracker;
+INSERT INTO MuscleGroup (name) VALUES ('Pecho');
+INSERT INTO MuscleGroup (name) VALUES ('Espalda');
+INSERT INTO MuscleGroup (name) VALUES ('Brazo');
+INSERT INTO MuscleGroup (name) VALUES ('Pierna');
+
+INSERT INTO Exercises (name, muscle_group) VALUES ('Dominadas', 'Espalda');
+INSERT INTO Exercises (name, muscle_group) VALUES ('Press Banca', 'Pecho');

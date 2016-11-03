@@ -22,8 +22,8 @@ public class ConnectionPool {
         public static final String DB_URL = "jdbc:mysql://localhost:3306/trainingTracker";
 
         // Database credentials (DO NOT SEE PLEASE)
-        static final String USER = "trainingTracker";
-        static final String PASS = "trainingTracker";
+        static final String USER = "travis";
+        static final String PASS = "";
 
         //Condition
         private static Lock lock = new ReentrantLock();

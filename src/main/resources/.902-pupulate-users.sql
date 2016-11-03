@@ -1,3 +1,3 @@
 USE trainingTracker;
 INSERT INTO Users (nick, pass, email)
-VALUES ('root', 'toor', 'root@toor');
+VALUES ('JohnDoe1', 'john', 'john@johner.com');

@@ -2,10 +2,15 @@ language: java
 jdk:
   - oraclejdk8
 
+services:
+  - mysql
+
 addons:
   firefox: "47.0.1"
 
 before_script:
+  - "mysql --version"
+  - "mysql -u travis < deployDB.sql"
   - "gradle appRun &"
   - "sleep 3" # give jetty some time to start and deploy
   - "export DISPLAY=:99.0"
