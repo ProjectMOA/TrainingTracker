@@ -66,17 +66,16 @@ public class SignUpTest {
             // to reach the backend and the database, return and redirect to the homepage
             // if the registration has been successful.
             Thread.sleep(SLEEP_FOR_LOAD);
-            try{
-                // Checks if there's been an error in the registration process. If so, a failure is forced.
-                driver.findElement(By.name(ER_FIELD));
-                fail();
-            }
-            catch (NoSuchElementException e){
-                // Checks if the redirection to the homepage has been made, knowing that the registration
-                // process has been successful.
+            // Tries to find an error message.
+            // If there's no error, the process has been successful and checks wheter the redirection has been made.
+            if((driver.findElements(By.name(ER_FIELD))).isEmpty()){
                 assertTrue((driver.getCurrentUrl().equals(HOME_URL)));
                 goToStarter();
                 goToSignUpPage();
+            }
+            //There's been an error, so a failure is forced.
+            else{
+                fail();
             }
         }
         catch (InterruptedException e){
@@ -100,19 +99,18 @@ public class SignUpTest {
             // to reach the backend and the database, return and redirect to the homepage
             // if the registration has been successful.
             Thread.sleep(SLEEP_FOR_LOAD);
+            // Tries to find an error message.
+            // If there's an error, the process has failed and checks wheter the redirection has been made, which should not.
+            if(!(driver.findElements(By.name(ER_FIELD))).isEmpty()){
+                assertFalse((driver.getCurrentUrl().equals(HOME_URL)));
+            }
+            //There hasn't been an error, so a failure is forced.
+            else{
+                fail();
+            }
         }
         catch (InterruptedException e){
             e.printStackTrace();
-        }
-        try{
-            // Checks if there's been an error in the registration process. If so, the test has been
-            // successful, since the two passwords were different.
-            driver.findElement(By.name(ER_FIELD));
-        }
-        catch (NoSuchElementException e){
-            // Checks if the registration process has been successful and a redirection to the homepage
-            // has been made, which should not happen.
-            assertFalse((driver.getCurrentUrl().equals(HOME_URL)));
         }
         driver.navigate().refresh();
     }

@@ -4,7 +4,6 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.junit.experimental.theories.Theories;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
@@ -58,21 +57,19 @@ public class SignInTest {
             element = driver.findElement(By.name(L_FIELD));
             element.click();
             Thread.sleep(SLEEP_FOR_LOAD);
+            // Tries to find an error message.
+            // If there's no error, the process has been successful and checks wheter the redirection has been made.
+            if((driver.findElements(By.name(ER_FIELD))).isEmpty()){
+                assertTrue((driver.getCurrentUrl().equals(HOME_URL)));
+            }
+            //There's been an error, so a failure is forced.
+            else{
+                fail();
+            }
         }
         catch (InterruptedException e){
             e.printStackTrace();
         }
-        try{
-             // Checks if there's been an error in the login process. If so, a failure is forced.
-            driver.findElement(By.name(ER_FIELD));
-            fail();
-        }
-        catch (NoSuchElementException e){
-             // Checks if the redirection to the homepage has been made, knowing that the login
-             // process has been successful.
-            assertTrue((driver.getCurrentUrl().equals(HOME_URL)));
-        }
-
     }
 
     /*
@@ -92,18 +89,18 @@ public class SignInTest {
             element = driver.findElement(By.name(L_FIELD));
             element.click();
             Thread.sleep(SLEEP_FOR_LOAD);
+            // Tries to find an error message.
+            // If there's an error, the process has failed and checks wheter the redirection has been made, which should not.
+            if(!(driver.findElements(By.name(ER_FIELD))).isEmpty()){
+                assertFalse((driver.getCurrentUrl().equals(HOME_URL)));
+            }
+            //There hasn't been an error, so a failure is forced.
+            else{
+                fail();
+            }
         }
         catch (InterruptedException e){
             e.printStackTrace();
-        }
-        try{
-            // Checks if there's been an error in the login process, which should happen.
-            driver.findElement(By.name(ER_FIELD));
-        }
-        catch (NoSuchElementException e){
-            // Checks if the redirection to the homepage has been made, knowing that the login
-            // process has failed.
-            assertFalse((driver.getCurrentUrl().equals(HOME_URL)));
         }
         driver.navigate().refresh();
     }
