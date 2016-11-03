@@ -17,6 +17,7 @@ import static org.junit.Assert.fail;
 /**
  * Test class to check if the registration process works correctly.
  */
+@Ignore
 public class SignUpTest {
 
     private static WebDriver driver;
@@ -38,7 +39,7 @@ public class SignUpTest {
     @BeforeClass
     public static void setUp(){
         driver = new FirefoxDriver();
-        driver.get("http://localhost:8080");
+        driver.get(STARTER_URL);
         try{
             goToStarter();
             goToSignUpPage();
@@ -64,21 +65,22 @@ public class SignUpTest {
             // to reach the backend and the database, return and redirect to the homepage
             // if the registration has been successful.
             Thread.sleep(SLEEP_FOR_LOAD);
-            // Tries to find an error message.
+            // Tries to find an error message. If there's an error, test will fail.
+            assertTrue((driver.findElements(By.name(ER_FIELD))).isEmpty());
             // If there's no error, the process has been successful and checks wheter the redirection has been made.
-            if((driver.findElements(By.name(ER_FIELD))).isEmpty()){
-                assertTrue((driver.getCurrentUrl().equals(HOME_URL)));
-                goToStarter();
-                goToSignUpPage();
-            }
-            //There's been an error, so a failure is forced.
-            else{
-                fail();
-                driver.navigate().refresh();
-            }
+            assertTrue((driver.getCurrentUrl().equals(HOME_URL)));
         }
         catch (InterruptedException e){
             e.printStackTrace();
+        }
+        finally {
+            try{
+                goToStarter();
+                goToSignUpPage();
+            }
+            catch (InterruptedException e){
+                e.printStackTrace();
+            }
         }
     }
 
@@ -98,20 +100,18 @@ public class SignUpTest {
             // to reach the backend and the database, return and redirect to the homepage
             // if the registration has been successful.
             Thread.sleep(SLEEP_FOR_LOAD);
-            // Tries to find an error message.
+            // Tries to find an error message. If there's no error, test will fail.
+            assertFalse((driver.findElements(By.name(ER_FIELD))).isEmpty());
             // If there's an error, the process has failed and checks wheter the redirection has been made, which should not.
-            if(!(driver.findElements(By.name(ER_FIELD))).isEmpty()){
-                assertFalse((driver.getCurrentUrl().equals(HOME_URL)));
-            }
-            //There hasn't been an error, so a failure is forced.
-            else{
-                fail();
-            }
+            assertFalse((driver.getCurrentUrl().equals(HOME_URL)));
+
         }
         catch (InterruptedException e){
             e.printStackTrace();
         }
-        driver.navigate().refresh();
+        finally {
+            driver.navigate().refresh();
+        }
     }
 
     /*
@@ -135,7 +135,9 @@ public class SignUpTest {
         catch (InterruptedException e){
             e.printStackTrace();
         }
-        driver.navigate().refresh();
+        finally {
+            driver.navigate().refresh();
+        }
     }
 
     /*
@@ -162,7 +164,9 @@ public class SignUpTest {
         catch (InterruptedException e){
             e.printStackTrace();
         }
-        driver.navigate().refresh();
+        finally {
+            driver.navigate().refresh();
+        }
     }
 
     /**
@@ -309,5 +313,6 @@ public class SignUpTest {
     public static void tearDown(){
         driver.close();
         driver.quit();
+        // TODO: Remove created user on okTest.
     }
 }
