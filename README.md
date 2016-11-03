@@ -1,5 +1,7 @@
 # Training Tracker
 
+[![Build Status](https://travis-ci.org/UNIZAR-30248-2016-TrainingTracker/trainingTracker.svg?branch=master)](https://travis-ci.org/UNIZAR-30248-2016-TrainingTracker/trainingTracker)
+
 ## Start using this App
 
 Assuming you already have [JDK 8](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html) and [Gradle](https://docs.gradle.org/current/userguide/installation.html) installed, you must fork this repo. After that, you have to clone your forked repo on your local machine on the directory you desire: `git clone https://github.com/your-github-username/trainingTracker`.
