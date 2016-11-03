@@ -17,7 +17,6 @@ import static org.junit.Assert.fail;
 /**
  * Test class to check if the registration process works correctly.
  */
-@Ignore
 public class SignUpTest {
 
     private static WebDriver driver;
@@ -32,14 +31,14 @@ public class SignUpTest {
     private static final String RP_FIELD = "rePassword";
     private static final String R_FIELD = "registrarse";
     private static final String ER_FIELD = "errorSignUp";
-    private static final String USERNAME = "inigo";
-    private static final String EMAIL= "inigo@prueba.com";
-    private static final String PASS = "pass2";
+    private static final String USERNAME = "test";
+    private static final String EMAIL= "test@prueba.com";
+    private static final String PASS = "pass";
 
     @BeforeClass
     public static void setUp(){
         driver = new FirefoxDriver();
-        driver.get(STARTER_URL);
+        driver.get("http://localhost:8080");
         try{
             goToStarter();
             goToSignUpPage();
@@ -53,7 +52,6 @@ public class SignUpTest {
      * Tests the registration process with correct inputs
      * in the form.
      */
-    @Ignore
     @Test
     public void okTest(){
         WebElement element;
@@ -76,6 +74,7 @@ public class SignUpTest {
             //There's been an error, so a failure is forced.
             else{
                 fail();
+                driver.navigate().refresh();
             }
         }
         catch (InterruptedException e){
