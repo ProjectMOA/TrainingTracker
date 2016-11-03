@@ -53,7 +53,7 @@ public class RecordsDAO {
             stmt.setInt(5,repetitions);
 
 			stmt.execute();
-			
+
 			return true;
 		} catch (MySQLIntegrityConstraintViolationException e) {
 
@@ -102,14 +102,13 @@ public class RecordsDAO {
 
             ArrayList<RecordVO> list = new ArrayList();
 
-            rs.first();
-
-            do{
-				list.add( new RecordVO(rs.getInt(DBF_RECORD_EXERCISE),rs.getString(DBF_RECORD_NICK),
-                    rs.getDouble(DBF_RECORD_WEIGHT), rs.getInt(DBF_RECORD_SERIES),
-                    rs.getInt(DBF_RECORD_REPETITIONS), rs.getString(DBF_RECORD_DATE)));
-			} while( rs.next() );
-
+            if( rs.first() ){
+                do {
+                    list.add(new RecordVO(rs.getInt(DBF_RECORD_EXERCISE), rs.getString(DBF_RECORD_NICK),
+                        rs.getDouble(DBF_RECORD_WEIGHT), rs.getInt(DBF_RECORD_SERIES),
+                        rs.getInt(DBF_RECORD_REPETITIONS), rs.getString(DBF_RECORD_DATE)));
+                } while (rs.next());
+            }
 			return list;
 		} catch (ClassNotFoundException e){
 			e.printStackTrace();
