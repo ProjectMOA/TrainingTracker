@@ -5,14 +5,12 @@ import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 /**
  * Test class to check if the registration process works correctly.
@@ -32,9 +30,9 @@ public class SignUpTest {
     private static final String RP_FIELD = "rePassword";
     private static final String R_FIELD = "registrarse";
     private static final String ER_FIELD = "errorSignUp";
-    private static final String USERNAME = "inigo";
-    private static final String EMAIL= "inigo@prueba.com";
-    private static final String PASS = "pass2";
+    private static final String USERNAME = "test";
+    private static final String EMAIL= "test@prueba.com";
+    private static final String PASS = "pass";
 
     @BeforeClass
     public static void setUp(){
@@ -53,7 +51,6 @@ public class SignUpTest {
      * Tests the registration process with correct inputs
      * in the form.
      */
-    @Ignore
     @Test
     public void okTest(){
         WebElement element;
@@ -66,21 +63,22 @@ public class SignUpTest {
             // to reach the backend and the database, return and redirect to the homepage
             // if the registration has been successful.
             Thread.sleep(SLEEP_FOR_LOAD);
-            try{
-                // Checks if there's been an error in the registration process. If so, a failure is forced.
-                driver.findElement(By.name(ER_FIELD));
-                fail();
-            }
-            catch (NoSuchElementException e){
-                // Checks if the redirection to the homepage has been made, knowing that the registration
-                // process has been successful.
-                assertTrue((driver.getCurrentUrl().equals(HOME_URL)));
-                goToStarter();
-                goToSignUpPage();
-            }
+            // Tries to find an error message. If there's an error, test will fail.
+            assertTrue((driver.findElements(By.name(ER_FIELD))).isEmpty());
+            // If there's no error, the process has been successful and checks wheter the redirection has been made.
+            assertTrue((driver.getCurrentUrl().equals(HOME_URL)));
         }
         catch (InterruptedException e){
             e.printStackTrace();
+        }
+        finally {
+            try{
+                goToStarter();
+                goToSignUpPage();
+            }
+            catch (InterruptedException e){
+                e.printStackTrace();
+            }
         }
     }
 
@@ -100,21 +98,18 @@ public class SignUpTest {
             // to reach the backend and the database, return and redirect to the homepage
             // if the registration has been successful.
             Thread.sleep(SLEEP_FOR_LOAD);
+            // Tries to find an error message. If there's no error, test will fail.
+            assertFalse((driver.findElements(By.name(ER_FIELD))).isEmpty());
+            // If there's an error, the process has failed and checks wheter the redirection has been made, which should not.
+            assertFalse((driver.getCurrentUrl().equals(HOME_URL)));
+
         }
         catch (InterruptedException e){
             e.printStackTrace();
         }
-        try{
-            // Checks if there's been an error in the registration process. If so, the test has been
-            // successful, since the two passwords were different.
-            driver.findElement(By.name(ER_FIELD));
+        finally {
+            driver.navigate().refresh();
         }
-        catch (NoSuchElementException e){
-            // Checks if the registration process has been successful and a redirection to the homepage
-            // has been made, which should not happen.
-            assertFalse((driver.getCurrentUrl().equals(HOME_URL)));
-        }
-        driver.navigate().refresh();
     }
 
     /*
@@ -138,7 +133,9 @@ public class SignUpTest {
         catch (InterruptedException e){
             e.printStackTrace();
         }
-        driver.navigate().refresh();
+        finally {
+            driver.navigate().refresh();
+        }
     }
 
     /*
@@ -165,7 +162,9 @@ public class SignUpTest {
         catch (InterruptedException e){
             e.printStackTrace();
         }
-        driver.navigate().refresh();
+        finally {
+            driver.navigate().refresh();
+        }
     }
 
     /**
@@ -312,5 +311,6 @@ public class SignUpTest {
     public static void tearDown(){
         driver.close();
         driver.quit();
+        // TODO: Remove created user on okTest.
     }
 }

@@ -2,6 +2,7 @@ package org.trainingTracker.servlets;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -45,16 +46,19 @@ public class ListPerformed extends HttpServlet {
             // Search for predifined exercises in BD
             JSONArray jsonExercises = new JSONArray();
             JSONObject exercise, record;
+            List<RecordVO> list;
             
             response.setStatus(HttpServletResponse.SC_OK);
             for (ExerciseVO vo : ExercisesDAO.listExercises(name)) {
                 exercise = JSONObject.fromObject(vo.serialize());
                 exercise.remove("predefines");
-                record = JSONObject.fromObject(RecordsDAO.listRecords(name, vo.getId(), 1).get(0).serialize());
-                record.remove("exercise");
-                record.remove("nick");
-                record.remove("date");
-                exercise.putAll(record);
+                if(!(list=RecordsDAO.listRecords(name, vo.getId(), 1)).isEmpty()){
+                    record = JSONObject.fromObject(list.get(0).serialize());
+                    record.remove("exercise");
+                    record.remove("nick");
+                    record.remove("date");
+                    exercise.putAll(record);
+                }
                 jsonExercises.add(exercise);
             }
             response.setContentType("application/json; charset=UTF-8");

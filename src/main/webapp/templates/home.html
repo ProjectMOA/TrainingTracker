@@ -5,11 +5,11 @@
       realizados hasta el momento</h1>
 
     <!-- this div will show only when an error login occurs -->
-    <div class="alert alert-danger" ng-if="error" name="error">
+    <div class="alert alert-danger" ng-if="error" name="errorSavingRecord">
       <strong>Woops!</strong> {{errorMsg}}
     </div>
     <!-- this div will show only when an error login occurs -->
-    <div class="alert alert-success" ng-if="success" name="success">
+    <div class="alert alert-success" ng-if="success" name="successSavingRecord">
       <strong>Éxito!</strong> {{successMsg}}
     </div>
 
@@ -62,7 +62,7 @@
               <button class="btn btn-default" ng-click="closeRecordModal()">
                 Cancelar
               </button>
-              <button type="submit" class="btn btn-danger">
+              <button type="submit" class="btn btn-danger" name="Guardar">
                 Guardar
               </button>
             </form>

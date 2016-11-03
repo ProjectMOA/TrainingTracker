@@ -4,16 +4,14 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.junit.experimental.theories.Theories;
 import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.trainingTracker.database.dataAccesObject.UsersDAO;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 /**
  * Test class to check if the login process works correctly.
@@ -31,13 +29,22 @@ public class SignInTest {
     private static final String P_FIELD = "password";
     private static final String L_FIELD = "login";
     private static final String ER_FIELD = "errorSignIn";
-    private static final String USERNAME = "ruben";
-    private static final String PASS = "pass1";
+    private static final String USERNAME = "test";
+    private static final String EMAIL= "test@prueba.com";
+    private static final String PASS = "pass";
+
 
     @BeforeClass
     public static void setUp(){
+        UsersDAO.addUser(USERNAME, PASS, EMAIL);
         driver = new FirefoxDriver();
         driver.get(STARTER_URL);
+        try{
+            goToStarter();
+        }
+        catch (InterruptedException e){
+            e.printStackTrace();
+        }
     }
 
     /*
@@ -48,7 +55,6 @@ public class SignInTest {
     public void okTest(){
         WebElement element;
         try{
-            goToStarter();
             element = driver.findElement(By.name(U_FIELD));
             element.sendKeys(USERNAME);
             Thread.sleep(SLEEP_FOR_DISPLAY);
@@ -58,21 +64,22 @@ public class SignInTest {
             element = driver.findElement(By.name(L_FIELD));
             element.click();
             Thread.sleep(SLEEP_FOR_LOAD);
+            // Tries to find an error message. If there's an error, test will fail.
+            assertTrue((driver.findElements(By.name(ER_FIELD))).isEmpty());
+            // If there's no error, the process has been successful and checks wheter the redirection has been made.
+            assertTrue((driver.getCurrentUrl().equals(HOME_URL)));
         }
         catch (InterruptedException e){
             e.printStackTrace();
         }
-        try{
-             // Checks if there's been an error in the login process. If so, a failure is forced.
-            driver.findElement(By.name(ER_FIELD));
-            fail();
+        finally {
+            try{
+                goToStarter();
+            }
+            catch (InterruptedException e){
+                e.printStackTrace();
+            }
         }
-        catch (NoSuchElementException e){
-             // Checks if the redirection to the homepage has been made, knowing that the login
-             // process has been successful.
-            assertTrue((driver.getCurrentUrl().equals(HOME_URL)));
-        }
-
     }
 
     /*
@@ -82,7 +89,6 @@ public class SignInTest {
     public void wrongPass(){
         WebElement element;
         try{
-            goToStarter();
             element = driver.findElement(By.name(U_FIELD));
             element.sendKeys(USERNAME);
             Thread.sleep(SLEEP_FOR_DISPLAY);
@@ -92,20 +98,17 @@ public class SignInTest {
             element = driver.findElement(By.name(L_FIELD));
             element.click();
             Thread.sleep(SLEEP_FOR_LOAD);
+            // Tries to find an error message. If there's no error, test will fail.
+            assertFalse((driver.findElements(By.name(ER_FIELD))).isEmpty());
+            // If there's an error, the process has failed and checks wheter the redirection has been made, which should not.
+            assertFalse((driver.getCurrentUrl().equals(HOME_URL)));
         }
         catch (InterruptedException e){
             e.printStackTrace();
         }
-        try{
-            // Checks if there's been an error in the login process, which should happen.
-            driver.findElement(By.name(ER_FIELD));
+        finally {
+            driver.navigate().refresh();
         }
-        catch (NoSuchElementException e){
-            // Checks if the redirection to the homepage has been made, knowing that the login
-            // process has failed.
-            assertFalse((driver.getCurrentUrl().equals(HOME_URL)));
-        }
-        driver.navigate().refresh();
     }
 
     /*
@@ -116,7 +119,6 @@ public class SignInTest {
         WebElement element;
         WebElement login;
         try{
-            goToStarter();
             // Checks whether the user logs in with all fields blank.
             login = driver.findElement(By.name(L_FIELD));
             login.click();
@@ -140,12 +142,13 @@ public class SignInTest {
             login.click();
             Thread.sleep(SLEEP_FOR_DISPLAY);
             assertFalse((driver.getCurrentUrl().equals(HOME_URL)));
-
         }
         catch (InterruptedException e){
             e.printStackTrace();
         }
-        driver.navigate().refresh();
+        finally {
+            driver.navigate().refresh();
+        }
     }
 
     /*
@@ -169,5 +172,6 @@ public class SignInTest {
     public static void tearDown(){
         driver.close();
         driver.quit();
+        // TODO: Remove created user on setUp.
     }
 }
