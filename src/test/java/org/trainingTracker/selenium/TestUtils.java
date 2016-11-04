@@ -9,7 +9,7 @@ public class TestUtils {
 
     public static final String STARTER_URL = "http://localhost:8080/#/starter";
     public static final int SLEEP_FOR_DISPLAY = 1000;
-    public static final int SLEEP_FOR_LOAD = 4000;
+    public static final int SLEEP_FOR_LOAD = 3000;
     public static final String HOME_URL = "http://localhost:8080/#/home";
     public static final String SIGNUP_URL = "http://localhost:8080/#/signUp";
     public static final String U_FIELD = "username";

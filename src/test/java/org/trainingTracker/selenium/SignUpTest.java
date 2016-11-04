@@ -192,7 +192,7 @@ public class SignUpTest {
     /*
      * Fills the registration form quicker than 'fillForm' method.
      */
-    private void quickFillForm(String user, String email, String pass, String repass) throws InterruptedException{
+    private void quickFillForm(String user, String email, String pass, String repass) {
         WebElement element;
         element = driver.findElement(By.name(U_FIELD));
         element.sendKeys(user);
