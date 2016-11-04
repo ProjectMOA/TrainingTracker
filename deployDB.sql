@@ -22,7 +22,7 @@ CREATE TABLE Exercises (
   name VARCHAR(50),
   muscle_group VARCHAR(50) NOT NULL,
   predefined BOOL NOT NULL DEFAULT FALSE,
-  foreign key(muscle_group) references MuscleGroup(name),
+  foreign key(muscle_group) references MuscleGroup(name) ON DELETE CASCADE,
   primary key(_id)
 );
 
@@ -30,8 +30,8 @@ DROP TABLE IF EXISTS Own;
 CREATE TABLE Own (
     nick VARCHAR(50),
     exercise INTEGER,
-    foreign key(nick) references Users(nick),
-    foreign key(exercise) references Exercises(_id),
+    foreign key(nick) references Users(nick) ON DELETE CASCADE,
+    foreign key(exercise) references Exercises(_id) ON DELETE CASCADE,
     primary key(nick, exercise)
 );
 DROP TABLE IF EXISTS Records;
@@ -42,8 +42,8 @@ CREATE TABLE Records (
     series INTEGER NOT NULL,
     repetitions INTEGER NOT NULL,
     record_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    foreign key(exercise) references Exercises(_id),
-    foreign key(user_nick) references Users(nick),
+    foreign key(exercise) references Exercises(_id) ON DELETE CASCADE,
+    foreign key(user_nick) references Users(nick) ON DELETE CASCADE,
     primary key(exercise, user_nick, record_date)
 );
 USE trainingTracker;
