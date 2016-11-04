@@ -1,7 +1,6 @@
 package org.trainingTracker.servlets;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -12,7 +11,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import net.sf.json.JSONObject;
 import net.sf.json.JSONArray;
-import net.sf.json.JSONException;
 
 import org.trainingTracker.database.dataAccesObject.ExercisesDAO;
 import org.trainingTracker.database.dataAccesObject.RecordsDAO;
@@ -49,7 +47,7 @@ public class ListPerformed extends HttpServlet {
             List<RecordVO> list;
             
             response.setStatus(HttpServletResponse.SC_OK);
-            for (ExerciseVO vo : ExercisesDAO.listExercises(name)) {
+            for (ExerciseVO vo : ExercisesDAO.listUserExercises(name)) {
                 exercise = JSONObject.fromObject(vo.serialize());
                 exercise.remove("predefines");
                 if(!(list=RecordsDAO.listRecords(name, vo.getId(), 1)).isEmpty()){

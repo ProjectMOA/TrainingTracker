@@ -27,48 +27,45 @@ public class ExercisesDAO {
     public static final String DBF_OWN_EXERCISE = "exercise";
 
     /**
-     * Adds the given exercise to the data base as deffault.
-     * @param name
-     * @param muscleGroup
+     * Binds the existing default exercise with the given owner.
+     * @param exercise_id
+     * @param owner
      * @return
      */
-    @Deprecated
-	public static boolean addExercise( String name, String muscleGroup){
-		Connection conn = null;
-		try{
-			Class.forName(ConnectionPool.JDBC_DRIVER);
-			conn = ConnectionPool.requestConnection();
+    public static synchronized int addDefaulExercise(int exercise_id, String owner){
+        Connection conn = null;
+
+        try{
+            Class.forName(ConnectionPool.JDBC_DRIVER);
+            conn = ConnectionPool.requestConnection();
 
             PreparedStatement stmt = conn.prepareStatement(
-                String.format( "INSERT INTO %s ( %s, %s, %s ) VALUES (?, ?, ?);",
-                    DBF_EXERCISES_TABLE_NAME, DBF_EXERCISE_NAME, DBF_EXERCISE_MUSCLEGROUP, DBF_EXERCISE_PREDEFINED));
-            stmt.setString(1,name);
-            stmt.setString(2,muscleGroup);
-            stmt.setBoolean(3,true);
+                String.format("INSERT INTO %s ( %s, %s ) VALUES (?, ?);",
+                    DBF_OWN_TABLE_NAME, DBF_OWN_NICK, DBF_OWN_EXERCISE));
+            stmt.setString(1, owner);
+            stmt.setInt(2, exercise_id);
 
-			stmt.execute();
-
-			return true;
-		} catch (MySQLIntegrityConstraintViolationException e) {
+            stmt.execute();
+            return exercise_id;
+        } catch (MySQLIntegrityConstraintViolationException e) {
 
         } catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		} catch (SQLException e){
-			e.printStackTrace();
-		} finally {
-
-			if ( conn != null ) ConnectionPool.releaseConnection(conn);
-		}
-		return false;
-	}
+            e.printStackTrace();
+        } catch (SQLException e){
+            e.printStackTrace();
+        } finally {
+            if ( conn != null ) ConnectionPool.releaseConnection(conn);
+        }
+        return -1;
+    }
 
 	/**
      * Adds the given exercise to the data base as a custom exercise owned by owner.
-     * @param name
+     * @param exercise_name
      * @param muscleGroup
      * @return
      */
-	public static synchronized int addExercise(String name, String muscleGroup, String owner){
+	public static synchronized int addCustomExercise(String exercise_name, String muscleGroup, String owner){
 		Connection conn = null;
 
 		try{
@@ -78,7 +75,7 @@ public class ExercisesDAO {
             PreparedStatement stmt = conn.prepareStatement(
                 String.format("INSERT INTO %s ( %s, %s ) VALUES (?, ?);",
                     DBF_EXERCISES_TABLE_NAME, DBF_EXERCISE_NAME, DBF_EXERCISE_MUSCLEGROUP));
-            stmt.setString(1, name);
+            stmt.setString(1, exercise_name);
             stmt.setString(2, muscleGroup);
             stmt.execute(); //Executes the insert
 
@@ -115,7 +112,7 @@ public class ExercisesDAO {
      * @param id
      * @return
      */
-    public static boolean deleteExercise(int id){
+    public static boolean deleteCustomExercise(int id){
         Connection conn = null;
 
         try{
@@ -145,7 +142,7 @@ public class ExercisesDAO {
      * Returns a list of exercises that a user owns
      * @return
      */
-	public static List<ExerciseVO> listExercises(String user){
+	public static List<ExerciseVO> listUserExercises(String user){
 		Connection conn = null;
 		try{
 			Class.forName(ConnectionPool.JDBC_DRIVER);
@@ -183,4 +180,44 @@ public class ExercisesDAO {
 		}
 		return null;
 	}
+    /**
+     * Returns a list of exercises that a user owns
+     * @return
+     */
+    public static List<ExerciseVO> listDefaultExercises(){
+        Connection conn = null;
+        try{
+            Class.forName(ConnectionPool.JDBC_DRIVER);
+            conn = ConnectionPool.requestConnection();
+
+            PreparedStatement stmt = conn.prepareStatement(
+                String.format( "SELECT * FROM %s WHERE %s=?;",
+                    DBF_EXERCISES_TABLE_NAME, DBF_EXERCISE_PREDEFINED));
+
+            stmt.setBoolean(1,true);
+
+            ResultSet rs = stmt.executeQuery();
+
+            ArrayList<ExerciseVO> list = new ArrayList();
+
+            if(rs.first()) {
+                do {
+                    list.add(new ExerciseVO(rs.getInt(DBF_EXERCISE_ID), rs.getString(DBF_EXERCISE_NAME), rs.getString(DBF_EXERCISE_MUSCLEGROUP),
+                        rs.getBoolean(DBF_EXERCISE_PREDEFINED)));
+                } while (rs.next());
+            }
+
+            return list;
+
+        } catch (ClassNotFoundException e){
+            e.printStackTrace();
+        } catch (SQLException e){
+            e.printStackTrace();
+        } finally {
+
+            if ( conn != null ) ConnectionPool.releaseConnection(conn);
+        }
+        return null;
+    }
+
 }

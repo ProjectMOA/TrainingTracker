@@ -1,18 +1,14 @@
 package org.trainingTracker.database.dataAccesObject;
 
-import org.apache.xpath.SourceTree;
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.trainingTracker.database.valueObject.ExerciseVO;
 import org.trainingTracker.database.valueObject.RecordVO;
 import org.trainingTracker.database.valueObject.UserVO;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static java.lang.Thread.sleep;
-import static org.junit.Assert.*;
 
 public class DAOMasterTest {
 
@@ -49,26 +45,33 @@ public class DAOMasterTest {
 
         System.out.println("--------------EXERCISES----------------");
 
+        //List default exercises
+        System.out.println("---Default exercises");
+        List<ExerciseVO> exercisesListDefault = ExercisesDAO.listDefaultExercises();
+        for (ExerciseVO exercise:exercisesListDefault ) {
+            System.out.println(exercise.toString());
+        }
+
         //Add
-        int pesas = ExercisesDAO.addExercise("Pesas","Brazo","JohnDoe1");
-        int dominadas = ExercisesDAO.addExercise("Dominadas","Espalda","JohnDoe1");
-        int sentadillas = ExercisesDAO.addExercise("Sentadillas","Pierna","JohnDoe1");
-        int andar = ExercisesDAO.addExercise("Andar","Pierna","JohnDoe1");
+        int pesas = ExercisesDAO.addCustomExercise("Pesas","Brazo","JohnDoe1");
+        int sentadillas = ExercisesDAO.addCustomExercise("Sentadillas","Pierna","JohnDoe1");
+        int andar = ExercisesDAO.addCustomExercise("Andar","Pierna","JohnDoe1");
+        int dominadas = ExercisesDAO.addDefaulExercise( exercisesListDefault.get(0).getId(), "JohnDoe1" );
 
-        //List
-        List<ExerciseVO> exercisesList = ExercisesDAO.listExercises("JohnDoe1");
 
+        //List User exercises
+        System.out.println("---JohnDoe1 exercises");
+        List<ExerciseVO> exercisesList = ExercisesDAO.listUserExercises("JohnDoe1");
         for (ExerciseVO exercise:exercisesList ) {
             System.out.println(exercise.toString());
         }
 
-        System.out.println("Delete exercise");
-
         //Delete
-        ExercisesDAO.deleteExercise(andar);
+        System.out.println("Delete exercise");
+        ExercisesDAO.deleteCustomExercise(andar);
 
         //List Deleted
-        exercisesList = ExercisesDAO.listExercises("JohnDoe1");
+        exercisesList = ExercisesDAO.listUserExercises("JohnDoe1");
 
         for (ExerciseVO exercise:exercisesList ) {
             System.out.println(exercise.toString());
