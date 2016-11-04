@@ -12,6 +12,7 @@ import org.trainingTracker.database.dataAccesObject.UsersDAO;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.trainingTracker.selenium.TestUtils.*;
 
 /**
  * Test class to check if the login process works correctly.
@@ -20,19 +21,7 @@ import static org.junit.Assert.assertTrue;
 public class SignInTest {
 
     private static WebDriver driver;
-    private static final int SLEEP_FOR_DISPLAY = 1000;
-    private static final int SLEEP_FOR_LOAD = 4000;
-    private static final String STARTER_URL = "http://localhost:8080/#/starter";
-    private static final String HOME_URL = "http://localhost:8080/#/home";
-    private static final String SIGNUP_URL = "http://localhost:8080/#/signUp";
-    private static final String U_FIELD = "username";
-    private static final String P_FIELD = "password";
-    private static final String L_FIELD = "login";
     private static final String ER_FIELD = "errorSignIn";
-    private static final String USERNAME = "test";
-    private static final String EMAIL= "test@prueba.com";
-    private static final String PASS = "pass";
-
 
     @BeforeClass
     public static void setUp(){
@@ -40,7 +29,7 @@ public class SignInTest {
         driver = new FirefoxDriver();
         driver.get(STARTER_URL);
         try{
-            goToStarter();
+            goToStarter(driver);
         }
         catch (InterruptedException e){
             e.printStackTrace();
@@ -74,7 +63,7 @@ public class SignInTest {
         }
         finally {
             try{
-                goToStarter();
+                goToStarter(driver);
             }
             catch (InterruptedException e){
                 e.printStackTrace();
@@ -149,23 +138,6 @@ public class SignInTest {
         finally {
             driver.navigate().refresh();
         }
-    }
-
-    /*
-     * Checks the current URL and redirects to the
-     * starter page if not already there.
-     */
-    private static void goToStarter() throws InterruptedException{
-        WebElement element;
-        if(driver.getCurrentUrl().equals(SIGNUP_URL)){
-            element = driver.findElement(By.id("hombeButton"));
-            element.click();
-        }
-        else if (!driver.getCurrentUrl().equals(STARTER_URL)){
-            element = driver.findElement(By.linkText("Salir"));
-            element.click();
-        }
-        Thread.sleep(SLEEP_FOR_LOAD);
     }
 
     @AfterClass

@@ -11,6 +11,7 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.trainingTracker.selenium.TestUtils.*;
 
 /**
  * Test class to check if the registration process works correctly.
@@ -19,27 +20,17 @@ import static org.junit.Assert.assertTrue;
 public class SignUpTest {
 
     private static WebDriver driver;
-    private static final int SLEEP_FOR_DISPLAY = 1000;
-    private static final int SLEEP_FOR_LOAD = 4000;
-    private static final String STARTER_URL = "http://localhost:8080/#/starter";
-    private static final String HOME_URL = "http://localhost:8080/#/home";
-    private static final String SIGNUP_URL = "http://localhost:8080/#/signUp";
-    private static final String U_FIELD = "username";
     private static final String E_FIELD = "email";
-    private static final String P_FIELD = "password";
     private static final String RP_FIELD = "rePassword";
     private static final String R_FIELD = "registrarse";
     private static final String ER_FIELD = "errorSignUp";
-    private static final String USERNAME = "test";
-    private static final String EMAIL= "test@prueba.com";
-    private static final String PASS = "pass";
 
     @BeforeClass
     public static void setUp(){
         driver = new FirefoxDriver();
         driver.get(STARTER_URL);
         try{
-            goToStarter();
+            goToStarter(driver);
             goToSignUpPage();
         }
         catch (InterruptedException e){
@@ -73,7 +64,7 @@ public class SignUpTest {
         }
         finally {
             try{
-                goToStarter();
+                goToStarter(driver);
                 goToSignUpPage();
             }
             catch (InterruptedException e){
@@ -145,14 +136,14 @@ public class SignUpTest {
     @Test
     public void blankFields(){
         String [] [] signUpArray = new String[15][4];
-        fillArray(signUpArray);
-        WebElement element;
+        String fields []= {USERNAME, EMAIL, PASS, PASS};
+        fillArray(signUpArray, fields);
         WebElement registration;
         try{
             registration = driver.findElement(By.name(R_FIELD));
             // Iterates the matrix
-            for(int i=0;i<signUpArray.length;i++){
-                quickFillForm(signUpArray[i][0], signUpArray[i][1], signUpArray[i][2], signUpArray[i][3]);
+            for(String s [] : signUpArray){
+                quickFillForm(s[0], s[1], s[2], s[3]);
                 registration.click();
                 Thread.sleep(SLEEP_FOR_DISPLAY);
                 assertFalse((driver.getCurrentUrl().equals(HOME_URL)));
@@ -180,23 +171,6 @@ public class SignUpTest {
     }
 
     /*
-     * Checks the current URL and redirects to the
-     * starter page if not already there.
-     */
-    private static void goToStarter() throws InterruptedException{
-        WebElement element;
-        if(driver.getCurrentUrl().equals(SIGNUP_URL)){
-            element = driver.findElement(By.id("hombeButton"));
-            element.click();
-        }
-        else if (!driver.getCurrentUrl().equals(STARTER_URL)){
-            element = driver.findElement(By.linkText("Salir"));
-            element.click();
-        }
-        Thread.sleep(SLEEP_FOR_LOAD);
-    }
-
-    /*
      * Fills the registration form.
      */
     private void fillForm(String user, String email, String pass, String repass) throws InterruptedException{
@@ -218,7 +192,7 @@ public class SignUpTest {
     /*
      * Fills the registration form quicker than 'fillForm' method.
      */
-    private void quickFillForm(String user, String email, String pass, String repass) throws InterruptedException{
+    private void quickFillForm(String user, String email, String pass, String repass) {
         WebElement element;
         element = driver.findElement(By.name(U_FIELD));
         element.sendKeys(user);
@@ -230,7 +204,9 @@ public class SignUpTest {
         element.sendKeys(repass);
     }
 
-
+    /*
+     * Clears the registration form.
+     */
     private void clearForm(){
         WebElement element;
         element = driver.findElement(By.name(U_FIELD));
@@ -241,70 +217,6 @@ public class SignUpTest {
         element.clear();
         element = driver.findElement(By.name(RP_FIELD));
         element.clear();
-    }
-
-    private void fillArray(String [][] array){
-        array [0][0] = USERNAME;
-        array [0][1] = EMAIL;
-        array [0][2] = PASS;
-        array [0][3] = "";
-        array [1][0] = USERNAME;
-        array [1][1] = EMAIL;
-        array [1][2] = "";
-        array [1][3] = PASS;
-        array [2][0] = USERNAME;
-        array [2][1] = EMAIL;
-        array [2][2] = "";
-        array [2][3] = "";
-        array [3][0] = USERNAME;
-        array [3][1] = "";
-        array [3][2] = PASS;
-        array [3][3] = PASS;
-        array [4][0] = USERNAME;
-        array [4][1] = "";
-        array [4][2] = PASS;
-        array [4][3] = "";
-        array [5][0] = USERNAME;
-        array [5][1] = "";
-        array [5][2] = "";
-        array [5][3] = PASS;
-        array [6][0] = USERNAME;
-        array [6][1] = "";
-        array [6][2] = "";
-        array [6][3] = "";
-        array [7][0] = "";
-        array [7][1] = EMAIL;
-        array [7][2] = PASS;
-        array [7][3] = PASS;
-        array [8][0] = "";
-        array [8][1] = EMAIL;
-        array [8][2] = PASS;
-        array [8][3] = "";
-        array [9][0] = "";
-        array [9][1] = EMAIL;
-        array [9][2] = "";
-        array [9][3] = PASS;
-        array [10][0] = "";
-        array [10][1] = EMAIL;
-        array [10][2] = "";
-        array [10][3] = "";
-        array [11][0] = "";
-        array [11][1] = "";
-        array [11][2] = PASS;
-        array [11][3] = PASS;
-        array [12][0] = "";
-        array [12][1] = "";
-        array [12][2] = PASS;
-        array [12][3] = "";
-        array [13][0] = "";
-        array [13][1] = "";
-        array [13][2] = "";
-        array [13][3] = PASS;
-        array [14][0] = "";
-        array [14][1] = "";
-        array [14][2] = "";
-        array [14][3] = "";
-
     }
 
     @AfterClass
