@@ -146,7 +146,6 @@ public class SignUpTest {
     public void blankFields(){
         String [] [] signUpArray = new String[15][4];
         fillArray(signUpArray);
-        WebElement element;
         WebElement registration;
         try{
             registration = driver.findElement(By.name(R_FIELD));
@@ -230,7 +229,9 @@ public class SignUpTest {
         element.sendKeys(repass);
     }
 
-
+    /*
+     * Clears the registration form.
+     */
     private void clearForm(){
         WebElement element;
         element = driver.findElement(By.name(U_FIELD));
@@ -243,68 +244,31 @@ public class SignUpTest {
         element.clear();
     }
 
+    /*
+     * Fills an array with all the possible combinations for the fields in the registration form.
+     */
     private void fillArray(String [][] array){
-        array [0][0] = USERNAME;
-        array [0][1] = EMAIL;
-        array [0][2] = PASS;
-        array [0][3] = "";
-        array [1][0] = USERNAME;
-        array [1][1] = EMAIL;
-        array [1][2] = "";
-        array [1][3] = PASS;
-        array [2][0] = USERNAME;
-        array [2][1] = EMAIL;
-        array [2][2] = "";
-        array [2][3] = "";
-        array [3][0] = USERNAME;
-        array [3][1] = "";
-        array [3][2] = PASS;
-        array [3][3] = PASS;
-        array [4][0] = USERNAME;
-        array [4][1] = "";
-        array [4][2] = PASS;
-        array [4][3] = "";
-        array [5][0] = USERNAME;
-        array [5][1] = "";
-        array [5][2] = "";
-        array [5][3] = PASS;
-        array [6][0] = USERNAME;
-        array [6][1] = "";
-        array [6][2] = "";
-        array [6][3] = "";
-        array [7][0] = "";
-        array [7][1] = EMAIL;
-        array [7][2] = PASS;
-        array [7][3] = PASS;
-        array [8][0] = "";
-        array [8][1] = EMAIL;
-        array [8][2] = PASS;
-        array [8][3] = "";
-        array [9][0] = "";
-        array [9][1] = EMAIL;
-        array [9][2] = "";
-        array [9][3] = PASS;
-        array [10][0] = "";
-        array [10][1] = EMAIL;
-        array [10][2] = "";
-        array [10][3] = "";
-        array [11][0] = "";
-        array [11][1] = "";
-        array [11][2] = PASS;
-        array [11][3] = PASS;
-        array [12][0] = "";
-        array [12][1] = "";
-        array [12][2] = PASS;
-        array [12][3] = "";
-        array [13][0] = "";
-        array [13][1] = "";
-        array [13][2] = "";
-        array [13][3] = PASS;
-        array [14][0] = "";
-        array [14][1] = "";
-        array [14][2] = "";
-        array [14][3] = "";
+        int n = array[0].length;
+        int rows = (int) Math.pow(2,n);
+        int aux [][] = new int[array.length][array[0].length];
+        String fields []= {USERNAME, EMAIL, PASS, PASS};
 
+        for (int i=0; i<rows-1; i++) {
+            for (int j = n - 1; j >= 0; j--) {
+                aux[i][j] = (i/(int) Math.pow(2, j))%2;
+            }
+        }
+
+        for (int i=0; i<aux.length; i++){
+            for (int j=0; j<aux[i].length; j++){
+                if(aux[i][j]==1){
+                    array[i][j] = fields[j];
+                }
+                else{
+                    array[i][j] = "";
+                }
+            }
+        }
     }
 
     @AfterClass
