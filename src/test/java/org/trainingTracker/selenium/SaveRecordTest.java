@@ -120,8 +120,8 @@ public class SaveRecordTest {
             element = driver.findElement(By.name("add"));
             element.click();
             Thread.sleep(SLEEP_FOR_DISPLAY);
-            for (int i=0; i<saveRecordArray.length; i++){
-                quickFillForm(saveRecordArray[i][0], saveRecordArray[i][1], saveRecordArray[i][2]);
+            for (String [] s : saveRecordArray){
+                quickFillForm(s[0], s[1], s[2]);
                 saveRecord.click();
                 Thread.sleep(SLEEP_FOR_DISPLAY);
                 assertTrue((driver.findElements(By.name(S_FIELD))).isEmpty());

@@ -142,8 +142,8 @@ public class SignUpTest {
         try{
             registration = driver.findElement(By.name(R_FIELD));
             // Iterates the matrix
-            for(int i=0;i<signUpArray.length;i++){
-                quickFillForm(signUpArray[i][0], signUpArray[i][1], signUpArray[i][2], signUpArray[i][3]);
+            for(String s [] : signUpArray){
+                quickFillForm(s[0], s[1], s[2], s[3]);
                 registration.click();
                 Thread.sleep(SLEEP_FOR_DISPLAY);
                 assertFalse((driver.getCurrentUrl().equals(HOME_URL)));

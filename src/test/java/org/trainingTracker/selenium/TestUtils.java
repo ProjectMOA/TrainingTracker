@@ -5,25 +5,25 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-public class TestUtils {
+class TestUtils {
 
-    public static final String STARTER_URL = "http://localhost:8080/#/starter";
-    public static final int SLEEP_FOR_DISPLAY = 1000;
-    public static final int SLEEP_FOR_LOAD = 3000;
-    public static final String HOME_URL = "http://localhost:8080/#/home";
-    public static final String SIGNUP_URL = "http://localhost:8080/#/signUp";
-    public static final String U_FIELD = "username";
-    public static final String P_FIELD = "password";
-    public static final String L_FIELD = "login";
-    public static final String USERNAME = "test";
-    public static final String EMAIL= "test@prueba.com";
-    public static final String PASS = "pass";
+    static final String STARTER_URL = "http://localhost:8080/#/starter";
+    static final int SLEEP_FOR_DISPLAY = 1000;
+    static final int SLEEP_FOR_LOAD = 3000;
+    static final String HOME_URL = "http://localhost:8080/#/home";
+    static final String SIGNUP_URL = "http://localhost:8080/#/signUp";
+    static final String U_FIELD = "username";
+    static final String P_FIELD = "password";
+    static final String L_FIELD = "login";
+    static final String USERNAME = "test";
+    static final String EMAIL= "test@prueba.com";
+    static final String PASS = "pass";
 
     /*
      * Checks the current URL and redirects to the
      * starter page if not already there.
      */
-   public static void goToStarter(WebDriver driver) throws InterruptedException{
+   static void goToStarter(WebDriver driver) throws InterruptedException{
         WebElement element;
         if(driver.getCurrentUrl().equals(SIGNUP_URL)){
             element = driver.findElement(By.id("hombeButton"));
@@ -39,7 +39,7 @@ public class TestUtils {
     /*
      * Fills an array with all the possible combinations for the fields in the registration form.
      */
-    public static void fillArray(String [][] array, String[] fields){
+    static void fillArray(String [][] array, String[] fields){
         int n = array[0].length;
         int rows = (int) Math.pow(2,n);
         int aux [][] = new int[array.length][array[0].length];
