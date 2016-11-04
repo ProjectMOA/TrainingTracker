@@ -69,6 +69,42 @@ public class RecordsDAO {
 	}
 
     /**
+     * Deletes the record identified by exercise, user and date
+     * @param exercise
+     * @param user
+     * @param date
+     * @return
+     */
+    public static boolean deleteExercise(int exercise, String user, String date){
+        Connection conn = null;
+
+        try{
+            Class.forName(ConnectionPool.JDBC_DRIVER);
+            conn = ConnectionPool.requestConnection();
+
+            PreparedStatement stmt = conn.prepareStatement(
+                String.format("DELETE FROM %s WHERE %S=? AND %S=? AND %S=?;",
+                    DBF_RECORD_TABLE_NAME,DBF_RECORD_EXERCISE, DBF_RECORD_NICK, DBF_RECORD_DATE));
+            stmt.setInt(1, exercise);
+            stmt.setString(2, user);
+            stmt.setString(3, date);
+
+            stmt.execute(); //Executes the deletion
+            return true;
+
+        } catch (MySQLIntegrityConstraintViolationException e) {
+
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (SQLException e){
+            e.printStackTrace();
+        } finally {
+            if ( conn != null ) ConnectionPool.releaseConnection(conn);
+        }
+        return false;
+    }
+
+    /**
      * Returns a list a range of records saved for a given user and exercises.
      * @return
      */

@@ -61,6 +61,7 @@ public class ExercisesDAO {
 		}
 		return false;
 	}
+
 	/**
      * Adds the given exercise to the data base as a custom exercise owned by owner.
      * @param name
@@ -109,6 +110,36 @@ public class ExercisesDAO {
 		return -1;
 	}
 
+    /**
+     * Deletes the exercise identified by id
+     * @param id
+     * @return
+     */
+    public static boolean deleteExercise(int id){
+        Connection conn = null;
+
+        try{
+            Class.forName(ConnectionPool.JDBC_DRIVER);
+            conn = ConnectionPool.requestConnection();
+
+            PreparedStatement stmt = conn.prepareStatement(
+                String.format("DELETE FROM %s WHERE %S=?;",
+                    DBF_EXERCISES_TABLE_NAME, DBF_EXERCISE_ID));
+            stmt.setInt(1, id);
+            stmt.execute(); //Executes the deletion
+            return true;
+
+        } catch (MySQLIntegrityConstraintViolationException e) {
+
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (SQLException e){
+            e.printStackTrace();
+        } finally {
+            if ( conn != null ) ConnectionPool.releaseConnection(conn);
+        }
+        return false;
+    }
 
     /**
      * Returns a list of exercises that a user owns
