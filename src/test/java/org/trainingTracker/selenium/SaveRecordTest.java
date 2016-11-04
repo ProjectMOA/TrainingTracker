@@ -12,6 +12,7 @@ import org.trainingTracker.database.dataAccesObject.ExercisesDAO;
 import org.trainingTracker.database.dataAccesObject.UsersDAO;
 
 import static org.junit.Assert.assertFalse;
+import static org.trainingTracker.selenium.TestUtils.*;
 
 @Ignore
 public class SaveRecordTest {
@@ -41,7 +42,7 @@ public class SaveRecordTest {
         driver = new FirefoxDriver();
         driver.get(STARTER_URL);
         try{
-            goToStarter();
+            goToStarter(driver);
             login();
         }
         catch (InterruptedException e){
@@ -78,23 +79,6 @@ public class SaveRecordTest {
         catch (InterruptedException e){
             e.printStackTrace();
         }
-    }
-
-    /*
-     * Checks the current URL and redirects to the
-     *  starter page if not already there.
-     */
-    private static void goToStarter() throws InterruptedException{
-        WebElement element;
-        if(driver.getCurrentUrl().equals(SIGNUP_URL)){
-            element = driver.findElement(By.id("hombeButton"));
-            element.click();
-        }
-        else if (!driver.getCurrentUrl().equals(STARTER_URL)){
-            element = driver.findElement(By.linkText("Salir"));
-            element.click();
-        }
-        Thread.sleep(SLEEP_FOR_LOAD);
     }
 
     /*

@@ -11,6 +11,7 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.trainingTracker.selenium.TestUtils.*;
 
 /**
  * Test class to check if the registration process works correctly.
@@ -19,27 +20,17 @@ import static org.junit.Assert.assertTrue;
 public class SignUpTest {
 
     private static WebDriver driver;
-    private static final int SLEEP_FOR_DISPLAY = 1000;
-    private static final int SLEEP_FOR_LOAD = 4000;
-    private static final String STARTER_URL = "http://localhost:8080/#/starter";
-    private static final String HOME_URL = "http://localhost:8080/#/home";
-    private static final String SIGNUP_URL = "http://localhost:8080/#/signUp";
-    private static final String U_FIELD = "username";
     private static final String E_FIELD = "email";
-    private static final String P_FIELD = "password";
     private static final String RP_FIELD = "rePassword";
     private static final String R_FIELD = "registrarse";
     private static final String ER_FIELD = "errorSignUp";
-    private static final String USERNAME = "test";
-    private static final String EMAIL= "test@prueba.com";
-    private static final String PASS = "pass";
 
     @BeforeClass
     public static void setUp(){
         driver = new FirefoxDriver();
         driver.get(STARTER_URL);
         try{
-            goToStarter();
+            goToStarter(driver);
             goToSignUpPage();
         }
         catch (InterruptedException e){
@@ -73,7 +64,7 @@ public class SignUpTest {
         }
         finally {
             try{
-                goToStarter();
+                goToStarter(driver);
                 goToSignUpPage();
             }
             catch (InterruptedException e){
@@ -145,7 +136,8 @@ public class SignUpTest {
     @Test
     public void blankFields(){
         String [] [] signUpArray = new String[15][4];
-        fillArray(signUpArray);
+        String fields []= {USERNAME, EMAIL, PASS, PASS};
+        fillArray(signUpArray, fields);
         WebElement registration;
         try{
             registration = driver.findElement(By.name(R_FIELD));
@@ -176,23 +168,6 @@ public class SignUpTest {
         Thread.sleep(SLEEP_FOR_DISPLAY);
         // Checks if the redirection have been made correctly.
         assertTrue((driver.getCurrentUrl().equals(SIGNUP_URL)));
-    }
-
-    /*
-     * Checks the current URL and redirects to the
-     * starter page if not already there.
-     */
-    private static void goToStarter() throws InterruptedException{
-        WebElement element;
-        if(driver.getCurrentUrl().equals(SIGNUP_URL)){
-            element = driver.findElement(By.id("hombeButton"));
-            element.click();
-        }
-        else if (!driver.getCurrentUrl().equals(STARTER_URL)){
-            element = driver.findElement(By.linkText("Salir"));
-            element.click();
-        }
-        Thread.sleep(SLEEP_FOR_LOAD);
     }
 
     /*
@@ -242,33 +217,6 @@ public class SignUpTest {
         element.clear();
         element = driver.findElement(By.name(RP_FIELD));
         element.clear();
-    }
-
-    /*
-     * Fills an array with all the possible combinations for the fields in the registration form.
-     */
-    private void fillArray(String [][] array){
-        int n = array[0].length;
-        int rows = (int) Math.pow(2,n);
-        int aux [][] = new int[array.length][array[0].length];
-        String fields []= {USERNAME, EMAIL, PASS, PASS};
-
-        for (int i=0; i<rows-1; i++) {
-            for (int j = n - 1; j >= 0; j--) {
-                aux[i][j] = (i/(int) Math.pow(2, j))%2;
-            }
-        }
-
-        for (int i=0; i<aux.length; i++){
-            for (int j=0; j<aux[i].length; j++){
-                if(aux[i][j]==1){
-                    array[i][j] = fields[j];
-                }
-                else{
-                    array[i][j] = "";
-                }
-            }
-        }
     }
 
     @AfterClass
