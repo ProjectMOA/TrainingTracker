@@ -55,6 +55,38 @@ public class UsersDAO {
 	}
 
     /**
+     * Deletes the user identified by nick
+     * @param nick
+     * @return
+     */
+    public static boolean deleteUser(String nick){
+        Connection conn = null;
+
+        try{
+            Class.forName(ConnectionPool.JDBC_DRIVER);
+            conn = ConnectionPool.requestConnection();
+
+            PreparedStatement stmt = conn.prepareStatement(
+                String.format("DELETE FROM %s WHERE %S=?;",
+                    DBF_TABLE_NAME, DBF_NICK));
+            stmt.setString(1, nick);
+
+            stmt.execute(); //Executes the deletion
+            return true;
+
+        } catch (MySQLIntegrityConstraintViolationException e) {
+
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (SQLException e){
+            e.printStackTrace();
+        } finally {
+            if ( conn != null ) ConnectionPool.releaseConnection(conn);
+        }
+        return false;
+    }
+
+    /**
      * Finds user identified by nick
      * @param nick User's identifier
      * @return User's value object

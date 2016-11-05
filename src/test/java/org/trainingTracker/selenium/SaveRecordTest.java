@@ -30,7 +30,7 @@ public class SaveRecordTest {
     @BeforeClass
     public static void setUp(){
         //UsersDAO.addUser(USERNAME, PASS, EMAIL);
-        //ExercisesDAO.addExercise(EXERCISE, MG, USERNAME);
+        //ExercisesDAO.addCustomExercise(EXERCISE, MG, USERNAME);
         driver = new FirefoxDriver();
         driver.get(STARTER_URL);
         try{

@@ -6,7 +6,7 @@ CREATE TABLE Records (
     series INTEGER NOT NULL,
     repetitions INTEGER NOT NULL,
     record_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    foreign key(exercise) references Exercises(_id),
-    foreign key(user_nick) references Users(nick),
+    foreign key(exercise) references Exercises(_id) ON DELETE CASCADE,
+    foreign key(user_nick) references Users(nick) ON DELETE CASCADE,
     primary key(exercise, user_nick, record_date)
 );
