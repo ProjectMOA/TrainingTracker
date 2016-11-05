@@ -105,7 +105,7 @@ public class DAOMasterTest {
 
         //Delete
         for (RecordVO ex:recordsListNon ) {
-            RecordsDAO.deleteExercise(ex.getExercise(), ex.getUserNick(),ex.getRecordDate());
+            RecordsDAO.deleteRecord(ex.getExercise(), ex.getUserNick(),ex.getRecordDate());
         }
 
         //ListDeleted

@@ -75,7 +75,7 @@ public class RecordsDAO {
      * @param date
      * @return
      */
-    public static boolean deleteExercise(int exercise, String user, String date){
+    public static boolean deleteRecord(int exercise, String user, String date){
         Connection conn = null;
 
         try{
