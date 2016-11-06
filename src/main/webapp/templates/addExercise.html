@@ -22,15 +22,35 @@
       </div>
 
       <div ng-switch="exerciseType">
-
+        <!-- add custom exercise -->
+        <form role="form" ng-submit="addCustom()" ng-switch-when="custom">
+          <!-- muscle group input form -->
+          <div class="form-group">
+            <label for="selectMGCustom">Selecciona un grupo muscular:</label>
+            <select id="selectMGCustom" ng-click="hideError()" class="form-control"
+                    ng-model="$parent.mgSelected" ng-options="x for x in predeterminedMG" required>
+            </select>
+          </div>
+          <!-- user name input form -->
+          <div class="form-group">
+            <label for="customNameExercise">Ponle un nombre a tu ejercicio:</label>
+            <input id="customNameExercise" ng-click="hideError()" type="text" ng-model="$parent.customName"
+                   class="form-control" placeholder="Introduce el nombre de tu ejercicio" required />
+          </div>
+          <!-- submit button form-->
+          <p style="text-align:center">
+            <button type="submit" class="btn btn-default theme-accent">Añadir
+              ejercicio personalizado</button>
+          </p>
+        </form>
 
         <!-- add predetermined exercise -->
         <form role="form" ng-submit="addPredetermined()" ng-switch-when="predetermined">
           <!-- muscle group input form -->
           <div class="form-group">
-            <label for="selectMG">Selecciona un grupo muscular:</label>
-            <select id="selectMG" ng-click="hideError()" class="form-control"
-                    ng-model="mgSelected" ng-options="x for x in predeterminedMG" required>
+            <label for="selectMGPredetermined">Selecciona un grupo muscular:</label>
+            <select id="selectMGPredetermined" ng-click="hideError()" class="form-control"
+                    ng-model="$parent.mgSelected" ng-options="x for x in predeterminedMG" required>
             </select>
           </div>
           <!-- exercise name input form -->
@@ -44,7 +64,7 @@
           <!-- submit button form-->
           <p style="text-align:center">
             <button type="submit" class="btn btn-default theme-accent">Añadir
-              ejercicio</button>
+              ejercicio predeterminado</button>
           </p>
         </form>
       </div>

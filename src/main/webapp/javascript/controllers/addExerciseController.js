@@ -15,6 +15,7 @@ angular.module('trainingTrackerApp')
         // options selected from the selectors html
         $scope.selectedPredetermined;
         $scope.mgSelected;
+        $scope.customName;
 
         // feedback handling variables
         $scope.error = false;
@@ -49,5 +50,13 @@ angular.module('trainingTrackerApp')
 
         $scope.addPredetermined = function () {
             exerciseService.addExercise($scope.selectedPredetermined,showSuccess,showError);
-        }
+        };
+        $scope.addCustom = function () {
+            var customExercise = {
+                id: 0,
+                muscleGroup: $scope.mgSelected,
+                name: $scope.customName
+            };
+            exerciseService.addExercise(customExercise,showSuccess,showError);
+        };
     }]);
