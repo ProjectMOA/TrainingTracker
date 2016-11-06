@@ -6,15 +6,15 @@
 
     <!-- add exercise button -->
     <p style="text-align:center">
-      <button id="addExercise" href="#/addExercise" class="btn btn-default theme-accent">Añadir
-        ejercicio</button>
+      <a id="addExercise" href="#/addExercise" class="btn btn-default theme-accent"
+         role="button">Añadir ejercicio</a>
     </p>
 
     <!-- this div will show only when an error login occurs -->
     <div class="alert alert-danger" ng-if="error" name="errorSavingRecord">
       <strong>Woops!</strong> {{errorMsg}}
     </div>
-    <!-- this div will show only when an error login occurs -->
+    <!-- this div will show only when an success login occurs -->
     <div class="alert alert-success" ng-if="success" name="successSavingRecord">
       <strong>Éxito!</strong> {{successMsg}}
     </div>
