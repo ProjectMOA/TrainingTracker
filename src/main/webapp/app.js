@@ -35,6 +35,17 @@ angular.module('trainingTrackerApp', ['ui.router', 'base64'])
                         $state.go('starter');
                     }
                 }
+            })
+            //home screen
+            .state('addExercise', {
+                url: "/addExercise",
+                templateUrl: "templates/addExercise.html",
+                controller: "addExerciseCtrl",
+                onEnter: function ($state, auth) {
+                    if (!auth.isAuthenticated()) {
+                        $state.go('starter');
+                    }
+                }
             });
 
         $urlRouterProvider.otherwise('starter');

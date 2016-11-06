@@ -3,6 +3,11 @@
   margin: 0.5%;
 }
 
+#homeStyle #addExercise {
+  width: auto;
+  margin: 0;
+}
+
 textarea {
   max-width: 100%;
 }
