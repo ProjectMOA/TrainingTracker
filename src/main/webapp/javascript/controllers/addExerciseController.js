@@ -1,7 +1,19 @@
 angular.module('trainingTrackerApp')
 
-    .controller('addExerciseCtrl', ['$scope', '$state', function ($scope, $state) {
+    .controller('addExerciseCtrl', ['$scope', '$state', 'exerciseService', function ($scope, $state, exerciseService) {
 
+        $scope.predeterminedExercises = [
+            {muscleGroup:"pecho",name:"press banca"},
+            {muscleGroup:"espalda",name:"low row"},
+            {muscleGroup:"hombro",name:"remo vertical"}
+        ];
+        $scope.predeterminedMG = [
+            "pecho","espalda","hombro"
+        ];
+
+        // options selected from the selectors html
+        $scope.selectedPredetermined;
+        $scope.mgSelected;
 
         // feedback handling variables
         $scope.error = false;
@@ -31,4 +43,8 @@ angular.module('trainingTrackerApp')
             $scope.success = false;
             $scope.successMsg = "";
         };
+
+        $cope.addPredetermined = function () {
+            exerciseService.addPredetermined($scope.selectedPredetermined);
+        }
     }]);

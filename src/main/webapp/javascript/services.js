@@ -3,8 +3,11 @@ angular.module('trainingTrackerApp')
     // 'auth' service manage the authentication function of the page with the server
     .factory('auth', function ($state, $http, $base64) {
 
-        var _identity = undefined,
-            _authenticated = false;
+        var _identity = {
+                name: "paco",
+                email: "asd@asd.com"
+            },
+            _authenticated = true;
 
         return {
             //return true if the user is authenticated
