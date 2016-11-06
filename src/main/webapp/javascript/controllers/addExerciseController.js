@@ -2,14 +2,15 @@ angular.module('trainingTrackerApp')
 
     .controller('addExerciseCtrl', ['$scope', '$state', 'exerciseService', function ($scope, $state, exerciseService) {
 
-        $scope.predeterminedExercises = [
-            {muscleGroup:"pecho",name:"press banca"},
-            {muscleGroup:"espalda",name:"low row"},
-            {muscleGroup:"hombro",name:"remo vertical"}
-        ];
-        $scope.predeterminedMG = [
-            "pecho","espalda","hombro"
-        ];
+        $scope.predeterminedExercises = [];    // predetermined exercises
+        $scope.predeterminedMG = [];    // predetermined muscle groups
+
+        $scope.getPredetermined = function () {
+            exerciseService.getPredetermined(function (predeterminedMG,predeterminedExercises) {
+                $scope.predeterminedMG = predeterminedMG;
+                $scope.predeterminedExercises = predeterminedExercises;
+            },showError);
+        };
 
         // options selected from the selectors html
         $scope.selectedPredetermined;
@@ -44,7 +45,9 @@ angular.module('trainingTrackerApp')
             $scope.successMsg = "";
         };
 
-        $cope.addPredetermined = function () {
-            exerciseService.addPredetermined($scope.selectedPredetermined);
+        $scope.getPredetermined();
+
+        $scope.addPredetermined = function () {
+            exerciseService.addExercise($scope.selectedPredetermined);
         }
     }]);
