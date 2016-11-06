@@ -14,8 +14,8 @@ import net.sf.json.JSONArray;
 
 import org.trainingTracker.database.dataAccesObject.ExercisesDAO;
 import org.trainingTracker.database.dataAccesObject.RecordsDAO;
-import org.trainingTracker.database.valueObject.RecordVO;
 import org.trainingTracker.database.valueObject.ExerciseVO;
+import org.trainingTracker.database.valueObject.RecordVO;
 
 /**
  * Servlet implementation class ListPerformed
