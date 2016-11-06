@@ -48,6 +48,6 @@ angular.module('trainingTrackerApp')
         $scope.getPredetermined();
 
         $scope.addPredetermined = function () {
-            exerciseService.addExercise($scope.selectedPredetermined);
+            exerciseService.addExercise($scope.selectedPredetermined,showSuccess,showError);
         }
     }]);

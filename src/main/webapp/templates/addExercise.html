@@ -37,7 +37,7 @@
           <div class="form-group">
             <label for="selectExercise">Selecciona un ejercicio:</label>
             <select id="selectExercise" ng-click="hideError()" class="form-control"
-                    ng-model="selectedPredetermined" required
+                    ng-model="$parent.selectedPredetermined" required
                     ng-options="x.name for x in predeterminedExercises | filter: {'muscleGroup':mgSelected}">
             </select>
           </div>
