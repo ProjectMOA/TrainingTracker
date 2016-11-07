@@ -26,11 +26,12 @@ public class SaveRecordTest {
     private static final String SERIES = "4";
     private static final String REPETITIONS = "12";
     private static final String COMMENT = "Test comment";
+    private static int ExerciseID;
 
     @BeforeClass
     public static void setUp(){
-        //UsersDAO.addUser(USERNAME, PASS, EMAIL);
-        //ExercisesDAO.addCustomExercise(EXERCISE, MG, USERNAME);
+        UsersDAO.addUser(USERNAME, PASS, EMAIL);
+        ExerciseID = ExercisesDAO.addCustomExercise(EXERCISE, MG, USERNAME);
         driver = new FirefoxDriver();
         driver.get(STARTER_URL);
         try{
@@ -57,6 +58,7 @@ public class SaveRecordTest {
             fillForm(WEIGHT, SERIES, REPETITIONS, "");
             element = driver.findElement(By.name("Guardar"));
             element.click();
+            Thread.sleep(SLEEP_FOR_DISPLAY);
             // Checks if the process has been successful. If not, the test will fail.
             assertFalse((driver.findElements(By.name(S_FIELD))).isEmpty());
         }
@@ -88,6 +90,7 @@ public class SaveRecordTest {
             fillForm(WEIGHT, SERIES, REPETITIONS, COMMENT);
             element = driver.findElement(By.name("Guardar"));
             element.click();
+            Thread.sleep(SLEEP_FOR_DISPLAY);
             // Checks if the process has been successful. If not, the test will fail.
             assertFalse((driver.findElements(By.name(S_FIELD))).isEmpty());
         }
@@ -208,6 +211,8 @@ public class SaveRecordTest {
     public static void tearDown(){
         driver.close();
         driver.quit();
-        // TODO: Remove created user and exercise on setUp. Remove exercise first.
+        boolean deleted = ExercisesDAO.deleteCustomExercise(ExerciseID);
+        UsersDAO.deleteUser(USERNAME);
+        System.out.printf("****************%s%n", deleted);
     }
 }

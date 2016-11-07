@@ -17,7 +17,6 @@ import static org.trainingTracker.selenium.TestUtils.*;
 /**
  * Test class to check if the login process works correctly.
  */
-@Ignore
 public class SignInTest {
 
     private static WebDriver driver;
@@ -144,6 +143,6 @@ public class SignInTest {
     public static void tearDown(){
         driver.close();
         driver.quit();
-        // TODO: Remove created user on setUp.
+        UsersDAO.deleteUser(USERNAME);
     }
 }

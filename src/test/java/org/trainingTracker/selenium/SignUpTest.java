@@ -8,6 +8,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.trainingTracker.database.dataAccesObject.UsersDAO;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -16,7 +17,6 @@ import static org.trainingTracker.selenium.TestUtils.*;
 /**
  * Test class to check if the registration process works correctly.
  */
-@Ignore
 public class SignUpTest {
 
     private static WebDriver driver;
@@ -223,6 +223,6 @@ public class SignUpTest {
     public static void tearDown(){
         driver.close();
         driver.quit();
-        // TODO: Remove created user on okTest.
+        UsersDAO.deleteUser(USERNAME);
     }
 }
