@@ -17,7 +17,6 @@ import static org.trainingTracker.selenium.TestUtils.*;
 /**
  * Test class to check if the login process works correctly.
  */
-@Ignore
 public class SignInTest {
 
     private static WebDriver driver;
@@ -101,6 +100,35 @@ public class SignInTest {
     }
 
     /*
+     * Tests the login process with a non existent user.
+     */
+    @Test
+    public void nonExistentUser(){
+        WebElement element;
+        try{
+            element = driver.findElement(By.name(U_FIELD));
+            element.sendKeys("doNotExists");
+            Thread.sleep(SLEEP_FOR_DISPLAY);
+            element = driver.findElement(By.name(P_FIELD));
+            element.sendKeys(PASS);
+            Thread.sleep(SLEEP_FOR_DISPLAY);
+            element = driver.findElement(By.name(L_FIELD));
+            element.click();
+            Thread.sleep(SLEEP_FOR_LOAD);
+            // Tries to find an error message. If there's no error, test will fail.
+            assertFalse((driver.findElements(By.name(ER_FIELD))).isEmpty());
+            // If there's an error, the process has failed and checks wheter the redirection has been made, which should not.
+            assertFalse((driver.getCurrentUrl().equals(HOME_URL)));
+        }
+        catch (InterruptedException e){
+            e.printStackTrace();
+        }
+        finally {
+            driver.navigate().refresh();
+        }
+    }
+
+    /*
      * Tests the login process with some or all fields in blank.
      */
     @Test
@@ -144,6 +172,6 @@ public class SignInTest {
     public static void tearDown(){
         driver.close();
         driver.quit();
-        // TODO: Remove created user on setUp.
+        UsersDAO.deleteUser(USERNAME);
     }
 }

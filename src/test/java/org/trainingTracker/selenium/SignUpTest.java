@@ -8,6 +8,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.trainingTracker.database.dataAccesObject.UsersDAO;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -16,7 +17,6 @@ import static org.trainingTracker.selenium.TestUtils.*;
 /**
  * Test class to check if the registration process works correctly.
  */
-@Ignore
 public class SignUpTest {
 
     private static WebDriver driver;
@@ -70,6 +70,36 @@ public class SignUpTest {
             catch (InterruptedException e){
                 e.printStackTrace();
             }
+        }
+    }
+
+    /*
+    * Tests the registration process with an already existing user.
+    */
+    @Test
+    public void existingUser(){
+        WebElement element;
+        UsersDAO.addUser(USERNAME, PASS, EMAIL);
+        try{
+            // It calls a function to fill the registration form and clicks the registration button.
+            fillForm(USERNAME, EMAIL, PASS, PASS);
+            element = driver.findElement(By.name(R_FIELD));
+            element.click();
+            // In this case, the sleep time is larger cause it has to wait for the request
+            // to reach the backend and the database, return and redirect to the homepage
+            // if the registration has been successful.
+            Thread.sleep(SLEEP_FOR_LOAD);
+            // Tries to find an error message. If there's an error, test will fail.
+            assertFalse((driver.findElements(By.name(ER_FIELD))).isEmpty());
+            // If there's an error, the process has been successful and checks wheter the redirection has been made.
+            assertFalse((driver.getCurrentUrl().equals(HOME_URL)));
+        }
+        catch (InterruptedException e){
+            e.printStackTrace();
+        }
+        finally {
+            UsersDAO.deleteUser(USERNAME);
+            driver.navigate().refresh();
         }
     }
 
@@ -223,6 +253,6 @@ public class SignUpTest {
     public static void tearDown(){
         driver.close();
         driver.quit();
-        // TODO: Remove created user on okTest.
+        UsersDAO.deleteUser(USERNAME);
     }
 }
