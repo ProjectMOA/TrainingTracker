@@ -128,6 +128,41 @@ angular.module('trainingTrackerApp')
                 }).error(function (data) {
                     callbackError(data);
                 });
+            },
+            //get the predetermined exercises and predetermined muscle groups
+            getPredetermined: function (callbackSuccess,callbackError) {
+                $http({
+                    method: 'GET',
+                    url: 'getPredetermined',
+                    headers: {
+                        'user': auth.getUsername()
+                    }
+                }).success(function (data) {
+                    callbackSuccess(data.muscleGroups,data.predeterminedExercises);
+                }).error(function (data) {
+                    callbackError(data);
+                });
+            },
+            // add a exercise to the list of performed exercises
+            addExercise: function (exercise,callbackSuccess,callbackError) {
+                var exerciseTemp = {
+                    user: auth.getUsername(),
+                    id: exercise.id,
+                    name: exercise.name,
+                    muscleGroup: exercise.muscleGroup
+                };
+                $http({
+                    method: 'POST',
+                    url: 'addExercise',
+                    data: JSON.stringify(exerciseTemp),
+                    headers: {
+                        'Content-Type': 'application/json; charset=UTF-8'
+                    }
+                }).success(function (data) {
+                    callbackSuccess(data);
+                }).error(function (data) {
+                    callbackError(data);
+                });
             }
         };
     });
