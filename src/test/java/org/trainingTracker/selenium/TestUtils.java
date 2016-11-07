@@ -5,13 +5,16 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+import static org.junit.Assert.assertTrue;
+
 class TestUtils {
 
     static final String STARTER_URL = "http://localhost:8080/#/starter";
-    static final int SLEEP_FOR_DISPLAY = 1000;
-    static final int SLEEP_FOR_LOAD = 3000;
     static final String HOME_URL = "http://localhost:8080/#/home";
     static final String SIGNUP_URL = "http://localhost:8080/#/signUp";
+    static final String ADD_NEW_URL ="http://localhost:8080/#/addExercise";
+    static final int SLEEP_FOR_DISPLAY = 1000;
+    static final int SLEEP_FOR_LOAD = 3000;
     static final String U_FIELD = "username";
     static final String P_FIELD = "password";
     static final String L_FIELD = "login";
@@ -61,5 +64,20 @@ class TestUtils {
                 }
             }
         }
+    }
+
+    /*
+    * Logs in the app with the created user.
+    */
+    static void login(WebDriver driver) throws InterruptedException{
+        WebElement element;
+        element = driver.findElement(By.name(U_FIELD));
+        element.sendKeys(USERNAME);
+        element = driver.findElement(By.name(P_FIELD));
+        element.sendKeys(PASS);
+        element = driver.findElement(By.name(L_FIELD));
+        element.click();
+        Thread.sleep(SLEEP_FOR_LOAD);
+        assertTrue((driver.getCurrentUrl().equals(HOME_URL)));
     }
 }

@@ -168,9 +168,8 @@ public class SignUpTest {
         String [] [] signUpArray = new String[15][4];
         String fields []= {USERNAME, EMAIL, PASS, PASS};
         fillArray(signUpArray, fields);
-        WebElement registration;
+        WebElement registration = driver.findElement(By.name(R_FIELD));
         try{
-            registration = driver.findElement(By.name(R_FIELD));
             // Iterates the matrix
             for(String s [] : signUpArray){
                 quickFillForm(s[0], s[1], s[2], s[3]);
@@ -188,7 +187,7 @@ public class SignUpTest {
         }
     }
 
-    /**
+    /*
      *  Redirects to 'signup' page begining from the 'starter' page.
      */
     private static void goToSignUpPage() throws InterruptedException{
