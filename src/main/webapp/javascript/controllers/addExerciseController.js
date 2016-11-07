@@ -59,4 +59,19 @@ angular.module('trainingTrackerApp')
             };
             exerciseService.addExercise(customExercise,showSuccess,showError);
         };
+
+        // INPUTS CONTROL LENGTH
+
+        $scope.nameMaxLength = false;
+
+        // Watches to control input variables length
+        $scope.$watch('customName', function () {
+            if ($scope.customName.length > 50) {
+                $scope.customName = $scope.customName.slice(0, 50);
+            } else if ($scope.customName.length == 50) {
+                $scope.nameMaxLength = true;
+            } else {
+                $scope.nameMaxLength = false;
+            }
+        });
     }]);
