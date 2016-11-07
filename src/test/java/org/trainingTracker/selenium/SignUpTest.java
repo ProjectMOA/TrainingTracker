@@ -24,6 +24,9 @@ public class SignUpTest {
     private static final String RP_FIELD = "rePassword";
     private static final String R_FIELD = "registrarse";
     private static final String ER_FIELD = "errorSignUp";
+    private static final String MAX_USER_FIELD = "userMaxLength";
+    private static final String MAX_EMAIL_FIELD = "emailMaxLength";
+    private static final String MAX_PASS_FIELD = "passMaxLength";
 
     @BeforeClass
     public static void setUp(){
@@ -182,8 +185,30 @@ public class SignUpTest {
         catch (InterruptedException e){
             e.printStackTrace();
         }
-        finally {
-            driver.navigate().refresh();
+    }
+
+    /*
+     * Tests the registration progress introducing inputs larger than allowed
+     * in the fields with some size limits.
+     */
+    @Test
+    public void fieldsOverflow(){
+        try{
+            quickFillForm("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", EMAIL, PASS, PASS);
+            Thread.sleep(SLEEP_FOR_DISPLAY);
+            assertFalse(driver.findElements(By.name(MAX_USER_FIELD)).isEmpty());
+            clearForm();
+            quickFillForm(USERNAME, "aaaaaaaaaaaaaaaaa@aaaaaaaaaaaaaaaaaaaaaaaaaaaa.com", PASS, PASS);
+            Thread.sleep(SLEEP_FOR_DISPLAY);
+            assertFalse(driver.findElements(By.name(MAX_EMAIL_FIELD)).isEmpty());
+            clearForm();
+            quickFillForm(USERNAME, EMAIL, "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", PASS);
+            Thread.sleep(SLEEP_FOR_DISPLAY);
+            assertFalse(driver.findElements(By.name(MAX_PASS_FIELD)).isEmpty());
+            clearForm();
+        }
+        catch (InterruptedException e){
+            e.printStackTrace();
         }
     }
 

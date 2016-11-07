@@ -25,6 +25,7 @@ public class SaveRecordTest {
     private static final String ER_FIELD = "errorSavingRecord";
     private static final String A_FIELD = "add";
     private static final String G_FIELD = "Guardar";
+    private static final String CAN_FIELD = "Cancelar";
     private static final String W_FIELD = "weightExercise";
     private static final String S_FIELD = "seriesExercise";
     private static final String R_FIELD = "repetitionsExercise";
@@ -35,6 +36,10 @@ public class SaveRecordTest {
     private static final String SERIES = "4";
     private static final String REPETITIONS = "12";
     private static final String COMMENT = "Test comment";
+    private static final String MAX_WEIGHT_FIELD = "weightMaxLength";
+    private static final String MAX_SERIES_FIELD = "seriesMaxLength";
+    private static final String MAX_REPETITIONS_FIELD = "repetitionsMaxLength";
+    private static final String MAX_COMMENTARY_FIELD = "commentaryMaxLength";
     private static int ExerciseID;
 
     @BeforeClass
@@ -132,14 +137,14 @@ public class SaveRecordTest {
             element.click();
             Thread.sleep(SLEEP_FOR_DISPLAY);
             for (String [] s : saveRecordArray){
-                quickFillForm(s[0], s[1], s[2]);
+                quickFillForm(s[0], s[1], s[2], "");
                 saveRecord.click();
                 Thread.sleep(SLEEP_FOR_DISPLAY);
                 // Checks if the process has been successful, which should not happen.
                 assertTrue((driver.findElements(By.name(SC_FIELD))).isEmpty());
                 clearForm();
             }
-            element = driver.findElement(By.name("Cancelar"));
+            element = driver.findElement(By.name(CAN_FIELD));
             element.click();
         }
         catch (InterruptedException e){
@@ -202,6 +207,47 @@ public class SaveRecordTest {
         }
     }
 
+    @Test
+    public void fieldsOverflow(){
+        WebElement element;
+        try{
+            element = driver.findElement(By.name(A_FIELD));
+            element.click();
+            Thread.sleep(SLEEP_FOR_DISPLAY);
+            quickFillForm("100.102", SERIES, REPETITIONS, COMMENT);
+            Thread.sleep(SLEEP_FOR_DISPLAY);
+            assertFalse(driver.findElements(By.name(MAX_WEIGHT_FIELD)).isEmpty());
+            clearForm();
+            quickFillForm(WEIGHT, "1000", REPETITIONS, COMMENT);
+            Thread.sleep(SLEEP_FOR_DISPLAY);
+            assertFalse(driver.findElements(By.name(MAX_SERIES_FIELD)).isEmpty());
+            clearForm();
+            quickFillForm(WEIGHT, SERIES, "1000", COMMENT);
+            Thread.sleep(SLEEP_FOR_DISPLAY);
+            assertFalse(driver.findElements(By.name(MAX_REPETITIONS_FIELD)).isEmpty());
+            clearForm();
+            quickFillForm(WEIGHT, SERIES, REPETITIONS, "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" +
+                "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" +
+                "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" +
+                "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+            Thread.sleep(SLEEP_FOR_DISPLAY);
+            assertFalse(driver.findElements(By.name(MAX_COMMENTARY_FIELD)).isEmpty());
+            element = driver.findElement(By.name(CAN_FIELD));
+            element.click();
+        }
+        catch (InterruptedException e){
+            e.printStackTrace();
+        }
+        finally {
+            try {
+                Thread.sleep(SLEEP_FOR_LOAD);
+            }
+            catch (InterruptedException e){
+                e.printStackTrace();
+            }
+        }
+    }
+
     /*
      * Fills the form to add a new record.
      */
@@ -225,7 +271,7 @@ public class SaveRecordTest {
      * Fills the form to add a new record quicker than 'fillForm' method
      * and without a comment.
      */
-    private static void quickFillForm(String w, String s, String r){
+    private static void quickFillForm(String w, String s, String r, String c){
         WebElement element;
         element = driver.findElement(By.id(W_FIELD));
         element.sendKeys(w);
@@ -233,6 +279,8 @@ public class SaveRecordTest {
         element.sendKeys(s);
         element = driver.findElement(By.id(R_FIELD));
         element.sendKeys(r);
+        element = driver.findElement(By.id(C_FIELD));
+        element.sendKeys(c);
     }
 
     /*
@@ -245,6 +293,8 @@ public class SaveRecordTest {
         element = driver.findElement(By.id(S_FIELD));
         element.clear();
         element = driver.findElement(By.id(R_FIELD));
+        element.clear();
+        element = driver.findElement(By.id(C_FIELD));
         element.clear();
     }
 

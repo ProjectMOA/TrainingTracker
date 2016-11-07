@@ -14,7 +14,7 @@
         <input ng-click="hideError()" type="text" ng-model="userName" class="form-control"
                placeholder="Introduce el nombre de usuario"
                ng-class="{maxLength: userNameMaxLength}" name="username" required />
-        <p class="textMaxLength" ng-if="userNameMaxLength">Límite de caracteres alcanzado</p>
+        <p class="textMaxLength" ng-if="userNameMaxLength" name="userMaxLength">Límite de caracteres alcanzado</p>
       </div>
 
       <!-- email input form -->
@@ -22,7 +22,7 @@
         <input ng-click="hideError()" type="email" ng-model="email" class="form-control"
                placeholder="Introduce el correo electrónico" name="email" required
                ng-class="{maxLength: emailMaxLength}" />
-        <p class="textMaxLength" ng-if="emailMaxLength">Límite de caracteres alcanzado</p>
+        <p class="textMaxLength" ng-if="emailMaxLength" name="emailMaxLength">Límite de caracteres alcanzado</p>
       </div>
 
       <!-- password input form-->
@@ -30,7 +30,7 @@
         <input ng-click="hideError()" type="password" ng-model="password" class="form-control"
                placeholder="Introduce la contraseña" ng-class="{maxLength: passwordMaxLength}"
                name="password" required />
-        <p class="textMaxLength" ng-if="passwordMaxLength">Límite de caracteres alcanzado</p>
+        <p class="textMaxLength" ng-if="passwordMaxLength" name="passMaxLength">Límite de caracteres alcanzado</p>
       </div>
 
       <!-- repassword input form -->
