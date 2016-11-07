@@ -41,20 +41,25 @@
               <div class="form-group">
                 <label for="weightExercise"><strong>Peso*: </strong></label>
                 <input id="weightExercise" type="text" ng-model="recordModal.weight" required
-                       class="form-control" placeholder="Introduce el peso en kg (p.ej., 10.5)">
+                       class="form-control" placeholder="Introduce el peso en kg (p.ej., 10.5)"
+                       ng-class="{maxLength: weightMaxLength}" />
+                <p class="textMaxLength" ng-if="weightMaxLength">Límite de caracteres alcanzado</p>
               </div>
               <!-- series input exercise -->
               <div class="form-group">
                 <label for="seriesExercise"><strong>Series*: </strong></label>
                 <input id="seriesExercise" type="text" ng-model="recordModal.series" required
-                       class="form-control" placeholder="Introduce las series (p.ej., 4)">
+                       class="form-control" placeholder="Introduce las series (p.ej., 4)"
+                       ng-class="{maxLength: seriesMaxLength}" />
+                <p class="textMaxLength" ng-if="seriesMaxLength">Límite de caracteres alcanzado</p>
               </div>
               <!-- repetitions input exercise -->
               <div class="form-group">
                 <label for="repetitionsExercise"><strong>Repeticiones*: </strong></label>
                 <input id="repetitionsExercise" type="text" ng-model="recordModal.repetitions"
                        class="form-control" placeholder="Introduce las repeticiones (p.ej., 12)"
-                       required>
+                       ng-class="{maxLength: repetitionsMaxLength}" required/>
+                <p class="textMaxLength" ng-if="repetitionsMaxLength">Límite de caracteres alcanzado</p>
               </div>
               <!-- commentary input exercise -->
               <div class="form-group">
@@ -62,7 +67,9 @@
                   for="commentaryExercise"><strong>Comentario: </strong></label>
                 <textarea id="commentaryExercise" rows="5"
                           ng-model="recordModal.commentary" class="form-control"
-                          placeholder="Introduce un comentario (opcional)"></textarea>
+                          placeholder="Introduce un comentario (opcional)"
+                          ng-class="{maxLength: commentaryMaxLength}"></textarea>
+                <p class="textMaxLength" ng-if="commentaryMaxLength">Límite de caracteres alcanzado</p>
               </div>
               <p style="font-size: 75%">* Campos obligatorios.</p>
               <button class="btn btn-default" ng-click="closeRecordModal()" name="Cancelar">

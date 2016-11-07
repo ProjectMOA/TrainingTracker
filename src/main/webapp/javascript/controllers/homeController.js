@@ -11,6 +11,53 @@ angular.module('trainingTrackerApp')
                 },showError);
             };
 
+            // INPUTS CONTROL LENGTH
+
+            $scope.weightMaxLength = false;
+            $scope.seriesMaxLength = false;
+            $scope.repetitionsMaxLength = false;
+            $scope.commentaryMaxLength = false;
+
+            // Watches to control input variables length
+            $scope.$watch('recordModal.weight', function () {
+                if ($scope.recordModal.weight.length > 7) {
+                    $scope.recordModal.weight = $scope.recordModal.weight.slice(0, 7);
+                } else if ($scope.recordModal.weight.length == 7) {
+                    $scope.weightMaxLength = true;
+                } else {
+                    $scope.weightMaxLength = false;
+                }
+            });
+            $scope.$watch('recordModal.series', function () {
+                if ($scope.recordModal.series.length > 4) {
+                    $scope.recordModal.series = $scope.recordModal.series.slice(0, 4);
+                } else if ($scope.recordModal.series.length == 4) {
+                    $scope.seriesMaxLength = true;
+                } else {
+                    $scope.seriesMaxLength = false;
+                }
+            });
+            $scope.$watch('recordModal.repetitions', function () {
+                if ($scope.recordModal.repetitions.length > 4) {
+                    $scope.recordModal.repetitions = $scope.recordModal.repetitions.slice(0, 4);
+                } else if ($scope.recordModal.repetitions.length == 4) {
+                    $scope.repetitionsMaxLength = true;
+                } else {
+                    $scope.repetitionsMaxLength = false;
+                }
+            });
+            $scope.$watch('recordModal.commentary', function () {
+                if ($scope.recordModal.commentary.length > 250) {
+                    $scope.recordModal.commentary = $scope.recordModal.commentary.slice(0, 250);
+                } else if ($scope.recordModal.commentary.length == 250) {
+                    $scope.commentaryMaxLength = true;
+                } else {
+                    $scope.commentaryMaxLength = false;
+                }
+            });
+
+            // FEEDBACK MESSAGES
+
             // feedback handling variables
             $scope.error = false;
             $scope.success = false;
