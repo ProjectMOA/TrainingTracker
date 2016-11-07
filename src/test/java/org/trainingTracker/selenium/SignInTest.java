@@ -134,10 +134,9 @@ public class SignInTest {
     @Test
     public void blankFields(){
         WebElement element;
-        WebElement login;
+        WebElement login = driver.findElement(By.name(L_FIELD));
         try{
             // Checks whether the user logs in with all fields blank.
-            login = driver.findElement(By.name(L_FIELD));
             login.click();
             Thread.sleep(SLEEP_FOR_DISPLAY);
             assertFalse((driver.getCurrentUrl().equals(HOME_URL)));

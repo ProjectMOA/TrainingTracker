@@ -15,11 +15,20 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.trainingTracker.selenium.TestUtils.*;
 
+/**
+ * Test class to check if the process to save a new record works correctly.
+ */
 public class SaveRecordTest {
 
     private static WebDriver driver;
-    private static final String S_FIELD = "successSavingRecord";
+    private static final String SC_FIELD = "successSavingRecord";
     private static final String ER_FIELD = "errorSavingRecord";
+    private static final String A_FIELD = "add";
+    private static final String G_FIELD = "Guardar";
+    private static final String W_FIELD = "weightExercise";
+    private static final String S_FIELD = "seriesExercise";
+    private static final String R_FIELD = "repetitionsExercise";
+    private static final String C_FIELD = "commentaryExercise";
     private static final String EXERCISE = "My Exercise";
     private static final String MG = "Espalda";
     private static final String WEIGHT = "10.2";
@@ -36,7 +45,7 @@ public class SaveRecordTest {
         driver.get(STARTER_URL);
         try{
             goToStarter(driver);
-            login();
+            login(driver);
         }
         catch (InterruptedException e){
             e.printStackTrace();
@@ -52,15 +61,15 @@ public class SaveRecordTest {
         WebElement element;
         try{
             // It clicks the "+" button to add a new record, it fills the fields and saves them.
-            element = driver.findElement(By.name("add"));
+            element = driver.findElement(By.name(A_FIELD));
             element.click();
             Thread.sleep(SLEEP_FOR_DISPLAY);
             fillForm(WEIGHT, SERIES, REPETITIONS, "");
-            element = driver.findElement(By.name("Guardar"));
+            element = driver.findElement(By.name(G_FIELD));
             element.click();
             Thread.sleep(SLEEP_FOR_DISPLAY);
             // Checks if the process has been successful. If not, the test will fail.
-            assertFalse((driver.findElements(By.name(S_FIELD))).isEmpty());
+            assertFalse((driver.findElements(By.name(SC_FIELD))).isEmpty());
         }
         catch (InterruptedException e){
             e.printStackTrace();
@@ -84,15 +93,15 @@ public class SaveRecordTest {
         WebElement element;
         try{
             // It clicks the "+" button to add a new record, it fills the fields and saves them.
-            element = driver.findElement(By.name("add"));
+            element = driver.findElement(By.name(A_FIELD));
             element.click();
             Thread.sleep(SLEEP_FOR_DISPLAY);
             fillForm(WEIGHT, SERIES, REPETITIONS, COMMENT);
-            element = driver.findElement(By.name("Guardar"));
+            element = driver.findElement(By.name(G_FIELD));
             element.click();
             Thread.sleep(SLEEP_FOR_DISPLAY);
             // Checks if the process has been successful. If not, the test will fail.
-            assertFalse((driver.findElements(By.name(S_FIELD))).isEmpty());
+            assertFalse((driver.findElements(By.name(SC_FIELD))).isEmpty());
         }
         catch (InterruptedException e){
             e.printStackTrace();
@@ -116,11 +125,10 @@ public class SaveRecordTest {
         String [] [] saveRecordArray = new String[8][3];
         String fields []= {WEIGHT, SERIES, REPETITIONS};
         fillArray(saveRecordArray, fields);
-        WebElement saveRecord;
+        WebElement saveRecord = driver.findElement(By.name(G_FIELD));
         WebElement element;
         try{
-            saveRecord = driver.findElement(By.name("Guardar"));
-            element = driver.findElement(By.name("add"));
+            element = driver.findElement(By.name(A_FIELD));
             element.click();
             Thread.sleep(SLEEP_FOR_DISPLAY);
             for (String [] s : saveRecordArray){
@@ -128,7 +136,7 @@ public class SaveRecordTest {
                 saveRecord.click();
                 Thread.sleep(SLEEP_FOR_DISPLAY);
                 // Checks if the process has been successful, which should not happen.
-                assertTrue((driver.findElements(By.name(S_FIELD))).isEmpty());
+                assertTrue((driver.findElements(By.name(SC_FIELD))).isEmpty());
                 clearForm();
             }
             element = driver.findElement(By.name("Cancelar"));
@@ -153,11 +161,8 @@ public class SaveRecordTest {
      */
     @Test
     public void wrongInputs(){
-        WebElement element;
-        WebElement addButton;
-        WebElement saveButton;
-        addButton = driver.findElement(By.name("add"));
-        saveButton = driver.findElement(By.name("Guardar"));
+        WebElement addButton = driver.findElement(By.name(A_FIELD));
+        WebElement saveButton = driver.findElement(By.name(G_FIELD));
         try{
             addButton.click();
             Thread.sleep(SLEEP_FOR_DISPLAY);
@@ -198,35 +203,20 @@ public class SaveRecordTest {
     }
 
     /*
-     * Logs in the app with the created user.
-     */
-    private static void login() throws InterruptedException{
-        WebElement element;
-        element = driver.findElement(By.name(U_FIELD));
-        element.sendKeys(USERNAME);
-        element = driver.findElement(By.name(P_FIELD));
-        element.sendKeys(PASS);
-        element = driver.findElement(By.name(L_FIELD));
-        element.click();
-        Thread.sleep(SLEEP_FOR_LOAD);
-        assertTrue((driver.getCurrentUrl().equals(HOME_URL)));
-    }
-
-    /*
      * Fills the form to add a new record.
      */
     private static void fillForm(String w, String s, String r, String c) throws InterruptedException{
         WebElement element;
-        element = driver.findElement(By.id("weightExercise"));
+        element = driver.findElement(By.id(W_FIELD));
         element.sendKeys(w);
         Thread.sleep(SLEEP_FOR_DISPLAY);
-        element = driver.findElement(By.id("seriesExercise"));
+        element = driver.findElement(By.id(S_FIELD));
         element.sendKeys(s);
         Thread.sleep(SLEEP_FOR_DISPLAY);
-        element = driver.findElement(By.id("repetitionsExercise"));
+        element = driver.findElement(By.id(R_FIELD));
         element.sendKeys(r);
         Thread.sleep(SLEEP_FOR_DISPLAY);
-        element = driver.findElement(By.id("commentaryExercise"));
+        element = driver.findElement(By.id(C_FIELD));
         element.sendKeys(c);
         Thread.sleep(SLEEP_FOR_DISPLAY);
     }
@@ -237,11 +227,11 @@ public class SaveRecordTest {
      */
     private static void quickFillForm(String w, String s, String r){
         WebElement element;
-        element = driver.findElement(By.id("weightExercise"));
+        element = driver.findElement(By.id(W_FIELD));
         element.sendKeys(w);
-        element = driver.findElement(By.id("seriesExercise"));
+        element = driver.findElement(By.id(S_FIELD));
         element.sendKeys(s);
-        element = driver.findElement(By.id("repetitionsExercise"));
+        element = driver.findElement(By.id(R_FIELD));
         element.sendKeys(r);
     }
 
@@ -250,11 +240,11 @@ public class SaveRecordTest {
      */
     private static void clearForm(){
         WebElement element;
-        element = driver.findElement(By.id("weightExercise"));
+        element = driver.findElement(By.id(W_FIELD));
         element.clear();
-        element = driver.findElement(By.id("seriesExercise"));
+        element = driver.findElement(By.id(S_FIELD));
         element.clear();
-        element = driver.findElement(By.id("repetitionsExercise"));
+        element = driver.findElement(By.id(R_FIELD));
         element.clear();
     }
 
