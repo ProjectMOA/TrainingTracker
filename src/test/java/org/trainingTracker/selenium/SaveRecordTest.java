@@ -15,22 +15,23 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.trainingTracker.selenium.TestUtils.*;
 
-@Ignore
 public class SaveRecordTest {
 
     private static WebDriver driver;
     private static final String S_FIELD = "successSavingRecord";
+    private static final String ER_FIELD = "errorSavingRecord";
     private static final String EXERCISE = "My Exercise";
     private static final String MG = "Espalda";
     private static final String WEIGHT = "10.2";
     private static final String SERIES = "4";
     private static final String REPETITIONS = "12";
     private static final String COMMENT = "Test comment";
+    private static int ExerciseID;
 
     @BeforeClass
     public static void setUp(){
-        //UsersDAO.addUser(USERNAME, PASS, EMAIL);
-        //ExercisesDAO.addCustomExercise(EXERCISE, MG, USERNAME);
+        UsersDAO.addUser(USERNAME, PASS, EMAIL);
+        ExerciseID = ExercisesDAO.addCustomExercise(EXERCISE, MG, USERNAME);
         driver = new FirefoxDriver();
         driver.get(STARTER_URL);
         try{
@@ -57,6 +58,7 @@ public class SaveRecordTest {
             fillForm(WEIGHT, SERIES, REPETITIONS, "");
             element = driver.findElement(By.name("Guardar"));
             element.click();
+            Thread.sleep(SLEEP_FOR_DISPLAY);
             // Checks if the process has been successful. If not, the test will fail.
             assertFalse((driver.findElements(By.name(S_FIELD))).isEmpty());
         }
@@ -88,6 +90,7 @@ public class SaveRecordTest {
             fillForm(WEIGHT, SERIES, REPETITIONS, COMMENT);
             element = driver.findElement(By.name("Guardar"));
             element.click();
+            Thread.sleep(SLEEP_FOR_DISPLAY);
             // Checks if the process has been successful. If not, the test will fail.
             assertFalse((driver.findElements(By.name(S_FIELD))).isEmpty());
         }
@@ -124,11 +127,62 @@ public class SaveRecordTest {
                 quickFillForm(s[0], s[1], s[2]);
                 saveRecord.click();
                 Thread.sleep(SLEEP_FOR_DISPLAY);
+                // Checks if the process has been successful, which should not happen.
                 assertTrue((driver.findElements(By.name(S_FIELD))).isEmpty());
                 clearForm();
             }
             element = driver.findElement(By.name("Cancelar"));
             element.click();
+        }
+        catch (InterruptedException e){
+            e.printStackTrace();
+        }
+        finally {
+            try {
+                Thread.sleep(SLEEP_FOR_LOAD);
+            }
+            catch (InterruptedException e){
+                e.printStackTrace();
+            }
+        }
+    }
+
+    /*
+     * Checks the process to save a record using non valid
+     * inputs on each field.
+     */
+    @Test
+    public void wrongInputs(){
+        WebElement element;
+        WebElement addButton;
+        WebElement saveButton;
+        addButton = driver.findElement(By.name("add"));
+        saveButton = driver.findElement(By.name("Guardar"));
+        try{
+            addButton.click();
+            Thread.sleep(SLEEP_FOR_DISPLAY);
+            // Tries to input a real number with a "," insted of a "." in the "Weight" field.
+            fillForm("10,5", SERIES, REPETITIONS, COMMENT);
+            saveButton.click();
+            Thread.sleep(SLEEP_FOR_DISPLAY);
+            // Checks if there's been an error, which should happen.
+            assertFalse((driver.findElements(By.name(ER_FIELD))).isEmpty());
+            addButton.click();
+            Thread.sleep(SLEEP_FOR_DISPLAY);
+            // Tries to input a real number instead of an integer in the "Series" field.
+            fillForm(WEIGHT, "10.5", REPETITIONS, COMMENT);
+            saveButton.click();
+            Thread.sleep(SLEEP_FOR_DISPLAY);
+            // Checks if there's been an error, which should happen.
+            assertFalse((driver.findElements(By.name(ER_FIELD))).isEmpty());
+            addButton.click();
+            Thread.sleep(SLEEP_FOR_DISPLAY);
+            // Tries to input a real number instead of an integer in the "Repetitions" field.
+            fillForm(WEIGHT, SERIES, "10.5", COMMENT);
+            saveButton.click();
+            Thread.sleep(SLEEP_FOR_DISPLAY);
+            // Checks if there's been an error, which should happen.
+            assertFalse((driver.findElements(By.name(ER_FIELD))).isEmpty());
         }
         catch (InterruptedException e){
             e.printStackTrace();
@@ -208,6 +262,7 @@ public class SaveRecordTest {
     public static void tearDown(){
         driver.close();
         driver.quit();
-        // TODO: Remove created user and exercise on setUp. Remove exercise first.
+        ExercisesDAO.deleteCustomExercise(ExerciseID);
+        UsersDAO.deleteUser(USERNAME);
     }
 }

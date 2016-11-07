@@ -37,7 +37,8 @@ class TestUtils {
     }
 
     /*
-     * Fills an array with all the possible combinations for the fields in the registration form.
+     * Fills an array with all the possible combinations for the fields in the registration and
+     * new record forms.
      */
     static void fillArray(String [][] array, String[] fields){
         int n = array[0].length;
