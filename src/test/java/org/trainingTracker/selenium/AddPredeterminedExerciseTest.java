@@ -55,7 +55,7 @@ public class AddPredeterminedExerciseTest {
      * with that muscle groups.
      */
     @Test
-    public static void okPredeterminedTest(){
+    public void okPredeterminedTest(){
         Select select;
         WebElement addButton = driver.findElement(By.name(A_FIELD));
         try{

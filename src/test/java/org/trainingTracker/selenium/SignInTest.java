@@ -107,7 +107,7 @@ public class SignInTest {
         WebElement element;
         try{
             element = driver.findElement(By.name(U_FIELD));
-            element.sendKeys("doNotExists");
+            element.sendKeys("doesNotExists");
             Thread.sleep(SLEEP_FOR_DISPLAY);
             element = driver.findElement(By.name(P_FIELD));
             element.sendKeys(PASS);

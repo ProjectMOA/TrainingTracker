@@ -19,8 +19,6 @@ import java.util.Iterator;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.trainingTracker.selenium.TestUtils.*;
-import static org.trainingTracker.selenium.TestUtils.goToStarter;
-import static org.trainingTracker.selenium.TestUtils.login;
 
 /**
  * Test class to check if the process to add a new custom exercise
@@ -57,7 +55,7 @@ public class AddCustomExerciseTest {
      * the existing muscle groups with custom names.
      */
     @Test
-    public static void okPredeterminedTest(){
+    public void okCustomTest(){
         Select select;
         WebElement addButton = driver.findElement(By.name(A_FIELD));
         WebElement exerciseName = driver.findElement(By.id(EX_N_FIELD));
