@@ -39,4 +39,13 @@
     <servlet-name>ListPerformed</servlet-name>
     <url-pattern>/listPerformed</url-pattern>
     </servlet-mapping>
+    
+    <servlet>
+    <servlet-name>SaveRecord</servlet-name>
+    <servlet-class>org.trainingTracker.servlets.SaveRecord</servlet-class>
+    </servlet>
+    <servlet-mapping>
+    <servlet-name>SaveRecord</servlet-name>
+    <url-pattern>/saveRecord</url-pattern>
+    </servlet-mapping>
 </web-app>
