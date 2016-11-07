@@ -20,7 +20,9 @@
       <!-- email input form -->
       <div class="form-group">
         <input ng-click="hideError()" type="email" ng-model="email" class="form-control"
-               placeholder="Introduce el correo electrónico" name="email" required />
+               placeholder="Introduce el correo electrónico" name="email" required
+               ng-class="{maxLength: emailMaxLength}" />
+        <p class="textMaxLength" ng-if="emailMaxLength">Límite de caracteres alcanzado</p>
       </div>
 
       <!-- password input form-->

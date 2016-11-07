@@ -35,7 +35,9 @@
           <div class="form-group">
             <label for="customNameExercise">Ponle un nombre a tu ejercicio:</label>
             <input id="customNameExercise" ng-click="hideError()" type="text" ng-model="$parent.customName"
-                   class="form-control" placeholder="Introduce el nombre de tu ejercicio" required />
+                   class="form-control" placeholder="Introduce el nombre de tu ejercicio"
+                   ng-class="{maxLength: nameMaxLength}" required />
+            <p class="textMaxLength" ng-if="nameMaxLength">Límite de caracteres alcanzado</p>
           </div>
           <!-- submit button form-->
           <p style="text-align:center">

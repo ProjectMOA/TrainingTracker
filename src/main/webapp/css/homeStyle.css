@@ -21,3 +21,17 @@ textarea {
   font-size: 180%;
   text-align: center;
 }
+
+/* user alert if input is too long*/
+#homeStyle .maxLength {
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(247, 0, 0, 0.79);
+}
+
+#homeStyle .maxLength:focus {
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(247, 0, 0, 0.79);
+}
+
+#homeStyle .textMaxLength {
+  color: rgba(247, 0, 0, 0.79) !important;
+  font-size: 90%;
+}
