@@ -32,6 +32,7 @@ public class AddCustomExerciseTest {
     private static final String SEL_FIELD = "selectMGCustom";
     private static final String EX_N_FIELD = "customNameExercise";
     private static final String SC_FIELD = "successAddingExercise";
+    private static final String MAX_NAME_FIELD = "nameMaxLength";
     private static final String EXERCISE_NAME = "My Exercise";
 
     @BeforeClass
@@ -75,6 +76,53 @@ public class AddCustomExerciseTest {
                 Thread.sleep(SLEEP_FOR_DISPLAY);
                 assertFalse(driver.findElements(By.name(SC_FIELD)).isEmpty());
             }
+        }
+        catch (InterruptedException e){
+            e.printStackTrace();
+        }
+    }
+
+    /*
+     * Tests the process to add a new custom exercise leaving the
+     * exercise name field blank, a field that is requested.
+     */
+    @Test
+    public void blankExName(){
+        Select select;
+        WebElement addButton = driver.findElement(By.name(A_FIELD));
+        try{
+            // Finds the select with the muscle group options and select the first one.
+            select = new Select(driver.findElement(By.id(SEL_FIELD)));
+            select.getFirstSelectedOption().click();
+            Thread.sleep(SLEEP_FOR_DISPLAY);
+            addButton.click();
+            Thread.sleep(SLEEP_FOR_DISPLAY);
+            // Checks if the process to add a new exercise has been successful, which should not.
+            assertTrue(driver.findElements(By.name(SC_FIELD)).isEmpty());
+        }
+        catch (InterruptedException e){
+            e.printStackTrace();
+        }
+    }
+
+    /*
+     * Tests the process to add a new custom exercise introducing an
+     * exercise name larger than allowed.
+     */
+    @Test
+    public void ExNameOverflow(){
+        Select select;
+        WebElement addButton = driver.findElement(By.name(A_FIELD));
+        WebElement exerciseName = driver.findElement(By.id(EX_N_FIELD));
+        try{
+            // Finds the select with the muscle group options and selects the first one.
+            select = new Select(driver.findElement(By.id(SEL_FIELD)));
+            select.getFirstSelectedOption().click();
+            Thread.sleep(SLEEP_FOR_DISPLAY);
+            exerciseName.sendKeys("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+            Thread.sleep(SLEEP_FOR_DISPLAY);
+            // Checks if an error message because of the length of the exercise name has appeared.
+            assertFalse(driver.findElements(By.name(MAX_NAME_FIELD)).isEmpty());
         }
         catch (InterruptedException e){
             e.printStackTrace();

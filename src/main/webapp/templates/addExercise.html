@@ -37,7 +37,7 @@
             <input id="customNameExercise" ng-click="hideError()" type="text" ng-model="$parent.customName"
                    class="form-control" placeholder="Introduce el nombre de tu ejercicio"
                    ng-class="{maxLength: nameMaxLength}" required />
-            <p class="textMaxLength" ng-if="nameMaxLength">Límite de caracteres alcanzado</p>
+            <p class="textMaxLength" ng-if="nameMaxLength" name="nameMaxLength">Límite de caracteres alcanzado</p>
           </div>
           <!-- submit button form-->
           <p style="text-align:center">
