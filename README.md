@@ -26,11 +26,20 @@ packaging process.
 
 You can also other [Gretty tasks](http://akhikhl.github.io/gretty-doc/Gretty-tasks) for running and debugging the web-app.
 
-## Test
+## Tests
 
 Gradle allows you to run the tests defined on src/test with `gradle test`.
 
-In order to run the Selenium test successfully, you have to install Firefox 47.0.1 or lower.
+In order to run the Selenium test successfully, you'll have to run the app first in another terminal. To do so, you 
+can execute one of the previously mentioned commands in the "Build & Run" section.
+
+Besides, you'll have to install Firefox 47.0.1 or lower in order to run the tests due to Selenium WebDriver restrictions.
+
+Note that `gradle check`and `gradle build` will also execute the tests, so remember to perform the previos steps.
+
+You can indicate gradle no to run them with the pervios mentioned commands using the `-x test` option, i.e `gralde build -x test`.
+
+Another way to prevent the test from being executed is to add the "@Ignore" annotation before the test class declaration.
 
 # EditorConfig 
 [EditorConfig](http://editorconfig.org/) helps developers maintain consistent coding styles between different editors and IDEs. It is a file format for defining coding styles and a collection of text editor plugins that enable editors to read the file format and adhere to defined styles.
