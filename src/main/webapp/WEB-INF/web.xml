@@ -48,4 +48,13 @@
     <servlet-name>SaveRecord</servlet-name>
     <url-pattern>/saveRecord</url-pattern>
     </servlet-mapping>
+    
+    <servlet>
+    <servlet-name>GetPredetermined</servlet-name>
+    <servlet-class>org.trainingTracker.servlets.GetPredetermined</servlet-class>
+    </servlet>
+    <servlet-mapping>
+    <servlet-name>GetPredetermined</servlet-name>
+    <url-pattern>/getPredetermined</url-pattern>
+    </servlet-mapping>
 </web-app>
