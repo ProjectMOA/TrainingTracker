@@ -181,7 +181,7 @@ public class ExercisesDAO {
 		return null;
 	}
     /**
-     * Returns a list of exercises that a user owns
+     * Returns a list of default exercises
      * @return
      */
     public static List<ExerciseVO> listDefaultExercises(){
