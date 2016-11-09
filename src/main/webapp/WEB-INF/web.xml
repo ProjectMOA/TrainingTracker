@@ -57,4 +57,13 @@
     <servlet-name>GetPredetermined</servlet-name>
     <url-pattern>/getPredetermined</url-pattern>
     </servlet-mapping>
+    
+    <servlet>
+    <servlet-name>AddExercise</servlet-name>
+    <servlet-class>org.trainingTracker.servlets.AddExercise</servlet-class>
+    </servlet>
+    <servlet-mapping>
+    <servlet-name>AddExercise</servlet-name>
+    <url-pattern>/addExercise</url-pattern>
+    </servlet-mapping>
 </web-app>
