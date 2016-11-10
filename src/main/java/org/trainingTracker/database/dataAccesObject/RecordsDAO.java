@@ -24,6 +24,7 @@ public class RecordsDAO {
     public static final String DBF_RECORD_WEIGHT = "weigth";
     public static final String DBF_RECORD_SERIES = "series";
     public static final String DBF_RECORD_REPETITIONS = "repetitions";
+    public static final String DBF_RECORD_COMMENT = "comment";
     public static final String DBF_RECORD_DATE = "record_date";
 
 
@@ -36,21 +37,23 @@ public class RecordsDAO {
      * @param repetitions
      * @return
      */
-	public static boolean addRecord( int exercise, String user_nick, double weight, int series, int repetitions){
+	public static boolean addRecord( int exercise, String user_nick, double weight, int series,
+                                     int repetitions, String comment){
 		Connection conn = null;
 		try{
 			Class.forName(ConnectionPool.JDBC_DRIVER);
 			conn = ConnectionPool.requestConnection();
 
             PreparedStatement stmt = conn.prepareStatement(
-                String.format( "INSERT INTO %s (%s, %s, %s, %s, %s) VALUES (?,?,?,?,?);",
+                String.format( "INSERT INTO %s (%s, %s, %s, %s, %s, %s) VALUES (?,?,?,?,?,?);",
                     DBF_RECORD_TABLE_NAME, DBF_RECORD_EXERCISE, DBF_RECORD_NICK, DBF_RECORD_WEIGHT,
-                    DBF_RECORD_SERIES, DBF_RECORD_REPETITIONS));
+                    DBF_RECORD_SERIES, DBF_RECORD_REPETITIONS, DBF_RECORD_COMMENT));
             stmt.setInt(1,exercise);
             stmt.setString(2,user_nick);
             stmt.setDouble(3,weight);
             stmt.setInt(4,series);
             stmt.setInt(5,repetitions);
+            stmt.setString(6,comment);
 
 			stmt.execute();
 
@@ -142,7 +145,7 @@ public class RecordsDAO {
                 do {
                     list.add(new RecordVO(rs.getInt(DBF_RECORD_EXERCISE), rs.getString(DBF_RECORD_NICK),
                         rs.getDouble(DBF_RECORD_WEIGHT), rs.getInt(DBF_RECORD_SERIES),
-                        rs.getInt(DBF_RECORD_REPETITIONS), rs.getString(DBF_RECORD_DATE)));
+                        rs.getInt(DBF_RECORD_REPETITIONS), rs.getString(DBF_RECORD_COMMENT), rs.getString(DBF_RECORD_DATE)));
                 } while (rs.next());
             }
 			return list;
