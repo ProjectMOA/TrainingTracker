@@ -80,4 +80,12 @@ class TestUtils {
         Thread.sleep(SLEEP_FOR_LOAD);
         assertTrue((driver.getCurrentUrl().equals(HOME_URL)));
     }
+
+    static void goToAddExercise(WebDriver driver) throws InterruptedException{
+        WebElement element;
+        element = driver.findElement(By.id("addExercise"));
+        element.click();
+        Thread.sleep(SLEEP_FOR_LOAD);
+        assertTrue(driver.getCurrentUrl().equals(ADD_NEW_URL));
+    }
 }

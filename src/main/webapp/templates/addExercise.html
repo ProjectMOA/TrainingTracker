@@ -6,9 +6,9 @@
       <h1>Añade un ejercicio predeterminado de nuestra lista o crea el tuyo personalizado</h1>
 
       <p style="text-align:center">
-        <label class="radio-inline"><input type="radio" ng-model="exerciseType"
+        <label class="radio-inline"><input type="radio" ng-model="exerciseType" ng-click="hideError();hideSuccess()"
                                            value="custom" name="customButton">Personalizado</label>
-        <label class="radio-inline"><input type="radio" ng-model="exerciseType"
+        <label class="radio-inline"><input type="radio" ng-model="exerciseType" ng-click="hideError();hideSuccess()"
                                            value="predetermined" name="predButton">Predeterminado</label>
       </p>
 
@@ -27,14 +27,14 @@
           <!-- muscle group input form -->
           <div class="form-group">
             <label for="selectMGCustom">Selecciona un grupo muscular:</label>
-            <select id="selectMGCustom" ng-click="hideError()" class="form-control"
+            <select id="selectMGCustom" ng-click="hideError();hideSuccess()" class="form-control"
                     ng-model="$parent.mgSelected" ng-options="x for x in predeterminedMG" required>
             </select>
           </div>
           <!-- user name input form -->
           <div class="form-group">
             <label for="customNameExercise">Ponle un nombre a tu ejercicio:</label>
-            <input id="customNameExercise" ng-click="hideError()" type="text" ng-model="$parent.customName"
+            <input id="customNameExercise" ng-click="hideError();hideSuccess()" type="text" ng-model="$parent.customName"
                    class="form-control" placeholder="Introduce el nombre de tu ejercicio"
                    ng-class="{maxLength: nameMaxLength}" required />
             <p class="textMaxLength" ng-if="nameMaxLength" name="nameMaxLength">Límite de caracteres alcanzado</p>
@@ -51,14 +51,14 @@
           <!-- muscle group input form -->
           <div class="form-group">
             <label for="selectMGPredetermined">Selecciona un grupo muscular:</label>
-            <select id="selectMGPredetermined" ng-click="hideError()" class="form-control"
+            <select id="selectMGPredetermined" ng-click="hideError();hideSuccess()" class="form-control"
                     ng-model="$parent.mgSelected" ng-options="x for x in predeterminedMG" required>
             </select>
           </div>
           <!-- exercise name input form -->
           <div class="form-group">
             <label for="selectExercise">Selecciona un ejercicio:</label>
-            <select id="selectExercise" ng-click="hideError()" class="form-control"
+            <select id="selectExercise" ng-click="hideError();hideSuccess()" class="form-control"
                     ng-model="$parent.selectedPredetermined" required
                     ng-options="x.name for x in predeterminedExercises | filter: {'muscleGroup':mgSelected}">
             </select>

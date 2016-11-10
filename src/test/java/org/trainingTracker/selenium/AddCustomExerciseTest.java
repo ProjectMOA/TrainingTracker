@@ -24,7 +24,6 @@ import static org.trainingTracker.selenium.TestUtils.*;
  * Test class to check if the process to add a new custom exercise
  * to the home page works correctly.
  */
-@Ignore
 public class AddCustomExerciseTest {
 
     private static WebDriver driver;
@@ -43,7 +42,7 @@ public class AddCustomExerciseTest {
         try{
             goToStarter(driver);
             login(driver);
-            goToAddCustomExercise();
+            goToAddExercise(driver);
         }
         catch (InterruptedException e){
             e.printStackTrace();
@@ -57,13 +56,16 @@ public class AddCustomExerciseTest {
      */
     @Test
     public void okCustomTest(){
-        Select select;
-        WebElement addButton = driver.findElement(By.name(A_FIELD));
-        WebElement exerciseName = driver.findElement(By.id(EX_N_FIELD));
         try{
+            selectCustom();
+            Select select;
+            WebElement addButton = driver.findElement(By.name(A_FIELD));
+            WebElement exerciseName = driver.findElement(By.id(EX_N_FIELD));
             // Finds the select with the muscle group options
             select = new Select(driver.findElement(By.id(SEL_FIELD)));
             Iterator<WebElement> iter1 = select.getOptions().iterator();
+            // Skips the first option in the select (which is blank)
+            iter1.next();
             // Iterates all the muscle group options
             while (iter1.hasNext()){
                 // Inserts a custom name for the exercise, tries to add the new exercise and
@@ -75,10 +77,14 @@ public class AddCustomExerciseTest {
                 addButton.click();
                 Thread.sleep(SLEEP_FOR_DISPLAY);
                 assertFalse(driver.findElements(By.name(SC_FIELD)).isEmpty());
+                exerciseName.clear();
             }
         }
         catch (InterruptedException e){
             e.printStackTrace();
+        }
+        finally {
+            driver.navigate().refresh();
         }
     }
 
@@ -88,12 +94,13 @@ public class AddCustomExerciseTest {
      */
     @Test
     public void blankExName(){
-        Select select;
-        WebElement addButton = driver.findElement(By.name(A_FIELD));
         try{
+            selectCustom();
+            Select select;
+            WebElement addButton = driver.findElement(By.name(A_FIELD));
             // Finds the select with the muscle group options and select the first one.
             select = new Select(driver.findElement(By.id(SEL_FIELD)));
-            select.getFirstSelectedOption().click();
+            select.selectByIndex(1);
             Thread.sleep(SLEEP_FOR_DISPLAY);
             addButton.click();
             Thread.sleep(SLEEP_FOR_DISPLAY);
@@ -111,18 +118,19 @@ public class AddCustomExerciseTest {
      */
     @Test
     public void ExNameOverflow(){
-        Select select;
-        WebElement addButton = driver.findElement(By.name(A_FIELD));
-        WebElement exerciseName = driver.findElement(By.id(EX_N_FIELD));
         try{
+            selectCustom();
+            Select select;
+            WebElement exerciseName = driver.findElement(By.id(EX_N_FIELD));
             // Finds the select with the muscle group options and selects the first one.
             select = new Select(driver.findElement(By.id(SEL_FIELD)));
-            select.getFirstSelectedOption().click();
+            select.selectByIndex(1);
             Thread.sleep(SLEEP_FOR_DISPLAY);
             exerciseName.sendKeys("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
             Thread.sleep(SLEEP_FOR_DISPLAY);
             // Checks if an error message because of the length of the exercise name has appeared.
             assertFalse(driver.findElements(By.name(MAX_NAME_FIELD)).isEmpty());
+            exerciseName.clear();
         }
         catch (InterruptedException e){
             e.printStackTrace();
@@ -133,12 +141,8 @@ public class AddCustomExerciseTest {
      * Redirects to 'addExercise' page begining from the 'home' page and
      * selects the "Custom" option.
      */
-    private static void goToAddCustomExercise() throws InterruptedException{
+    private static void selectCustom() throws InterruptedException{
         WebElement element;
-        element = driver.findElement(By.id("addExercise"));
-        element.click();
-        Thread.sleep(SLEEP_FOR_LOAD);
-        assertTrue(driver.getCurrentUrl().equals(ADD_NEW_URL));
         element = driver.findElement(By.name("customButton"));
         element.click();
         Thread.sleep(SLEEP_FOR_DISPLAY);
