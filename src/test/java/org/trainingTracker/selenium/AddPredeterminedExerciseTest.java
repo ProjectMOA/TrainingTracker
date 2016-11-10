@@ -30,7 +30,7 @@ public class AddPredeterminedExerciseTest {
     private static WebDriver driver;
     private static final String A_FIELD = "addPredButton";
     private static final String SEL_MG_FIELD = "selectMGPredetermined";
-    private static final String SEL_EX_FIELD = "electExercise";
+    private static final String SEL_EX_FIELD = "selectExercise";
     private static final String SC_FIELD = "successAddingExercise";
 
     @BeforeClass
@@ -41,7 +41,7 @@ public class AddPredeterminedExerciseTest {
         try{
             goToStarter(driver);
             login(driver);
-            goToAddPredExercise();
+            goToAddExercise(driver);
         }
         catch (InterruptedException e){
             e.printStackTrace();
@@ -56,12 +56,15 @@ public class AddPredeterminedExerciseTest {
      */
     @Test
     public void okPredeterminedTest(){
-        Select select;
-        WebElement addButton = driver.findElement(By.name(A_FIELD));
         try{
+            selectPredefined();
+            Select select;
+            WebElement addButton = driver.findElement(By.name(A_FIELD));
             // Finds the select with the muscle group options
             select = new Select(driver.findElement(By.id(SEL_MG_FIELD)));
             Iterator<WebElement> iter1 = select.getOptions().iterator();
+            // Skips the first option in the select (which is blank)
+            iter1.next();
             // Iterates all the muscle group options
             while (iter1.hasNext()){
                 iter1.next().click();
@@ -69,6 +72,8 @@ public class AddPredeterminedExerciseTest {
                 // Findes the select with the exercise options for the selected muscle group
                 select = new Select(driver.findElement(By.id(SEL_EX_FIELD)));
                 Iterator<WebElement> iter2 = select.getOptions().iterator();
+                // Skips the first option in the select (which is blank)
+                iter2.next();
                 // Iterates all the exercise options for that muscle group
                 while (iter2.hasNext()){
                     // Tries to add a new exercise with the selected options and check if the process has been successful.
@@ -89,12 +94,8 @@ public class AddPredeterminedExerciseTest {
      * Redirects to 'addExercise' page begining from the 'home' page and
      * selects the "Predetermined" option.
      */
-    private static void goToAddPredExercise() throws InterruptedException{
+    private static void selectPredefined() throws InterruptedException{
         WebElement element;
-        element = driver.findElement(By.id("addExercise"));
-        element.click();
-        Thread.sleep(SLEEP_FOR_LOAD);
-        assertTrue(driver.getCurrentUrl().equals(ADD_NEW_URL));
         element = driver.findElement(By.name("predButton"));
         element.click();
         Thread.sleep(SLEEP_FOR_DISPLAY);
