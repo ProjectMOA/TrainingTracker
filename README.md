@@ -8,7 +8,7 @@ Assuming you already have [JDK 8](http://www.oracle.com/technetwork/java/javase/
 
 You will also need to have installed a MySQL server running in localhost:3306 and a user called `travis` with empty password.
 
-In order to check that everything is working well, you can execute the commands `gradle build` or `gradle check`.
+In order to check that everything is working well, you can execute the commands `gradle build` or `gradle check`.  
 
 ## Build & Run
 
