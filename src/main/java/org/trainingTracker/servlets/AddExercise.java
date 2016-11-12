@@ -78,15 +78,30 @@ public class AddExercise extends HttpServlet {
         
         if (!error) {
             try {
-                if (!predefined.equals("0")) {
-                    // TODO
-                    response.setStatus(HttpServletResponse.SC_NOT_IMPLEMENTED);
+                List<ExerciseVO> exercisesList;
+                Iterator<ExerciseVO> it;
+                ExerciseVO vo;
+                
+                // Search for user exercises in BD
+                exercisesList = ExercisesDAO.listUserExercises(user);
+                if (exercisesList == null) {
+                    response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                    response.getWriter().println("Error interno en el servidor. Vuelva intentarlo más tarde");
                 }
                 else {
-                    List<ExerciseVO> exercisesList;
-                    Iterator<ExerciseVO> it;
-                    ExerciseVO vo;
-                    
+                    it = exercisesList.iterator();
+                    while (!error && it.hasNext()) {
+                        vo = it.next();
+                        // if the new exercise doesn't exists as predetermined exercise
+                        if (muscleGroup.equals(vo.getMuscleGroup()) && exercise.equals(vo.getName())) {
+                            error = true;
+                            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                            response.getWriter().write("Este ejercicio ya forma parte de su rutina");
+                        }
+                    }
+                }
+                
+                if (!error) {
                     // Search for predefined exercises in BD
                     exercisesList = ExercisesDAO.listDefaultExercises();
                     if (exercisesList == null) {
@@ -94,49 +109,63 @@ public class AddExercise extends HttpServlet {
                         response.getWriter().println("Error interno en el servidor. Vuelva intentarlo más tarde");
                     }
                     else {
-                        it = exercisesList.iterator();
-                        while (!error && it.hasNext()) {
-                            vo = it.next();
-                            System.out.println(vo.getName());
-                            // if the new exercise doesn't exists as predetermined exercise
-                            if (muscleGroup.equals(vo.getMuscleGroup()) && exercise.equals(vo.getName())) {
-                                error = true;
-                                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-                                response.getWriter().write("Este ejercicio forma parte de los predefinidos");
-                            }
-                        }
-                    }
-                    
-                    if (!error) {
-                        // Search for user exercises in BD
-                        exercisesList = ExercisesDAO.listUserExercises(user);
-                        if (exercisesList == null) {
-                            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-                            response.getWriter().println("Error interno en el servidor. Vuelva intentarlo más tarde");
-                        }
-                        else {
+                        // if exercise predefined
+                        if (!predefined.equals("0")) {
+                            int id = 0;
+                            boolean found = false;
+                            
+                            // search for exercise_id
                             it = exercisesList.iterator();
-                            while (!error && it.hasNext()) {
+                            while (!found && it.hasNext()) {
                                 vo = it.next();
-                                // if the new exercise doesn't exists as predetermined exercise
-                                if (muscleGroup.equals(vo.getMuscleGroup()) && exercise.equals(vo.getName())) {
-                                    error = true;
-                                    response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-                                    response.getWriter().write("Este ejercicio ya forma parte de su rutina");
+                                if (exercise.equals(vo.getName())) {
+                                    id = vo.getId();
+                                    found = true;
                                 }
                             }
+                            
+                            // Add default exercise in BD
+                            if (ExercisesDAO.addDefaultExercise(id, user) == -1) {
+                                response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                                response.getWriter().println("Error interno en el servidor. Vuelva intentarlo más tarde");
+                            }
+                            else {
+                                response.setStatus(HttpServletResponse.SC_OK);
+                                response.getWriter().write("Ejercicio predefinido añadido");
+                            }
                         }
-                    }
-                    
-                    if (!error) {
-                        // Add custom exercise in BD
-                        if (ExercisesDAO.addCustomExercise(exercise, muscleGroup, user) == -1) {
-                            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-                            response.getWriter().println("Error interno en el servidor. Vuelva intentarlo más tarde");
-                        }
+                        // if exercise custom
                         else {
-                            response.setStatus(HttpServletResponse.SC_OK);
-                            response.getWriter().write("Ejercicio personalizado añadido");
+                            exercisesList = ExercisesDAO.listDefaultExercises();
+                            if (exercisesList == null) {
+                                response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                                response.getWriter().println("Error interno en el servidor. Vuelva intentarlo más tarde");
+                            }
+                            else {
+                                it = exercisesList.iterator();
+                                while (!error && it.hasNext()) {
+                                    vo = it.next();
+                                    System.out.println(vo.getName());
+                                    // if the new exercise doesn't exists as predetermined exercise
+                                    if (muscleGroup.equals(vo.getMuscleGroup()) && exercise.equals(vo.getName())) {
+                                        error = true;
+                                        response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                                        response.getWriter().write("Este ejercicio forma parte de los predefinidos");
+                                    }
+                                }
+                            }
+                            
+                            if (!error) {
+                                // Add custom exercise in BD
+                                if (ExercisesDAO.addCustomExercise(exercise, muscleGroup, user) == -1) {
+                                    response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                                    response.getWriter().println("Error interno en el servidor. Vuelva intentarlo más tarde");
+                                }
+                                else {
+                                    response.setStatus(HttpServletResponse.SC_OK);
+                                    response.getWriter().write("Ejercicio personalizado añadido");
+                                }
+                            }
                         }
                     }
                 }

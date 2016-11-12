@@ -56,7 +56,7 @@ public class DAOMasterTest {
         int pesas = ExercisesDAO.addCustomExercise("Pesas","Brazo","JohnDoe1");
         int sentadillas = ExercisesDAO.addCustomExercise("Sentadillas","Pierna","JohnDoe1");
         int andar = ExercisesDAO.addCustomExercise("Andar","Pierna","JohnDoe1");
-        int dominadas = ExercisesDAO.addDefaulExercise( exercisesListDefault.get(0).getId(), "JohnDoe1" );
+        int dominadas = ExercisesDAO.addDefaultExercise( exercisesListDefault.get(0).getId(), "JohnDoe1" );
 
 
         //List User exercises

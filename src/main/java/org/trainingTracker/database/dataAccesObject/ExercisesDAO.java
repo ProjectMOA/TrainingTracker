@@ -32,7 +32,7 @@ public class ExercisesDAO {
      * @param owner
      * @return
      */
-    public static synchronized int addDefaulExercise(int exercise_id, String owner){
+    public static synchronized int addDefaultExercise(int exercise_id, String owner){
         Connection conn = null;
 
         try{
