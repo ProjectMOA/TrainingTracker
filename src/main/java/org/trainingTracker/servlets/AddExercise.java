@@ -97,7 +97,6 @@ public class AddExercise extends HttpServlet {
                         it = exercisesList.iterator();
                         while (!error && it.hasNext()) {
                             vo = it.next();
-                            System.out.println(vo.getName());
                             // if the new exercise doesn't exists as predetermined exercise
                             if (muscleGroup.equals(vo.getMuscleGroup()) && exercise.equals(vo.getName())) {
                                 error = true;
