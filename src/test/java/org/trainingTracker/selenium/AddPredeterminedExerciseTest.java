@@ -105,10 +105,6 @@ public class AddPredeterminedExerciseTest {
     public static void tearDown(){
         driver.close();
         driver.quit();
-        Iterator <ExerciseVO> iter = (ExercisesDAO.listUserExercises(USERNAME)).iterator();
-        while(iter.hasNext()){
-            ExercisesDAO.deleteCustomExercise(iter.next().getId());
-        }
         UsersDAO.deleteUser(USERNAME);
     }
 }

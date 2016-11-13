@@ -109,30 +109,16 @@ public class AddExercise extends HttpServlet {
                         response.getWriter().println("Error interno en el servidor. Vuelva intentarlo más tarde");
                     }
                     else {
-                        it = exercisesList.iterator();
-                        while (!error && it.hasNext()) {
-                            vo = it.next();
-                            // if the new exercise doesn't exists as predetermined exercise
-                            if (muscleGroup.equals(vo.getMuscleGroup()) && exercise.equals(vo.getName())) {
-                                error = true;
-                                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-                                response.getWriter().write("Este ejercicio forma parte de los predefinidos");
-                            }
-                        }
-                    }
-                    
-                    if (!error) {
-                        // Search for user exercises in BD
-                        exercisesList = ExercisesDAO.listUserExercises(user);
-                        if (exercisesList == null) {
-                            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-                            response.getWriter().println("Error interno en el servidor. Vuelva intentarlo más tarde");
-                        }
-                        else {
+                        // if exercise predefined
+                        if (!predefined.equals("0")) {
+                            int id = 0;
+                            boolean found = false;
+                            
+                            // search for exercise_id
                             it = exercisesList.iterator();
                             while (!found && it.hasNext()) {
                                 vo = it.next();
-                                if (exercise.equals(vo.getName())) {
+                                if (exercise.equals(vo.getName()) && muscleGroup.equals(vo.getMuscleGroup())) {
                                     id = vo.getId();
                                     found = true;
                                 }
@@ -159,7 +145,6 @@ public class AddExercise extends HttpServlet {
                                 it = exercisesList.iterator();
                                 while (!error && it.hasNext()) {
                                     vo = it.next();
-                                    System.out.println(vo.getName());
                                     // if the new exercise doesn't exists as predefined exercise
                                     if (muscleGroup.equals(vo.getMuscleGroup()) && exercise.equals(vo.getName())) {
                                         error = true;
