@@ -24,7 +24,6 @@ import static org.trainingTracker.selenium.TestUtils.*;
  * Test class to check if the process to add a new predetermined exercise
  * to the home page works correctly.
  */
-@Ignore
 public class AddPredeterminedExerciseTest {
 
     private static WebDriver driver;
