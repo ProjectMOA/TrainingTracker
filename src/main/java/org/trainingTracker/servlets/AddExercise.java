@@ -92,7 +92,7 @@ public class AddExercise extends HttpServlet {
                     it = exercisesList.iterator();
                     while (!error && it.hasNext()) {
                         vo = it.next();
-                        // if the new exercise doesn't exists as predetermined exercise
+                        // if the new exercise doesn't exists in user's routine
                         if (muscleGroup.equals(vo.getMuscleGroup()) && exercise.equals(vo.getName())) {
                             error = true;
                             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
@@ -124,7 +124,7 @@ public class AddExercise extends HttpServlet {
                                 }
                             }
                             
-                            // Add default exercise in BD
+                            // Add predefined exercise in user's routine and BD
                             if (ExercisesDAO.addDefaultExercise(id, user) == -1) {
                                 response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                                 response.getWriter().println("Error interno en el servidor. Vuelva intentarlo más tarde");
@@ -146,7 +146,7 @@ public class AddExercise extends HttpServlet {
                                 while (!error && it.hasNext()) {
                                     vo = it.next();
                                     System.out.println(vo.getName());
-                                    // if the new exercise doesn't exists as predetermined exercise
+                                    // if the new exercise doesn't exists as predefined exercise
                                     if (muscleGroup.equals(vo.getMuscleGroup()) && exercise.equals(vo.getName())) {
                                         error = true;
                                         response.setStatus(HttpServletResponse.SC_BAD_REQUEST);

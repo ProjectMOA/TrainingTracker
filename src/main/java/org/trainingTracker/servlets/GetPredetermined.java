@@ -60,7 +60,6 @@ public class GetPredetermined extends HttpServlet {
             response.setContentType("application/json; charset=UTF-8");
             jsonResponse.put("muscleGroups", groupsSorted);
             jsonResponse.put("predeterminedExercises", jsonExercises.toString());
-            System.out.println(jsonResponse.toString());
             response.getWriter().write(jsonResponse.toString());
         }
         catch (Exception e){
