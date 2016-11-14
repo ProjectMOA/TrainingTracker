@@ -30,6 +30,7 @@ public class UsersDAO {
 		try{
 			Class.forName(ConnectionPool.JDBC_DRIVER);
 			conn = ConnectionPool.requestConnection();
+            System.out.println("Add User: " + conn);
 
             PreparedStatement stmt = conn.prepareStatement(
                 String.format( "INSERT INTO %s ( %s, %s, %s ) VALUES (?, ?, ?);",
@@ -42,7 +43,7 @@ public class UsersDAO {
 			
 			return true;
 		} catch (MySQLIntegrityConstraintViolationException e) {
-
+            e.printStackTrace();
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (SQLException e){

@@ -72,13 +72,14 @@ public class ExercisesDAO {
 			Class.forName(ConnectionPool.JDBC_DRIVER);
 			conn = ConnectionPool.requestConnection();
 
+            System.out.println("Add Custom Exercise Connection: " + conn);
+
             PreparedStatement stmt = conn.prepareStatement(
                 String.format("INSERT INTO %s ( %s, %s ) VALUES (?, ?);",
                     DBF_EXERCISES_TABLE_NAME, DBF_EXERCISE_NAME, DBF_EXERCISE_MUSCLEGROUP));
             stmt.setString(1, exercise_name);
             stmt.setString(2, muscleGroup);
             stmt.execute(); //Executes the insert
-
 
             PreparedStatement stmt2 = conn.prepareStatement( String.format( "SELECT LAST_INSERT_ID();"));
             ResultSet rs = stmt2.executeQuery(); //Executes the select
@@ -96,8 +97,8 @@ public class ExercisesDAO {
             stmt.execute();
 			return exercise_id;
 		} catch (MySQLIntegrityConstraintViolationException e) {
-
-		} catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (SQLException e){
 			e.printStackTrace();

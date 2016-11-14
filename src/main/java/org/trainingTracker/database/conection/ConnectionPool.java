@@ -30,7 +30,7 @@ public class ConnectionPool {
         private static Condition notEmpty = lock.newCondition();
 
         private static Stack<Connection> poolDeConexiones = null;
-        private static final int POOL_SIZE = 5;
+        private static final int POOL_SIZE = 20;
 
         private static void createConnections(){
             Connection conn = null;
@@ -62,11 +62,11 @@ public class ConnectionPool {
                 if (poolDeConexiones.empty()) {
 
                     //AWAIT: It returns false if timeout ends and true if it return because of a signal
-                    if (!notEmpty.await(5, TimeUnit.SECONDS)) {
+                    if (!notEmpty.await(10, TimeUnit.SECONDS)) {
+                        System.out.println("Conection to DB timed out");
                         return null;
                     }
                 }
-
                 return poolDeConexiones.pop();
 
             } catch (InterruptedException ex) {
