@@ -24,7 +24,6 @@ import static org.trainingTracker.selenium.TestUtils.*;
  * Test class to check if the process to add a new predetermined exercise
  * to the home page works correctly.
  */
-@Ignore
 public class AddPredeterminedExerciseTest {
 
     private static WebDriver driver;
@@ -105,10 +104,6 @@ public class AddPredeterminedExerciseTest {
     public static void tearDown(){
         driver.close();
         driver.quit();
-        Iterator <ExerciseVO> iter = (ExercisesDAO.listUserExercises(USERNAME)).iterator();
-        while(iter.hasNext()){
-            ExercisesDAO.deleteCustomExercise(iter.next().getId());
-        }
         UsersDAO.deleteUser(USERNAME);
     }
 }
