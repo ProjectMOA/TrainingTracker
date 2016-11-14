@@ -83,9 +83,6 @@ public class AddCustomExerciseTest {
         catch (InterruptedException e){
             e.printStackTrace();
         }
-        finally {
-            driver.navigate().refresh();
-        }
     }
 
     /*
