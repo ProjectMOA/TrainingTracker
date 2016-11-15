@@ -102,68 +102,47 @@ public class AddExercise extends HttpServlet {
                 }
                 
                 if (!error) {
-                    // Search for predefined exercises in BD
-                    exercisesList = ExercisesDAO.listDefaultExercises();
-                    if (exercisesList == null) {
-                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-                        response.getWriter().println("Error interno en el servidor. Vuelva intentarlo más tarde");
+                    // if exercise predefined
+                    if (!predefined.equals("0")) {
+                        // Add predefined exercise in user's routine and BD
+                        if (ExercisesDAO.addDefaultExercise(Integer.parseInt(predefined), user) == -1) {
+                            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                            response.getWriter().println("Error interno en el servidor. Vuelva intentarlo más tarde");
+                        }
+                        else {
+                            response.setStatus(HttpServletResponse.SC_OK);
+                            response.getWriter().write("Ejercicio predefinido añadido");
+                        }
                     }
+                    // if exercise custom
                     else {
-                        // if exercise predefined
-                        if (!predefined.equals("0")) {
-                            int id = 0;
-                            boolean found = false;
-                            
-                            // search for exercise_id
+                        exercisesList = ExercisesDAO.listDefaultExercises();
+                        if (exercisesList == null) {
+                            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                            response.getWriter().println("Error interno en el servidor. Vuelva intentarlo más tarde");
+                        }
+                        else {
                             it = exercisesList.iterator();
-                            while (!found && it.hasNext()) {
+                            while (!error && it.hasNext()) {
                                 vo = it.next();
-                                if (exercise.equals(vo.getName()) && muscleGroup.equals(vo.getMuscleGroup())) {
-                                    id = vo.getId();
-                                    found = true;
+                                // if the new exercise doesn't exists as predefined exercise
+                                if (muscleGroup.equals(vo.getMuscleGroup()) && exercise.equals(vo.getName())) {
+                                    error = true;
+                                    response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                                    response.getWriter().write("Este ejercicio forma parte de los predefinidos");
                                 }
                             }
-                            
-                            // Add predefined exercise in user's routine and BD
-                            if (ExercisesDAO.addDefaultExercise(id, user) == -1) {
+                        }
+                        
+                        if (!error) {
+                            // Add custom exercise in BD
+                            if (ExercisesDAO.addCustomExercise(exercise, muscleGroup, user) == -1) {
                                 response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                                 response.getWriter().println("Error interno en el servidor. Vuelva intentarlo más tarde");
                             }
                             else {
                                 response.setStatus(HttpServletResponse.SC_OK);
-                                response.getWriter().write("Ejercicio predefinido añadido");
-                            }
-                        }
-                        // if exercise custom
-                        else {
-                            exercisesList = ExercisesDAO.listDefaultExercises();
-                            if (exercisesList == null) {
-                                response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-                                response.getWriter().println("Error interno en el servidor. Vuelva intentarlo más tarde");
-                            }
-                            else {
-                                it = exercisesList.iterator();
-                                while (!error && it.hasNext()) {
-                                    vo = it.next();
-                                    // if the new exercise doesn't exists as predefined exercise
-                                    if (muscleGroup.equals(vo.getMuscleGroup()) && exercise.equals(vo.getName())) {
-                                        error = true;
-                                        response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-                                        response.getWriter().write("Este ejercicio forma parte de los predefinidos");
-                                    }
-                                }
-                            }
-                            
-                            if (!error) {
-                                // Add custom exercise in BD
-                                if (ExercisesDAO.addCustomExercise(exercise, muscleGroup, user) == -1) {
-                                    response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-                                    response.getWriter().println("Error interno en el servidor. Vuelva intentarlo más tarde");
-                                }
-                                else {
-                                    response.setStatus(HttpServletResponse.SC_OK);
-                                    response.getWriter().write("Ejercicio personalizado añadido");
-                                }
+                                response.getWriter().write("Ejercicio personalizado añadido");
                             }
                         }
                     }
