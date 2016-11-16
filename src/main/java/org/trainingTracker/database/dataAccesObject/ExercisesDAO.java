@@ -91,7 +91,6 @@ public class ExercisesDAO {
 		}
 		return -1;
 	}
-
     /**
      * Deletes the custom exercise from Exercises table identified by id
      * @param id

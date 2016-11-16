@@ -37,7 +37,8 @@ public class AddCustomExerciseTest {
 
     @BeforeClass
     public static void setUp(){
-        UsersDAO.addUser(USERNAME, PASS, EMAIL);
+        boolean res = UsersDAO.addUser(USERNAME, PASS, EMAIL);
+        System.out.println("***** EJECUTA CREATE EN CUSTOM: " + res);
         driver = new FirefoxDriver();
         driver.get(STARTER_URL);
         try{
@@ -155,7 +156,8 @@ public class AddCustomExerciseTest {
         while(iter.hasNext()){
             ExercisesDAO.deleteCustomExercise(iter.next().getId());
         }
-        UsersDAO.deleteUser(USERNAME);
+        boolean res = UsersDAO.deleteUser(USERNAME);
+        System.out.println("***** EJECUTA DELETE EN CUSTOM: " + res);
     }
 
 }

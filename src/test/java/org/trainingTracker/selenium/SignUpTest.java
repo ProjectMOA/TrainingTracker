@@ -278,6 +278,7 @@ public class SignUpTest {
     public static void tearDown(){
         driver.close();
         driver.quit();
-        UsersDAO.deleteUser(USERNAME);
+        boolean res = UsersDAO.deleteUser(USERNAME);
+        System.out.println("***** EJECUTA DELETE EN CUSTOM: " + res);
     }
 }

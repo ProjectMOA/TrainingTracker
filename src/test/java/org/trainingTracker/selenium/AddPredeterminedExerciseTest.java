@@ -34,7 +34,8 @@ public class AddPredeterminedExerciseTest {
 
     @BeforeClass
     public static void setUp(){
-        UsersDAO.addUser(USERNAME, PASS, EMAIL);
+        boolean res = UsersDAO.addUser(USERNAME, PASS, EMAIL);
+        System.out.println("***** EJECUTA CREATE EN PRED: " + res);
         driver = new FirefoxDriver();
         driver.get(STARTER_URL);
         try{
