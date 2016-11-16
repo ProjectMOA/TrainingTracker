@@ -33,11 +33,7 @@ public class ExercisesDAO {
      * @return
      */
     public static synchronized int addDefaultExercise(int exercise_id, String owner){
-        Connection conn = null;
-
-        try{
-            Class.forName(ConnectionPool.JDBC_DRIVER);
-            conn = ConnectionPool.requestConnection();
+        try (Connection conn = ConnectionPool.requestConnection()) {
 
             PreparedStatement stmt = conn.prepareStatement(
                 String.format("INSERT INTO %s ( %s, %s ) VALUES (?, ?);",
@@ -47,14 +43,11 @@ public class ExercisesDAO {
 
             stmt.execute();
             return exercise_id;
-        } catch (MySQLIntegrityConstraintViolationException e) {
 
-        } catch (ClassNotFoundException e) {
+        } catch (MySQLIntegrityConstraintViolationException e) {
             e.printStackTrace();
         } catch (SQLException e){
             e.printStackTrace();
-        } finally {
-            if ( conn != null ) ConnectionPool.releaseConnection(conn);
         }
         return -1;
     }
@@ -66,13 +59,7 @@ public class ExercisesDAO {
      * @return
      */
 	public static synchronized int addCustomExercise(String exercise_name, String muscleGroup, String owner){
-		Connection conn = null;
-
-		try{
-			Class.forName(ConnectionPool.JDBC_DRIVER);
-			conn = ConnectionPool.requestConnection();
-
-            System.out.println("Add Custom Exercise Connection: " + conn);
+        try (Connection conn = ConnectionPool.requestConnection()) {
 
             PreparedStatement stmt = conn.prepareStatement(
                 String.format("INSERT INTO %s ( %s, %s ) VALUES (?, ?);",
@@ -96,45 +83,62 @@ public class ExercisesDAO {
 
             stmt.execute();
 			return exercise_id;
+
 		} catch (MySQLIntegrityConstraintViolationException e) {
             e.printStackTrace();
-        } catch (ClassNotFoundException e) {
+        } catch (SQLException e){
 			e.printStackTrace();
-		} catch (SQLException e){
-			e.printStackTrace();
-		} finally {
-			if ( conn != null ) ConnectionPool.releaseConnection(conn);
 		}
 		return -1;
 	}
 
     /**
-     * Deletes the exercise identified by id
+     * Deletes the custom exercise from Exercises table identified by id
      * @param id
      * @return
      */
     public static boolean deleteCustomExercise(int id){
-        Connection conn = null;
-
-        try{
-            Class.forName(ConnectionPool.JDBC_DRIVER);
-            conn = ConnectionPool.requestConnection();
+        try (Connection conn = ConnectionPool.requestConnection()) {
 
             PreparedStatement stmt = conn.prepareStatement(
-                String.format("DELETE FROM %s WHERE %S=?;",
-                    DBF_EXERCISES_TABLE_NAME, DBF_EXERCISE_ID));
+                String.format("DELETE FROM %s WHERE %S=? AND %s=?;",
+                    DBF_EXERCISES_TABLE_NAME, DBF_EXERCISE_ID, DBF_EXERCISE_PREDEFINED));
             stmt.setInt(1, id);
+            stmt.setInt(2,0);
+
+            stmt.execute(); //Executes the deletion
+
+            return true;
+
+        } catch (MySQLIntegrityConstraintViolationException e) {
+            e.printStackTrace();
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    /**
+     * Deletes the Exercise-User relation in Own table but not from the Exercises table
+     * @param nick
+     * @param exercise
+     * @return
+     */
+    public static boolean deleteOwnExercise(String nick, int exercise){
+        try (Connection conn = ConnectionPool.requestConnection()) {
+
+            PreparedStatement stmt = conn.prepareStatement(
+                String.format("DELETE FROM %s WHERE %S=? AND %s=?;",
+                    DBF_OWN_TABLE_NAME, DBF_OWN_NICK, DBF_OWN_EXERCISE));
+            stmt.setString(1, nick);
+            stmt.setInt(2, exercise);
             stmt.execute(); //Executes the deletion
             return true;
 
         } catch (MySQLIntegrityConstraintViolationException e) {
-
-        } catch (ClassNotFoundException e) {
             e.printStackTrace();
         } catch (SQLException e){
             e.printStackTrace();
-        } finally {
-            if ( conn != null ) ConnectionPool.releaseConnection(conn);
         }
         return false;
     }
@@ -144,10 +148,7 @@ public class ExercisesDAO {
      * @return
      */
 	public static List<ExerciseVO> listUserExercises(String user){
-		Connection conn = null;
-		try{
-			Class.forName(ConnectionPool.JDBC_DRIVER);
-			conn = ConnectionPool.requestConnection();
+        try (Connection conn = ConnectionPool.requestConnection()) {
 
             PreparedStatement stmt = conn.prepareStatement(
                 String.format( "SELECT ex.%2$s, ex.%3$s, ex.%4$s, ex.%5$s " +
@@ -171,13 +172,8 @@ public class ExercisesDAO {
 
 			return list;
 
-		} catch (ClassNotFoundException e){
+		}  catch (SQLException e){
 			e.printStackTrace();
-		} catch (SQLException e){
-			e.printStackTrace();
-		} finally {
-
-			if ( conn != null ) ConnectionPool.releaseConnection(conn);
 		}
 		return null;
 	}
@@ -186,10 +182,8 @@ public class ExercisesDAO {
      * @return
      */
     public static List<ExerciseVO> listDefaultExercises(){
-        Connection conn = null;
-        try{
-            Class.forName(ConnectionPool.JDBC_DRIVER);
-            conn = ConnectionPool.requestConnection();
+
+        try (Connection conn = ConnectionPool.requestConnection()) {
 
             PreparedStatement stmt = conn.prepareStatement(
                 String.format( "SELECT * FROM %s WHERE %s=?;",
@@ -210,13 +204,8 @@ public class ExercisesDAO {
 
             return list;
 
-        } catch (ClassNotFoundException e){
-            e.printStackTrace();
         } catch (SQLException e){
             e.printStackTrace();
-        } finally {
-
-            if ( conn != null ) ConnectionPool.releaseConnection(conn);
         }
         return null;
     }

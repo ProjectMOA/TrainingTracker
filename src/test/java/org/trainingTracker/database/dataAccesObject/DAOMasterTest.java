@@ -68,7 +68,12 @@ public class DAOMasterTest {
 
         //Delete
         System.out.println("Delete exercise");
-        ExercisesDAO.deleteCustomExercise(andar);
+        System.out.println("This two should be the same");
+        System.out.println( ExercisesDAO.listDefaultExercises() );
+        ExercisesDAO.deleteCustomExercise(1);
+        System.out.println( ExercisesDAO.listDefaultExercises() );
+        System.out.println("This two should be different");
+
 
         //List Deleted
         exercisesList = ExercisesDAO.listUserExercises("JohnDoe1");

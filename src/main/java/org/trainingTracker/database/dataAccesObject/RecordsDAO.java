@@ -39,10 +39,8 @@ public class RecordsDAO {
      */
 	public static boolean addRecord( int exercise, String user_nick, double weight, int series,
                                      int repetitions, String comment){
-		Connection conn = null;
-		try{
-			Class.forName(ConnectionPool.JDBC_DRIVER);
-			conn = ConnectionPool.requestConnection();
+
+		try (Connection conn = ConnectionPool.requestConnection()) {
 
             PreparedStatement stmt = conn.prepareStatement(
                 String.format( "INSERT INTO %s (%s, %s, %s, %s, %s, %s) VALUES (?,?,?,?,?,?);",
@@ -58,17 +56,13 @@ public class RecordsDAO {
 			stmt.execute();
 
 			return true;
-		} catch (MySQLIntegrityConstraintViolationException e) {
 
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
+		} catch (MySQLIntegrityConstraintViolationException e) {
+            e.printStackTrace();
 		} catch (SQLException e){
 			e.printStackTrace();
-		} finally {
-			
-			if ( conn != null ) ConnectionPool.releaseConnection(conn);
 		}
-		return false;
+        return false;
 	}
 
     /**
@@ -79,11 +73,8 @@ public class RecordsDAO {
      * @return
      */
     public static boolean deleteRecord(int exercise, String user, String date){
-        Connection conn = null;
 
-        try{
-            Class.forName(ConnectionPool.JDBC_DRIVER);
-            conn = ConnectionPool.requestConnection();
+        try (Connection conn = ConnectionPool.requestConnection()) {
 
             PreparedStatement stmt = conn.prepareStatement(
                 String.format("DELETE FROM %s WHERE %S=? AND %S=? AND %S=?;",
@@ -97,12 +88,8 @@ public class RecordsDAO {
 
         } catch (MySQLIntegrityConstraintViolationException e) {
 
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
         } catch (SQLException e){
             e.printStackTrace();
-        } finally {
-            if ( conn != null ) ConnectionPool.releaseConnection(conn);
         }
         return false;
     }
@@ -112,10 +99,7 @@ public class RecordsDAO {
      * @return
      */
 	public static List<RecordVO> listRecords(String user, int exercise, int size){
-		Connection conn = null;
-		try{
-			Class.forName(ConnectionPool.JDBC_DRIVER);
-			conn = ConnectionPool.requestConnection();
+        try (Connection conn = ConnectionPool.requestConnection()) {
 
             PreparedStatement stmt;
 
@@ -149,13 +133,9 @@ public class RecordsDAO {
                 } while (rs.next());
             }
 			return list;
-		} catch (ClassNotFoundException e){
-			e.printStackTrace();
+
 		} catch (SQLException e){
 			e.printStackTrace();
-		} finally {
-
-			if ( conn != null ) ConnectionPool.releaseConnection(conn);
 		}
 		return null;
 	}
