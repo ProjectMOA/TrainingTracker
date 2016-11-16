@@ -24,7 +24,8 @@ public class SignInTest {
 
     @BeforeClass
     public static void setUp(){
-        UsersDAO.addUser(USERNAME, PASS, EMAIL);
+        boolean res = UsersDAO.addUser(USERNAME, PASS, EMAIL);
+        System.out.println("***** EJECUTA CREATE EN SIGNIN: " + res);
         driver = new FirefoxDriver();
         driver.get(STARTER_URL);
         try{
@@ -171,6 +172,7 @@ public class SignInTest {
     public static void tearDown(){
         driver.close();
         driver.quit();
-        UsersDAO.deleteUser(USERNAME);
+        boolean res = UsersDAO.deleteUser(USERNAME);
+        System.out.println("***** EJECUTA DELETE EN SIGNIN: " + res);
     }
 }

@@ -34,7 +34,8 @@ public class AddPredeterminedExerciseTest {
 
     @BeforeClass
     public static void setUp(){
-        UsersDAO.addUser(USERNAME, PASS, EMAIL);
+        boolean res = UsersDAO.addUser(USERNAME, PASS, EMAIL);
+        System.out.println("***** EJECUTA CREATE EN PRED: " + res);
         driver = new FirefoxDriver();
         driver.get(STARTER_URL);
         try{
@@ -104,7 +105,12 @@ public class AddPredeterminedExerciseTest {
     public static void tearDown(){
         driver.close();
         driver.quit();
-        UsersDAO.deleteUser(USERNAME);
+        Iterator<ExerciseVO> iter = (ExercisesDAO.listUserExercises(USERNAME)).iterator();
+        while(iter.hasNext()){
+            ExercisesDAO.deleteOwnExercise(USERNAME, iter.next().getId());
+        }
+        boolean res = UsersDAO.deleteUser(USERNAME);
+        System.out.println("***** EJECUTA DELETE EN PRED: " + res);
     }
 }
 
