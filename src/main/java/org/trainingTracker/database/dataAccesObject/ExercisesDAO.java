@@ -106,9 +106,8 @@ public class ExercisesDAO {
 		}
 		return -1;
 	}
-
     /**
-     * Deletes the exercise identified by id
+     * Deletes the custom exercise from Exercises table identified by id
      * @param id
      * @return
      */
@@ -120,9 +119,43 @@ public class ExercisesDAO {
             conn = ConnectionPool.requestConnection();
 
             PreparedStatement stmt = conn.prepareStatement(
-                String.format("DELETE FROM %s WHERE %S=?;",
-                    DBF_EXERCISES_TABLE_NAME, DBF_EXERCISE_ID));
+                String.format("DELETE FROM %s WHERE %S=? AND %s=?;",
+                    DBF_EXERCISES_TABLE_NAME, DBF_EXERCISE_ID, DBF_EXERCISE_PREDEFINED));
             stmt.setInt(1, id);
+            stmt.setInt(2,0);
+            stmt.execute(); //Executes the deletion
+            return true;
+
+        } catch (MySQLIntegrityConstraintViolationException e) {
+
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (SQLException e){
+            e.printStackTrace();
+        } finally {
+            if ( conn != null ) ConnectionPool.releaseConnection(conn);
+        }
+        return false;
+    }
+
+    /**
+     * Deletes the Exercise-User relation in Own table but not from the Exercises table
+     * @param nick
+     * @param exercise
+     * @return
+     */
+    public static boolean deleteOwnExercise(String nick, int exercise){
+        Connection conn = null;
+
+        try{
+            Class.forName(ConnectionPool.JDBC_DRIVER);
+            conn = ConnectionPool.requestConnection();
+
+            PreparedStatement stmt = conn.prepareStatement(
+                String.format("DELETE FROM %s WHERE %S=? AND %s=?;",
+                    DBF_OWN_TABLE_NAME, DBF_OWN_NICK, DBF_OWN_EXERCISE));
+            stmt.setString(1, nick);
+            stmt.setInt(2, exercise);
             stmt.execute(); //Executes the deletion
             return true;
 

@@ -44,7 +44,8 @@ public class SaveRecordTest {
 
     @BeforeClass
     public static void setUp(){
-        UsersDAO.addUser(USERNAME, PASS, EMAIL);
+        boolean res = UsersDAO.addUser(USERNAME, PASS, EMAIL);
+        System.out.println("***** EJECUTA CREATE EN REC: " + res);
         ExerciseID = ExercisesDAO.addCustomExercise(EXERCISE, MG, USERNAME);
         driver = new FirefoxDriver();
         driver.get(STARTER_URL);
@@ -303,6 +304,7 @@ public class SaveRecordTest {
         driver.close();
         driver.quit();
         ExercisesDAO.deleteCustomExercise(ExerciseID);
-        UsersDAO.deleteUser(USERNAME);
+        boolean res = UsersDAO.deleteUser(USERNAME);
+        System.out.println("***** EJECUTA DELETE EN REC: " + res);
     }
 }
