@@ -57,6 +57,7 @@ public class SignUpTest {
             // to reach the backend and the database, return and redirect to the homepage
             // if the registration has been successful.
             Thread.sleep(SLEEP_FOR_LOAD);
+            Thread.sleep(SLEEP_FOR_LOAD);
             // Tries to find an error message. If there's an error, test will fail.
             assertTrue((driver.findElements(By.name(ER_FIELD))).isEmpty());
             // If there's no error, the process has been successful and checks wheter the redirection has been made.

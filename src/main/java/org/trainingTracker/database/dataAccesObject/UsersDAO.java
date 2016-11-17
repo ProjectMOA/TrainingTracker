@@ -26,10 +26,8 @@ public class UsersDAO {
      * @return true if insertion goes well or false if it fails
      */
 	public static boolean addUser( String nick, String pass, String mail){
-		Connection conn = null;
-		try{
-			Class.forName(ConnectionPool.JDBC_DRIVER);
-			conn = ConnectionPool.requestConnection();
+
+        try (Connection conn = ConnectionPool.requestConnection()) {
 
             PreparedStatement stmt = conn.prepareStatement(
                 String.format( "INSERT INTO %s ( %s, %s, %s ) VALUES (?, ?, ?);",
@@ -42,14 +40,9 @@ public class UsersDAO {
 			
 			return true;
 		} catch (MySQLIntegrityConstraintViolationException e) {
-
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
+            e.printStackTrace();
 		} catch (SQLException e){
 			e.printStackTrace();
-		} finally {
-			
-			if ( conn != null ) ConnectionPool.releaseConnection(conn);
 		}
 		return false;
 	}
@@ -60,11 +53,7 @@ public class UsersDAO {
      * @return
      */
     public static boolean deleteUser(String nick){
-        Connection conn = null;
-
-        try{
-            Class.forName(ConnectionPool.JDBC_DRIVER);
-            conn = ConnectionPool.requestConnection();
+        try (Connection conn = ConnectionPool.requestConnection()) {
 
             PreparedStatement stmt = conn.prepareStatement(
                 String.format("DELETE FROM %s WHERE %S=?;",
@@ -76,12 +65,8 @@ public class UsersDAO {
 
         } catch (MySQLIntegrityConstraintViolationException e) {
 
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
         } catch (SQLException e){
             e.printStackTrace();
-        } finally {
-            if ( conn != null ) ConnectionPool.releaseConnection(conn);
         }
         return false;
     }
@@ -92,10 +77,7 @@ public class UsersDAO {
      * @return User's value object
      */
 	public static UserVO findUser(String nick ){
-		Connection conn = null;
-		try{
-			Class.forName(ConnectionPool.JDBC_DRIVER);
-			conn = ConnectionPool.requestConnection();
+        try (Connection conn = ConnectionPool.requestConnection()) {
 
             PreparedStatement stmt = conn.prepareStatement(
                 String.format( "SELECT  %s, %s, %s, %s  FROM %s WHERE %s=?;",
@@ -108,13 +90,8 @@ public class UsersDAO {
 				return new UserVO(rs.getString(DBF_NICK), rs.getString(DBF_PASS), rs.getString(DBF_MAIL), rs.getString(DBF_REGDATE));
 			}
 			return null;
-		} catch (ClassNotFoundException e){
-			e.printStackTrace();
 		} catch (SQLException e){
 			e.printStackTrace();
-		} finally {
-
-			if ( conn != null ) ConnectionPool.releaseConnection(conn);
 		}
 		return null;
 	}

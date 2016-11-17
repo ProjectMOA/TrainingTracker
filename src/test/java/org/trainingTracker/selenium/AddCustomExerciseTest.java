@@ -31,6 +31,7 @@ public class AddCustomExerciseTest {
     private static final String SEL_FIELD = "selectMGCustom";
     private static final String EX_N_FIELD = "customNameExercise";
     private static final String SC_FIELD = "successAddingExercise";
+    private static final String ER_FIELD = "errorAddingExercise";
     private static final String MAX_NAME_FIELD = "nameMaxLength";
     private static final String EXERCISE_NAME = "My Exercise";
 
@@ -76,7 +77,8 @@ public class AddCustomExerciseTest {
                 exerciseName.sendKeys(EXERCISE_NAME);
                 Thread.sleep(SLEEP_FOR_DISPLAY);
                 addButton.click();
-                Thread.sleep(SLEEP_FOR_DISPLAY);
+                Thread.sleep(SLEEP_FOR_LOAD);
+                assertTrue(driver.findElements(By.name(ER_FIELD)).isEmpty());
                 assertFalse(driver.findElements(By.name(SC_FIELD)).isEmpty());
                 exerciseName.clear();
             }

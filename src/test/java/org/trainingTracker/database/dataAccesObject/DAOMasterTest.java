@@ -53,7 +53,7 @@ public class DAOMasterTest {
         }
 
         //Add
-        int pesas = ExercisesDAO.addCustomExercise("Pesas","Brazo","JohnDoe1");
+        int pesas = ExercisesDAO.addCustomExercise("Pesas","Biceps","JohnDoe1");
         int sentadillas = ExercisesDAO.addCustomExercise("Sentadillas","Pierna","JohnDoe1");
         int andar = ExercisesDAO.addCustomExercise("Andar","Pierna","JohnDoe1");
         int dominadas = ExercisesDAO.addDefaultExercise( exercisesListDefault.get(0).getId(), "JohnDoe1" );
@@ -68,7 +68,12 @@ public class DAOMasterTest {
 
         //Delete
         System.out.println("Delete exercise");
-        ExercisesDAO.deleteCustomExercise(andar);
+        System.out.println("This two should be the same");
+        System.out.println( ExercisesDAO.listDefaultExercises() );
+        ExercisesDAO.deleteCustomExercise(1);
+        System.out.println( ExercisesDAO.listDefaultExercises() );
+        System.out.println("This two should be different");
+
 
         //List Deleted
         exercisesList = ExercisesDAO.listUserExercises("JohnDoe1");
@@ -80,13 +85,13 @@ public class DAOMasterTest {
         System.out.println("--------------RECORDS----------------");
 
         //Add
-        RecordsDAO.addRecord(sentadillas,"JohnDoe1", 42.5, 3, 15);
+        RecordsDAO.addRecord(sentadillas,"JohnDoe1", 42.5, 3, 15, "A bit exhausted");
         sleep(1000);
-        RecordsDAO.addRecord(sentadillas,"JohnDoe1", 45.5, 2, 10);
+        RecordsDAO.addRecord(sentadillas,"JohnDoe1", 45.5, 2, 10, "Much better");
         sleep(1000);
-        RecordsDAO.addRecord(sentadillas,"JohnDoe1", 50, 1, 7);
+        RecordsDAO.addRecord(sentadillas,"JohnDoe1", 50, 1, 7, "Dammit my ass");
         sleep(1000);
-        RecordsDAO.addRecord(sentadillas,"JohnDoe1", 52, 1, 5);
+        RecordsDAO.addRecord(sentadillas,"JohnDoe1", 52, 1, 5, "Icnt even write");
 
         //List
         System.out.println("----Non limited");
@@ -96,7 +101,7 @@ public class DAOMasterTest {
             System.out.println(exercise.toString());
         }
 
-        System.out.println("-----Limited to 4");
+        System.out.println("-----Limited to 1");
         List<RecordVO> recordsListLim = RecordsDAO.listRecords("JohnDoe1", sentadillas, 1);
 
         for (RecordVO exercise:recordsListLim ) {
@@ -105,7 +110,7 @@ public class DAOMasterTest {
 
         //Delete
         for (RecordVO ex:recordsListNon ) {
-            RecordsDAO.deleteRecord(ex.getExercise(), ex.getUserNick(),ex.getRecordDate());
+            RecordsDAO.deleteRecord(ex.getExercise(), ex.getUserNick(), ex.getRecordDate());
         }
 
         //ListDeleted

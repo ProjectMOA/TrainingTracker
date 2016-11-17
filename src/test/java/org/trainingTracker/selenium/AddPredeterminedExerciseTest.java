@@ -105,12 +105,7 @@ public class AddPredeterminedExerciseTest {
     public static void tearDown(){
         driver.close();
         driver.quit();
-        Iterator<ExerciseVO> iter = (ExercisesDAO.listUserExercises(USERNAME)).iterator();
-        while(iter.hasNext()){
-            ExercisesDAO.deleteOwnExercise(USERNAME, iter.next().getId());
-        }
-        boolean res = UsersDAO.deleteUser(USERNAME);
-        System.out.println("***** EJECUTA DELETE EN PRED: " + res);
+        System.out.println("Deleted user in dropdown: " + UsersDAO.deleteUser(USERNAME));
     }
 }
 

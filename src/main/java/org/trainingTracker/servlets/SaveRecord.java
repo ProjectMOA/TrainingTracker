@@ -83,7 +83,7 @@ public class SaveRecord extends HttpServlet {
             try {
                 // Creates an record in BD
                 if (RecordsDAO.addRecord(Integer.parseInt(exercise), user, Double.parseDouble(weight),
-                                         Integer.parseInt(series), Integer.parseInt(repetitions))) {
+                                         Integer.parseInt(series), Integer.parseInt(repetitions), commentary)) {
                     // Search for predifined exercises in BD
                     JSONArray jsonExercises = new JSONArray();
                     JSONObject jExercise, jRecord;
