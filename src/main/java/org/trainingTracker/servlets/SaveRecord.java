@@ -60,7 +60,7 @@ public class SaveRecord extends HttpServlet {
             json = ServletCommon.readJSON(request.getReader());
             user = json.getString("user");
             exercise = json.getString("id");
-            weight = json.getString("weight");
+            weight = json.getString("weight").replace(",", ".");
             series = json.getString("series");
             repetitions = json.getString("repetitions");
             commentary = json.getString("commentary");
@@ -125,7 +125,6 @@ public class SaveRecord extends HttpServlet {
      */
     static boolean isValidWeight (String str, HttpServletResponse response) throws IOException {
         boolean error = false;
-        
         try {
             if (!(Double.parseDouble(str) > 0)) {
                 error = true;

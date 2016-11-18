@@ -172,14 +172,6 @@ public class SaveRecordTest {
         try{
             addButton.click();
             Thread.sleep(SLEEP_FOR_DISPLAY);
-            // Tries to input a real number with a "," insted of a "." in the "Weight" field.
-            fillForm("10,5", SERIES, REPETITIONS, COMMENT);
-            saveButton.click();
-            Thread.sleep(SLEEP_FOR_DISPLAY);
-            // Checks if there's been an error, which should happen.
-            assertFalse((driver.findElements(By.name(ER_FIELD))).isEmpty());
-            addButton.click();
-            Thread.sleep(SLEEP_FOR_DISPLAY);
             // Tries to input a real number instead of an integer in the "Series" field.
             fillForm(WEIGHT, "10.5", REPETITIONS, COMMENT);
             saveButton.click();
@@ -190,6 +182,30 @@ public class SaveRecordTest {
             Thread.sleep(SLEEP_FOR_DISPLAY);
             // Tries to input a real number instead of an integer in the "Repetitions" field.
             fillForm(WEIGHT, SERIES, "10.5", COMMENT);
+            saveButton.click();
+            Thread.sleep(SLEEP_FOR_DISPLAY);
+            // Checks if there's been an error, which should happen.
+            assertFalse((driver.findElements(By.name(ER_FIELD))).isEmpty());
+            addButton.click();
+            Thread.sleep(SLEEP_FOR_DISPLAY);
+            // Tries to input a character string instead of a number in the "Weight" field.
+            fillForm("aaa", SERIES, REPETITIONS, COMMENT);
+            saveButton.click();
+            Thread.sleep(SLEEP_FOR_DISPLAY);
+            // Checks if there's been an error, which should happen.
+            assertFalse((driver.findElements(By.name(ER_FIELD))).isEmpty());
+            addButton.click();
+            Thread.sleep(SLEEP_FOR_DISPLAY);
+            // Tries to input a character string instead of a number in the "Series" field.
+            fillForm(WEIGHT, "aaa", REPETITIONS, COMMENT);
+            saveButton.click();
+            Thread.sleep(SLEEP_FOR_DISPLAY);
+            // Checks if there's been an error, which should happen.
+            assertFalse((driver.findElements(By.name(ER_FIELD))).isEmpty());
+            addButton.click();
+            Thread.sleep(SLEEP_FOR_DISPLAY);
+            // Tries to input a character string instead of a number in the "Repetitions" field.
+            fillForm(WEIGHT, SERIES, "aaa", COMMENT);
             saveButton.click();
             Thread.sleep(SLEEP_FOR_DISPLAY);
             // Checks if there's been an error, which should happen.
