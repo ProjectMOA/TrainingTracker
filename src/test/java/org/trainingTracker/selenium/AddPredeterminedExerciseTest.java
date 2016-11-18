@@ -105,7 +105,7 @@ public class AddPredeterminedExerciseTest {
     public static void tearDown(){
         driver.close();
         driver.quit();
-        System.out.println("Deleted user in dropdown: " + UsersDAO.deleteUser(USERNAME));
+        System.out.println("EJECUTA DELETE EN PRED: " + UsersDAO.deleteUser(USERNAME));
     }
 }
 
