@@ -18,4 +18,4 @@ before_script:
   - sleep 3 # give xvfb some time to start
 
 after_script:
-   - "cat build/test-results/*.xml"
+  - "cat build/test-results/*.xml"

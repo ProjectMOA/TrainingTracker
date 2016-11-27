@@ -14,11 +14,11 @@
 
       <!-- this div will show only when an error occurs -->
       <div class="alert alert-danger" ng-if="error" name="errorAddingExercise">
-        <strong>Woops!</strong> {{errorMsg}}
+        <strong>&#10008</strong> {{errorMsg}}
       </div>
       <!-- this div will show only when an success occurs -->
       <div class="alert alert-success" ng-if="success" name="successAddingExercise">
-        <strong>Éxito!</strong> {{successMsg}}
+        <strong>&#10004</strong> {{successMsg}}
       </div>
 
       <div ng-switch="exerciseType">
@@ -39,6 +39,9 @@
                    ng-class="{maxLength: nameMaxLength}" required />
             <p class="textMaxLength" ng-if="nameMaxLength" name="nameMaxLength">Límite de caracteres alcanzado</p>
           </div>
+          <p class="home">
+            Para ver la lista de los ejercicios añadidos pulsa <a href="#/home">aquí</a>
+          </p>
           <!-- submit button form-->
           <p style="text-align:center">
             <button type="submit" class="btn btn-default theme-accent" name="addCusButton">Añadir
@@ -63,6 +66,9 @@
                     ng-options="x.name for x in predeterminedExercises | filter: {'muscleGroup':mgSelected}">
             </select>
           </div>
+          <p class="home">
+            Para ver la lista de los ejercicios añadidos pulsa <a href="#/home">aquí</a>
+          </p>
           <!-- submit button form-->
           <p style="text-align:center">
             <button type="submit" class="btn btn-default theme-accent" name="addPredButton">Añadir

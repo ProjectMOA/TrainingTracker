@@ -6,11 +6,18 @@
 
 Assuming you already have [JDK 8](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html) and [Gradle](https://docs.gradle.org/current/userguide/installation.html) installed, you must fork this repo. After that, you have to clone your forked repo on your local machine on the directory you desire: `git clone https://github.com/your-github-username/trainingTracker`.
 
-In order to check that everything is working well, you can execute the commands `gradle build` or `gradle check`.
+You will also need to have installed a MySQL server running in localhost:3306 and a user called `travis` with empty password.
+
+In order to check that everything is working well, you can execute the commands `gradle build` or `gradle check`.  
 
 ## Build & Run
 
-To run the application you only need to use the following commands:
+The first time you deploy the app you will need to execute the deployDB.sql script running this in the project directory:
+```
+mysql -u travis < deployDB.sql
+```
+
+Once you have configure the data base you can run the application use the following commands:
 
 - **gradle appRun** - Deploys a Jetty server in http://localhost:8080, using the files located on the project's source directory.
 This allows to modify any of these files and be able to see the changes in hot. Beware! If we modify any .java file, 

@@ -6,6 +6,7 @@ public class RecordVO {
     private double weight;
     private int series;
 	private int repetitions;
+    private String comment;
 	private String record_date;
 
     /**
@@ -17,12 +18,13 @@ public class RecordVO {
      * @param repetitions
      * @param record_date
      */
-	public RecordVO(int exercise, String user_nick, double weight, int series, int repetitions, String record_date){
+	public RecordVO(int exercise, String user_nick, double weight, int series, int repetitions, String coment, String record_date){
 		this.exercise = exercise;
 		this.user_nick = user_nick;
         this.weight = weight;
 		this.series = series;
 		this.repetitions = repetitions;
+        this.comment = coment;
 		this.record_date = record_date;
 	}
 
@@ -31,6 +33,7 @@ public class RecordVO {
     public double getWeight() { return weight;}
     public int getSeries() { return series;}
     public int getRepetitions() { return repetitions;}
+    public String getComment() { return comment;}
     public String getRecordDate() { return record_date;}
 
     /**
@@ -39,8 +42,8 @@ public class RecordVO {
      */
 	@Override
 	public String toString() {
-		return String.format("Exercise: %d Nick: %s Weight: %.2f Series: %d Repetitions: %d RecordDate: %s",
-            exercise, user_nick, weight, series, repetitions, record_date);
+		return String.format("Exercise: %d Nick: %s Weight: %.2f Series: %d Repetitions: %d Comment: %s RecordDate: %s",
+            exercise, user_nick, weight, series, repetitions, comment, record_date);
 		
 	}
 
@@ -50,8 +53,8 @@ public class RecordVO {
      */
     public String serialize(){
         return String.format("{\"exercise\": \"%s\",  \"nick\": \"%s\",  \"weight\": \"%s\", " +
-                "\"series\": \"%s\", \"repetitions\": \"%s\", \"date\": \"%s\" }",
-            exercise, user_nick, weight, series, repetitions, record_date);
+                "\"series\": \"%s\", \"repetitions\": \"%s\", \"commentary\": \"%s\", \"date\": \"%s\" }",
+            exercise, user_nick, weight, series, repetitions, comment, record_date);
     }
 
 }
