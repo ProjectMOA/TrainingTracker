@@ -66,10 +66,14 @@ angular.module('trainingTrackerApp')
 
         // Watches to control input variables length
         $scope.$watch('customName', function () {
-            if ($scope.customName.length > 50) {
-                $scope.customName = $scope.customName.slice(0, 50);
-            } else if ($scope.customName.length == 50) {
-                $scope.nameMaxLength = true;
+            if ($scope.customName != undefined) {
+                if ($scope.customName.length > 50) {
+                    $scope.customName = $scope.customName.slice(0, 50);
+                } else if ($scope.customName.length == 50) {
+                    $scope.nameMaxLength = true;
+                } else {
+                    $scope.nameMaxLength = false;
+                }
             } else {
                 $scope.nameMaxLength = false;
             }

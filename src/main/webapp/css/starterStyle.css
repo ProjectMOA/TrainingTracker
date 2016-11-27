@@ -3,7 +3,7 @@
 }
 
 #starterStyle #loginForm {
-  margin-top: 25%;
+  margin-top: 15%;
   background-color: #ffffff;
   border-radius: 25px;
   box-shadow: 0 0 10px 10px #4d4d4d;
@@ -25,3 +25,9 @@
   background-color: #f1f1f1;
   background-image: url("/img/login.jpeg");
 }
+
+#starterStyle #registro {
+  text-align: center;
+  font-size: 90%;
+}
+

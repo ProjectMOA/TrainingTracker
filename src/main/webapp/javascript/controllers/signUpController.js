@@ -13,28 +13,40 @@ angular.module('trainingTrackerApp')
 
             // Watches to control input variables length
             $scope.$watch('userName', function () {
-                if ($scope.userName.length > 50) {
-                    $scope.userName = $scope.userName.slice(0, 50);
-                } else if ($scope.userName.length == 50) {
-                    $scope.userNameMaxLength = true;
+                if ($scope.userName != undefined) {
+                    if ($scope.userName.length > 50) {
+                        $scope.userName = $scope.userName.slice(0, 50);
+                    } else if ($scope.userName.length == 50) {
+                        $scope.userNameMaxLength = true;
+                    } else {
+                        $scope.userNameMaxLength = false;
+                    }
                 } else {
                     $scope.userNameMaxLength = false;
                 }
             });
             $scope.$watch('email', function () {
-                if ($scope.email.length > 50) {
-                    $scope.email = $scope.email.slice(0, 50);
-                } else if ($scope.email.length == 50) {
-                    $scope.emailMaxLength = true;
+                if ($scope.email != undefined) {
+                    if ($scope.email.length > 50) {
+                        $scope.email = $scope.email.slice(0, 50);
+                    } else if ($scope.email.length == 50) {
+                        $scope.emailMaxLength = true;
+                    } else {
+                        $scope.emailMaxLength = false;
+                    }
                 } else {
                     $scope.emailMaxLength = false;
                 }
             });
             $scope.$watch('password', function () {
-                if ($scope.password.length > 50) {
-                    $scope.password = $scope.password.slice(0, 50);
-                } else if ($scope.password.length == 50) {
-                    $scope.passwordMaxLength = true;
+                if ($scope.passowrd != undefined) {
+                    if ($scope.password.length > 50) {
+                        $scope.password = $scope.password.slice(0, 50);
+                    } else if ($scope.password.length == 50) {
+                        $scope.passwordMaxLength = true;
+                    } else {
+                        $scope.passwordMaxLength = false;
+                    }
                 } else {
                     $scope.passwordMaxLength = false;
                 }
