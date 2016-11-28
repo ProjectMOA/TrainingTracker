@@ -39,7 +39,7 @@ angular.module('trainingTrackerApp')
                 }
             });
             $scope.$watch('password', function () {
-                if ($scope.passowrd != undefined) {
+                if ($scope.password != undefined) {
                     if ($scope.password.length > 50) {
                         $scope.password = $scope.password.slice(0, 50);
                     } else if ($scope.password.length == 50) {
