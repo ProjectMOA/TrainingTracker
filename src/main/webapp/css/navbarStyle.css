@@ -28,5 +28,6 @@
 
 /* font family of the home button */
 #hombeButton {
-  font-family: 'Abril Fatface', cursive;
+  /*font-family: 'Abril Fatface', cursive;*/
+  font-family: 'Noto Serif', serif;
 }

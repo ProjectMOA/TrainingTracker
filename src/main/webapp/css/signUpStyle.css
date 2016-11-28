@@ -19,3 +19,8 @@
   color: rgba(247, 0, 0, 0.79) !important;
   font-size: 90%;
 }
+
+#signUpStyle #login {
+  text-align: center;
+  font-size: 90%;
+}

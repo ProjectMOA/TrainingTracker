@@ -8,7 +8,7 @@
       <form role="form" ng-submit="signIn()">
         <!-- this div will show only when an error login occurs -->
         <div class="alert alert-danger" ng-if="error" name="errorSignIn">
-          <strong>Woops!</strong> {{errorMsg}}
+          <strong>&#10008</strong> {{errorMsg}}
         </div>
 
         <!-- user name input form -->
@@ -22,6 +22,10 @@
           <input ng-click="hideError()" type="password" ng-model="password" class="form-control"
                  placeholder="Introduce la contraseña" name="password" required />
         </div>
+
+        <p id="registro">
+          Si aún no tienes cuenta regístrate <a href="#/signUp">aquí</a>
+        </p>
 
         <!-- submit button form-->
         <p style="text-align:center">
