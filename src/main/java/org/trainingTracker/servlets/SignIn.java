@@ -45,35 +45,35 @@ public class SignIn extends HttpServlet {
         int i = info.indexOf(":");
         String name  = info.substring(0, i);
         String pass = info.substring(i+1);
-        
+
         // Field revision
-        if((name==null) || (name.trim().equals(""))){
+        if((name==null) || (name.trim().equals(""))) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             response.getWriter().println("Nombre de usuario no válido");
             error = true;
         }
-        if((pass==null) || (pass.trim().equals(""))){
+        if((pass==null) || (pass.trim().equals(""))) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             response.getWriter().println("Contraseña no válida");
             error = true;
         }
         
-        if(!error){
-            try{
+        if(!error) {
+            try {
                 // Search for the user in BD
                 UserVO vo = UsersDAO.findUser(name);
                 // If user don't exists
-                if (vo==null){
+                if (vo==null) {
                     response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                     response.getWriter().println("El usuario \"" + name + "\" no existe");
                 }
                 // If pass don't match
-                else if(!(vo.getPass()).equals(pass)){
+                else if(!(vo.getPass()).equals(pass)) {
                     response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                     response.getWriter().println("Contraseña incorrecta");
                 }
                 // User found
-                else{
+                else {
                     response.setStatus(HttpServletResponse.SC_OK);
                     JSONObject user = JSONObject.fromObject(vo.serialize());
                     user.remove("pass");
