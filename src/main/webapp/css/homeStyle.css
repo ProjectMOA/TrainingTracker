@@ -39,6 +39,7 @@ textarea {
 #homeStyle .modal-content {
   background-repeat: no-repeat;
   background-size: contain;
+  background-position-x: right;
   background-image: url("/img/modalHeader.png");
 }
 
@@ -51,6 +52,6 @@ textarea {
 }
 
 #homeStyle .close {
-  opacity: .7;
+  opacity: .8;
   color: #fff;
 }
