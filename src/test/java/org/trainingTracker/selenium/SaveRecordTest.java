@@ -145,14 +145,14 @@ public class SaveRecordTest {
                 assertTrue((driver.findElements(By.name(SC_FIELD))).isEmpty());
                 clearForm();
             }
-            element = driver.findElement(By.name(CAN_FIELD));
-            element.click();
         }
         catch (InterruptedException e){
             e.printStackTrace();
         }
         finally {
             try {
+                // Closes the pop-up if any assert fails.
+                driver.findElement(By.name(CAN_FIELD)).click();
                 Thread.sleep(SLEEP_FOR_LOAD);
             }
             catch (InterruptedException e){
@@ -249,14 +249,14 @@ public class SaveRecordTest {
                 "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
             Thread.sleep(SLEEP_FOR_DISPLAY);
             assertFalse(driver.findElements(By.name(MAX_COMMENTARY_FIELD)).isEmpty());
-            element = driver.findElement(By.name(CAN_FIELD));
-            element.click();
         }
         catch (InterruptedException e){
             e.printStackTrace();
         }
         finally {
             try {
+                // Closes the pop-up if any assert fails.
+                driver.findElement(By.name(CAN_FIELD)).click();
                 Thread.sleep(SLEEP_FOR_LOAD);
             }
             catch (InterruptedException e){

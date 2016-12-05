@@ -57,11 +57,11 @@ public class AddCustomExerciseTest {
      */
     @Test
     public void okCustomTest(){
+        WebElement exerciseName = driver.findElement(By.id(EX_N_FIELD));
         try{
             selectCustom();
             Select select;
             WebElement addButton = driver.findElement(By.name(A_FIELD));
-            WebElement exerciseName = driver.findElement(By.id(EX_N_FIELD));
             // Finds the select with the muscle group options
             select = new Select(driver.findElement(By.id(SEL_FIELD)));
             Iterator<WebElement> iter1 = select.getOptions().iterator();
@@ -78,11 +78,13 @@ public class AddCustomExerciseTest {
                 addButton.click();
                 Thread.sleep(SLEEP_FOR_DISPLAY);
                 assertFalse(driver.findElements(By.name(SC_FIELD)).isEmpty());
-                exerciseName.clear();
             }
         }
         catch (InterruptedException e){
             e.printStackTrace();
+        }
+        finally {
+            exerciseName.clear();
         }
     }
 
@@ -116,10 +118,10 @@ public class AddCustomExerciseTest {
      */
     @Test
     public void ExNameOverflow(){
+        WebElement exerciseName = driver.findElement(By.id(EX_N_FIELD));
         try{
             selectCustom();
             Select select;
-            WebElement exerciseName = driver.findElement(By.id(EX_N_FIELD));
             // Finds the select with the muscle group options and selects the first one.
             select = new Select(driver.findElement(By.id(SEL_FIELD)));
             select.selectByIndex(1);
@@ -128,10 +130,12 @@ public class AddCustomExerciseTest {
             Thread.sleep(SLEEP_FOR_DISPLAY);
             // Checks if an error message because of the length of the exercise name has appeared.
             assertFalse(driver.findElements(By.name(MAX_NAME_FIELD)).isEmpty());
-            exerciseName.clear();
         }
         catch (InterruptedException e){
             e.printStackTrace();
+        }
+        finally {
+            exerciseName.clear();
         }
     }
 
