@@ -21,17 +21,13 @@ import static org.trainingTracker.selenium.TestUtils.*;
 public class SaveRecordTest {
 
     private static WebDriver driver;
-    private static final String SC_FIELD = "successSavingRecord";
-    private static final String ER_FIELD = "errorSavingRecord";
     private static final String A_FIELD = "add";
-    private static final String G_FIELD = "Guardar";
-    private static final String CAN_FIELD = "Cancelar";
+    private static final String G_FIELD = "GuardarRec";
+    private static final String CAN_FIELD = "CancelarRec";
     private static final String W_FIELD = "weightExercise";
     private static final String S_FIELD = "seriesExercise";
     private static final String R_FIELD = "repetitionsExercise";
     private static final String C_FIELD = "commentaryExercise";
-    private static final String EXERCISE = "My Exercise";
-    private static final String MG = "Espalda";
     private static final String WEIGHT = "10.2";
     private static final String SERIES = "4";
     private static final String REPETITIONS = "12";
