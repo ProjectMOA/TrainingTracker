@@ -1,26 +1,28 @@
 <!-- mouse events to show or hide the delete option -->
 <div class="exerciseCardStyle row">
 
+  <i ng-click="deleteEx()" class="fa fa-trash fa-lg exerciseIcons"></i>
+  <i ng-click="modifyEx()" ng-if="exercise.predetermined" class="fa fa-pencil fa-lg exerciseIcons"></i>
   <i ng-click="addRecord()" class="fa fa-plus fa-lg exerciseIcons" name="add"></i>
 
   <div class="col-xs-12">
-    <h1>{{exerciseName}}</h1>
+    <h1>{{exercise.name}}</h1>
   </div>
   <div class="row">
     <div class="col-xs-6 col-md-12">
-      <p><strong>Grupo Muscular:</strong> {{exerciseMG}}</p>
+      <p><strong>Grupo Muscular:</strong> {{exercise.muscleGroup}}</p>
     </div>
     <div class="col-xs-6 col-md-12">
-      <p><strong>Peso:</strong> {{exerciseWeight}}</p>
+      <p><strong>Peso:</strong> {{exercise.weight}}</p>
     </div>
   </div>
 
   <div class="row">
     <div class="col-xs-6 col-md-12">
-      <p><strong>Series:</strong> {{exerciseSeries}}</p>
+      <p><strong>Series:</strong> {{exercise.series}}</p>
     </div>
     <div class="col-xs-6 col-md-12">
-      <p><strong>Repeticiones:</strong> {{exerciseRepetitions}}</p>
+      <p><strong>Repeticiones:</strong> {{exercise.repetitions}}</p>
     </div>
   </div>
 
