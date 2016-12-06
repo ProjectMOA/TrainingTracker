@@ -138,7 +138,7 @@ public class SaveRecordTest {
                 saveRecord.click();
                 Thread.sleep(SLEEP_FOR_DISPLAY);
                 // Checks if the process has been successful, which should not happen.
-                assertTrue((driver.findElements(By.name(SC_FIELD))).isEmpty());
+                assertTrue((driver.findElements(By.name(SC_FIELD))).isEmpty() && (driver.findElements(By.name(ER_FIELD))).isEmpty());
                 clearForm();
             }
         }

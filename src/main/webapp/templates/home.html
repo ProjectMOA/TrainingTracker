@@ -101,7 +101,7 @@
                 <input id="nameExercise" type="text" ng-model="modifyModal.name" required
                        class="form-control" placeholder="Introduce el nombre del ejercicio"
                        ng-class="{maxLength: nameMaxLength}" />
-                <p class="textMaxLength" ng-if="nameMaxLength">Límite de caracteres alcanzado</p>
+                <p class="textMaxLength" ng-if="nameMaxLength" name="nameMaxLength">Límite de caracteres alcanzado</p>
               </div>
 
               <!-- muscle group input exercise -->

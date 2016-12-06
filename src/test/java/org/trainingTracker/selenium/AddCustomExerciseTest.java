@@ -32,7 +32,6 @@ public class AddCustomExerciseTest {
     private static final String EX_N_FIELD = "customNameExercise";
     private static final String SC_FIELD = "successAddingExercise";
     private static final String MAX_NAME_FIELD = "nameMaxLength";
-    private static final String EXERCISE_NAME = "My Exercise";
 
     @BeforeClass
     public static void setUp(){
@@ -73,7 +72,7 @@ public class AddCustomExerciseTest {
                 // cheks if the process have been sucecssful
                 iter1.next().click();
                 Thread.sleep(SLEEP_FOR_DISPLAY);
-                exerciseName.sendKeys(EXERCISE_NAME);
+                exerciseName.sendKeys(EXERCISE);
                 Thread.sleep(SLEEP_FOR_DISPLAY);
                 addButton.click();
                 Thread.sleep(SLEEP_FOR_DISPLAY);
