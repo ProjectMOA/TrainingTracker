@@ -78,6 +78,7 @@ public class AddCustomExerciseTest {
                 addButton.click();
                 Thread.sleep(SLEEP_FOR_DISPLAY);
                 assertFalse(driver.findElements(By.name(SC_FIELD)).isEmpty());
+                exerciseName.clear();
             }
         }
         catch (InterruptedException e){
