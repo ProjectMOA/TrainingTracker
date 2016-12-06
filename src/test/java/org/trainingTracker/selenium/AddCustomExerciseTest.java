@@ -57,9 +57,10 @@ public class AddCustomExerciseTest {
      */
     @Test
     public void okCustomTest(){
-        WebElement exerciseName = driver.findElement(By.id(EX_N_FIELD));
+        WebElement exerciseName = null;
         try{
             selectCustom();
+            exerciseName = driver.findElement(By.id(EX_N_FIELD));
             WebElement addButton = driver.findElement(By.name(A_FIELD));
             // Finds the select with the muscle group options
             Select select = new Select(driver.findElement(By.id(SEL_FIELD)));
@@ -117,9 +118,10 @@ public class AddCustomExerciseTest {
      */
     @Test
     public void ExNameOverflow(){
-        WebElement exerciseName = driver.findElement(By.id(EX_N_FIELD));
+        WebElement exerciseName = null;
         try{
             selectCustom();
+            exerciseName = driver.findElement(By.id(EX_N_FIELD));
             Select select;
             // Finds the select with the muscle group options and selects the first one.
             select = new Select(driver.findElement(By.id(SEL_FIELD)));
