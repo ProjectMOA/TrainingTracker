@@ -10,14 +10,11 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.Select;
-import org.trainingTracker.database.dataAccesObject.ExercisesDAO;
 import org.trainingTracker.database.dataAccesObject.UsersDAO;
-import org.trainingTracker.database.valueObject.ExerciseVO;
 
 import java.util.Iterator;
 
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 import static org.trainingTracker.selenium.TestUtils.*;
 
 /**
@@ -58,10 +55,9 @@ public class AddPredeterminedExerciseTest {
     public void okPredeterminedTest(){
         try{
             selectPredefined();
-            Select select;
             WebElement addButton = driver.findElement(By.name(A_FIELD));
             // Finds the select with the muscle group options
-            select = new Select(driver.findElement(By.id(SEL_MG_FIELD)));
+            Select select = new Select(driver.findElement(By.id(SEL_MG_FIELD)));
             Iterator<WebElement> iter1 = select.getOptions().iterator();
             // Skips the first option in the select (which is blank)
             iter1.next();

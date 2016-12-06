@@ -40,7 +40,7 @@ public class UsersDAO {
 			
 			return true;
 		} catch (MySQLIntegrityConstraintViolationException e) {
-          
+
 		} catch (SQLException e){
 			e.printStackTrace();
 		}
