@@ -31,8 +31,8 @@ public class AddCustomExerciseTest {
     private static final String SEL_FIELD = "selectMGCustom";
     private static final String EX_N_FIELD = "customNameExercise";
     private static final String SC_FIELD = "successAddingExercise";
+    private static final String ER_FIELD = "errorAddingExercise";
     private static final String MAX_NAME_FIELD = "nameMaxLength";
-    private static final String EXERCISE_NAME = "My Exercise";
 
     @BeforeClass
     public static void setUp(){
@@ -57,13 +57,13 @@ public class AddCustomExerciseTest {
      */
     @Test
     public void okCustomTest(){
+        WebElement exerciseName = null;
         try{
             selectCustom();
-            Select select;
+            exerciseName = driver.findElement(By.id(EX_N_FIELD));
             WebElement addButton = driver.findElement(By.name(A_FIELD));
-            WebElement exerciseName = driver.findElement(By.id(EX_N_FIELD));
             // Finds the select with the muscle group options
-            select = new Select(driver.findElement(By.id(SEL_FIELD)));
+            Select select = new Select(driver.findElement(By.id(SEL_FIELD)));
             Iterator<WebElement> iter1 = select.getOptions().iterator();
             // Skips the first option in the select (which is blank)
             iter1.next();
@@ -73,7 +73,7 @@ public class AddCustomExerciseTest {
                 // cheks if the process have been sucecssful
                 iter1.next().click();
                 Thread.sleep(SLEEP_FOR_DISPLAY);
-                exerciseName.sendKeys(EXERCISE_NAME);
+                exerciseName.sendKeys(EXERCISE);
                 Thread.sleep(SLEEP_FOR_DISPLAY);
                 addButton.click();
                 Thread.sleep(SLEEP_FOR_DISPLAY);
@@ -83,6 +83,9 @@ public class AddCustomExerciseTest {
         }
         catch (InterruptedException e){
             e.printStackTrace();
+        }
+        finally {
+            exerciseName.clear();
         }
     }
 
@@ -103,7 +106,7 @@ public class AddCustomExerciseTest {
             addButton.click();
             Thread.sleep(SLEEP_FOR_DISPLAY);
             // Checks if the process to add a new exercise has been successful, which should not.
-            assertTrue(driver.findElements(By.name(SC_FIELD)).isEmpty());
+            assertTrue((driver.findElements(By.name(SC_FIELD))).isEmpty() && (driver.findElements(By.name(ER_FIELD))).isEmpty());
         }
         catch (InterruptedException e){
             e.printStackTrace();
@@ -116,22 +119,25 @@ public class AddCustomExerciseTest {
      */
     @Test
     public void ExNameOverflow(){
+        WebElement exerciseName = null;
         try{
             selectCustom();
+            exerciseName = driver.findElement(By.id(EX_N_FIELD));
             Select select;
-            WebElement exerciseName = driver.findElement(By.id(EX_N_FIELD));
             // Finds the select with the muscle group options and selects the first one.
             select = new Select(driver.findElement(By.id(SEL_FIELD)));
             select.selectByIndex(1);
             Thread.sleep(SLEEP_FOR_DISPLAY);
             exerciseName.sendKeys("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
             Thread.sleep(SLEEP_FOR_DISPLAY);
-            // Checks if an error message because of the length of the exercise name has appeared.
+            // Checks if an error message has appeared because of the length of the exercise name.
             assertFalse(driver.findElements(By.name(MAX_NAME_FIELD)).isEmpty());
-            exerciseName.clear();
         }
         catch (InterruptedException e){
             e.printStackTrace();
+        }
+        finally {
+            exerciseName.clear();
         }
     }
 

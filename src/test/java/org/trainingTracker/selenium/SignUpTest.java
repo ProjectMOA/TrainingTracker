@@ -185,6 +185,9 @@ public class SignUpTest {
         catch (InterruptedException e){
             e.printStackTrace();
         }
+        finally {
+            clearForm();
+        }
     }
 
     /*
@@ -209,6 +212,9 @@ public class SignUpTest {
         }
         catch (InterruptedException e){
             e.printStackTrace();
+        }
+        finally {
+            clearForm();
         }
     }
 
