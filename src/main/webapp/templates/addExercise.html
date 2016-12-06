@@ -29,6 +29,7 @@
             <label for="selectMGCustom">Selecciona un grupo muscular:</label>
             <select id="selectMGCustom" ng-click="hideError();hideSuccess()" class="form-control"
                     ng-model="$parent.mgSelected" ng-options="x for x in predeterminedMG" required>
+              <option value="" disabled selected>Selecciona el grupo muscular</option>
             </select>
           </div>
           <!-- exercise name input form -->
@@ -56,6 +57,7 @@
             <label for="selectMGPredetermined">Selecciona un grupo muscular:</label>
             <select id="selectMGPredetermined" ng-click="hideError();hideSuccess()" class="form-control"
                     ng-model="$parent.mgSelected" ng-options="x for x in predeterminedMG" required>
+              <option value="" disabled selected>Selecciona el grupo muscular</option>
             </select>
           </div>
           <!-- exercise name input form -->
@@ -64,6 +66,7 @@
             <select id="selectExercise" ng-click="hideError();hideSuccess()" class="form-control"
                     ng-model="$parent.selectedPredetermined" required
                     ng-options="x.name for x in predeterminedExercises | filter: {'muscleGroup':mgSelected}">
+              <option value="" disabled selected>Selecciona el nombre del ejercicio</option>
             </select>
           </div>
           <p class="home">
