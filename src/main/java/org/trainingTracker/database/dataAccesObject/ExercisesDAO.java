@@ -105,7 +105,7 @@ public class ExercisesDAO {
             stmt.setInt(1, id);
             stmt.setInt(2,0);
 
-            stmt.execute(); //Executes the deletion
+            stmt.execute();
 
             return true;
 
@@ -127,13 +127,39 @@ public class ExercisesDAO {
         try (Connection conn = ConnectionPool.requestConnection()) {
 
             PreparedStatement stmt = conn.prepareStatement(
-                String.format("DELETE FROM %s WHERE %S=? AND %s=?;",
+                String.format("DELETE FROM %s WHERE %s=? AND %s=?;",
                     DBF_OWN_TABLE_NAME, DBF_OWN_NICK, DBF_OWN_EXERCISE));
             stmt.setString(1, nick);
             stmt.setInt(2, exercise);
-            stmt.execute(); //Executes the deletion
-            return true;
+            stmt.execute();
 
+            return true;
+        } catch (MySQLIntegrityConstraintViolationException e) {
+            e.printStackTrace();
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    /**
+     * Updates de info about a custom exercise
+     * @param exercise
+     * @param newExerciseName
+     * @param newMuscleGroup
+     * @return
+     */
+    public static boolean updateCustomExercise(int exercise, String newExerciseName, String newMuscleGroup){
+        try (Connection conn = ConnectionPool.requestConnection()) {
+
+            PreparedStatement stmt = conn.prepareStatement(
+                String.format("UPDATE %s SET %s=?, %s=? WHERE %s=? AND predefined=0;",
+                    DBF_EXERCISES_TABLE_NAME, DBF_EXERCISE_NAME,DBF_EXERCISE_MUSCLEGROUP, DBF_EXERCISE_ID));
+            stmt.setString(1, newExerciseName);
+            stmt.setString(2, newMuscleGroup);
+            stmt.setInt(3, exercise);
+            stmt.execute();
+            return true;
         } catch (MySQLIntegrityConstraintViolationException e) {
             e.printStackTrace();
         } catch (SQLException e){
