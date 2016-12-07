@@ -19,8 +19,36 @@
       <strong>&#10004</strong> {{successMsg}}
     </div>
 
+    <div class="divider"></div>
+    <!-- filters -->
+    <div class="row">
+      <!-- exercise name filter -->
+      <div class="form-group col-sm-6">
+        <input ng-click="hideError();hideSuccess()" type="text" ng-model="nameFilter"
+               class="form-control" placeholder="Filtra por el nombre de tus ejercicios" />
+      </div>
+      <!-- muscle group filter -->
+      <div class="form-group col-sm-3">
+        <select ng-click="hideError();hideSuccess()" class="form-control" ng-model="mgFilter">
+          <option value="" disabled selected>Filtra por grupo muscular</option>
+          <option>Pecho</option>
+          <option>Espalda</option>
+          <option>Hombro</option>
+          <option>Bíceps</option>
+          <option>Tríceps</option>
+          <option>Abdominales</option>
+          <option>Pierna</option>
+        </select>
+      </div>
+      <div class="col-sm-3">
+        <button ng-click="mgFilter='';nameFilter=''" class="btn btn-default theme-accent"
+                style="font-weight:600;">Limpiar filtros
+        </button>
+      </div>
+    </div>
+
     <!-- Exercise Card -->
-    <exercise-card ng-repeat="exercise in exercisesList"
+    <exercise-card ng-repeat="exercise in exercisesList | filter: {'muscleGroup': mgFilter, 'name': nameFilter}"
                    class="col-lg-3 col-md-4 col-sm-6"></exercise-card>
 
 
