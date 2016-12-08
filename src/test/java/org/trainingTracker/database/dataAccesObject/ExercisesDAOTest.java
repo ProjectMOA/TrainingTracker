@@ -51,17 +51,17 @@ public class ExercisesDAOTest {
 
     @Test
     public void addCustomExercise() throws Exception {
-
+        //TODO: Implement
     }
 
     @Test
     public void deleteCustomExercise() throws Exception {
-
+        //TODO: Implement
     }
 
     @Test
     public void deleteOwnExercise() throws Exception {
-
+        //TODO: Implement
     }
 
     @Test
@@ -91,7 +91,7 @@ public class ExercisesDAOTest {
 
     @Test
     public void listDefaultExercises() throws Exception {
-
+        //TODO: Implement
     }
 
 }
