@@ -41,7 +41,7 @@ public class ListPerformed extends HttpServlet {
         String name = request.getHeader("user");
         
         try {
-            // Search for predifined exercises in BD
+            // Search for performed exercises in BD
             JSONArray jsonExercises = new JSONArray();
             JSONObject exercise, record;
             List<RecordVO> list;
@@ -49,11 +49,11 @@ public class ListPerformed extends HttpServlet {
             response.setStatus(HttpServletResponse.SC_OK);
             for (ExerciseVO vo : ExercisesDAO.listUserExercises(name)) {
                 exercise = JSONObject.fromObject(vo.serialize());
-                exercise.remove("predefines");
                 if(!(list=RecordsDAO.listRecords(name, vo.getId(), 1)).isEmpty()){
                     record = JSONObject.fromObject(list.get(0).serialize());
                     record.remove("exercise");
                     record.remove("nick");
+                    record.remove("commentary");
                     record.remove("date");
                     exercise.putAll(record);
                 }

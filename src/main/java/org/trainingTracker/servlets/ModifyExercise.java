@@ -19,17 +19,17 @@ import org.trainingTracker.database.valueObject.ExerciseVO;
 import org.trainingTracker.database.valueObject.RecordVO;
 
 /**
- * Servlet implementation class SaveRecord
+ * Servlet implementation class ModifyExercise
  */
-@WebServlet("/saveRecord")
-public class SaveRecord extends HttpServlet {
+@WebServlet("/modifyExercise")
+public class ModifyExercise extends HttpServlet {
     
     private static final long serialVersionUID = 1L;
     
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public SaveRecord() {
+    public ModifyExercise() {
         super();
     }
     
@@ -48,22 +48,18 @@ public class SaveRecord extends HttpServlet {
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         boolean error = false;
         String user = "";
-        String exercise = "";
-        String weight = "";
-        String series = "";
-        String repetitions = "";
-        String commentary = "";
+        String exerciseId = "";
+        String muscleGroup = "";
+        String exerciseName = "";
         
         // Reads a JSON Object from request and captures his fields
         JSONObject json = null;
         try {
             json = ServletCommon.readJSON(request.getReader());
             user = json.getString("user");
-            exercise = json.getString("id");
-            weight = json.getString("weight").replace(",", ".");
-            series = json.getString("series");
-            repetitions = json.getString("repetitions");
-            commentary = json.getString("commentary");
+            exerciseId = json.getString("id");
+            muscleGroup = json.getString("muscleGroup");
+            exerciseName = json.getString("name");
             
             response.setContentType("text/html; charset=UTF-8");
         }
@@ -73,18 +69,21 @@ public class SaveRecord extends HttpServlet {
         }
         
         // Field revision
-        if (!isValidWeight(weight, response) |
-            !isValidSeries(series, response) |
-            !isValidRepetitions(repetitions, response)) {
+        if ((muscleGroup==null) || (muscleGroup.trim().equals(""))) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            response.getWriter().println("Debe seleccionar un grupo muscular");
+            error = true;
+        }
+        if ((exerciseName==null) || (exerciseName.trim().equals(""))) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            response.getWriter().println("Debe seleccionar un ejercicio");
             error = true;
         }
         
         if (!error) {
             try {
-                // Creates an record in BD
-                if (RecordsDAO.addRecord(Integer.parseInt(exercise), user, Double.parseDouble(weight),
-                                         Integer.parseInt(series), Integer.parseInt(repetitions), commentary)) {
+                // Modify an exercise in BD
+                if (ExercisesDAO.modifyExercise(Integer.parseInt(exerciseId), user)) {
                     // Search for performed exercises in BD
                     JSONArray jsonExercises = new JSONArray();
                     JSONObject jExercise, jRecord;
@@ -117,86 +116,6 @@ public class SaveRecord extends HttpServlet {
                 response.getWriter().println("Error interno en el servidor. Vuelva intentarlo más tarde");
             }
         }
-    }
-    
-    /**
-     * @param str
-     * @param response
-     * @returns true if str confirms weight specifications
-     */
-    static boolean isValidWeight (String str, HttpServletResponse response) throws IOException {
-        boolean error = false;
-        try {
-            if (!(Double.parseDouble(str) > 0)) {
-                error = true;
-            }
-        }
-        catch (NullPointerException e) {
-            error = true;
-        }
-        catch (NumberFormatException e) {
-            error = true;
-        }
-        
-        if (error) {
-            response.getWriter().println("Peso no válido");
-        }
-        
-        return !error;
-    }
-    
-    /**
-     * @param str
-     * @param response
-     * @returns true if str confirms series specifications
-     */
-    static boolean isValidSeries (String str, HttpServletResponse response) throws IOException {
-        boolean error = false;
-        
-        try {
-            if (!(Integer.parseInt(str) > 0)) {
-                error = true;
-            }
-        }
-        catch (NullPointerException e) {
-            error = true;
-        }
-        catch (NumberFormatException e) {
-            error = true;
-        }
-        
-        if (error) {
-            response.getWriter().println("Número de series no válido");
-        }
-        
-        return !error;
-    }
-    
-    /**
-     * @param str
-     * @param response
-     * @returns true if str confirms repetitions specifications
-     */
-    static boolean isValidRepetitions (String str, HttpServletResponse response) throws IOException {
-        boolean error = false;
-        
-        try {
-            if (!(Integer.parseInt(str) > 0)) {
-                error = true;
-            }
-        }
-        catch (NullPointerException e) {
-            error = true;
-        }
-        catch (NumberFormatException e) {
-            error = true;
-        }
-        
-        if (error) {
-            response.getWriter().println("Número de repeticiones no válido");
-        }
-        
-        return !error;
     }
     
 }

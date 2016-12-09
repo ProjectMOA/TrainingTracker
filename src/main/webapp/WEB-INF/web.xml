@@ -66,4 +66,22 @@
     <servlet-name>AddExercise</servlet-name>
     <url-pattern>/addExercise</url-pattern>
     </servlet-mapping>
+    
+    <servlet>
+    <servlet-name>ModifyExercise</servlet-name>
+    <servlet-class>org.trainingTracker.servlets.ModifyExercise</servlet-class>
+    </servlet>
+    <servlet-mapping>
+    <servlet-name>ModifyExercise</servlet-name>
+    <url-pattern>/modifyExercise</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+    <servlet-name>RemoveExercise</servlet-name>
+    <servlet-class>org.trainingTracker.servlets.RemoveExercise</servlet-class>
+    </servlet>
+    <servlet-mapping>
+    <servlet-name>RemoveExercise</servlet-name>
+    <url-pattern>/removeExercise</url-pattern>
+    </servlet-mapping>
 </web-app>

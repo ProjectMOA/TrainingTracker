@@ -62,6 +62,7 @@ public class AddExercise extends HttpServlet {
         }
         catch (Exception e) {
             System.out.println("Error al leer el JSON");
+            error = true;
         }
         
         // Field revision
