@@ -83,7 +83,7 @@ public class RemoveExercise extends HttpServlet {
                     while (!encontrado && it.hasNext()) {
                         vo = it.next();
                         // if the new exercise doesn't exists in user's routine
-                        if (exercise.equals(vo.getId())) {
+                        if (Integer.parseInt(exercise) == vo.getId()) {
                             encontrado = true;
                             // Deletes a user's performed exercise in BD
                             if (vo.isPredefined()) {
