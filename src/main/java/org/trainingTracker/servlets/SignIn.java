@@ -65,7 +65,7 @@ public class SignIn extends HttpServlet {
                 // If user don't exists
                 if (vo==null) {
                     response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-                    response.getWriter().println("El usuario \"" + name + "\" no existe");
+                    response.getWriter().println("El nombre de usuario no existe");
                 }
                 // If pass don't match
                 else if(!(vo.getPass()).equals(pass)) {
