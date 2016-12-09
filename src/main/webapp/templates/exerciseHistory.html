@@ -4,6 +4,12 @@
     <div class="divider"></div>
 
     <h2>Histórico de tus marcas en el ejercicio:</h2>
+
+    <!-- this div will show only when an error occurs -->
+    <div class="alert alert-danger" ng-if="error" name="errorSignIn">
+      <strong>&#10008</strong> {{errorMsg}}
+    </div>
+
     <div id="recordHistoryList">
       <record ng-repeat="record in recordHistory"></record>
     </div>

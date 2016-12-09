@@ -1,14 +1,9 @@
 angular.module('trainingTrackerApp')
 
-    .controller('exerciseHistoryCtrl', ['$scope', '$state', function ($scope, $state) {
+    .controller('exerciseHistoryCtrl', ['$scope', '$state', 'recordsService', function ($scope, $state, recordsService) {
 
-        $scope.nameExercise = "Press Banca";
-        $scope.recordHistory = [
-            {weight: 1, series: 1, repetitions: 1, commentary: "blablabla", date: "aa"},
-            {weight: 2, series: 2, repetitions: 2, commentary: "blublublu", date: "uu"},
-            {weight: 3, series: 3, repetitions: 3, commentary: "bliblibli", date: "ii"},
-            {weight: 4, series: 4, repetitions: 4, commentary: "blebleble", date: "ee"}
-        ];
+        $scope.nameExercise = recordsService.getExerciseName();
+        $scope.recordHistory = [];
 
         // sort the [list] array alphabetically by date
         function sortCustom (list) {
@@ -21,6 +16,28 @@ angular.module('trainingTrackerApp')
             });
         }
 
-        sortCustom($scope.recordHistory);
+        // feedback handling variables
+        $scope.errorMsg = "";
+        $scope.error = false;
+
+        // hide the error login message when is true respectively
+        $scope.hideError = function () {
+            $scope.errorMsg = "";
+            $scope.error = false;
+        };
+
+        // show the error login message when is false respectively
+        var showError = function (error) {
+            $scope.errorMsg = error;
+            $scope.error = true;
+        };
+
+        $scope.getRecordHistoryList = function () {
+            recordsService.getRecordHistoryList(function (records) {
+                $scope.recordHistory = records;
+                sortCustom($scope.recordHistory);
+            }, showError);
+        };
+        $scope.getRecordHistoryList();
     }]);
 
