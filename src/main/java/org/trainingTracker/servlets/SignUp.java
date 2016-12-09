@@ -64,11 +64,10 @@ public class SignUp extends HttpServlet {
             repass = json.getString("repass");
             email = json.getString("email");
             emailValid = Pattern.matches(EMAIL_PATTERN, email); // Compares the email with his pattern
-            
-            response.setContentType("text/html; charset=UTF-8");
         }
         catch (Exception e) {
-            System.out.println("Error al leer el JSON");
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            response.getWriter().println("Error interno en el servidor. Vuelva intentarlo más tarde");
             error = true;
         }
         

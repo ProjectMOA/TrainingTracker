@@ -2,6 +2,7 @@ package org.trainingTracker.servlets;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Iterator;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -54,13 +55,13 @@ public class RemoveExercise extends HttpServlet {
         JSONObject json = null;
         try {
             json = ServletCommon.readJSON(request.getReader());
+            System.out.println(json.toString());
             user = json.getString("user");
-            exerciseId = json.getString("id");
-            
-            response.setContentType("text/html; charset=UTF-8");
+            exercise = json.getString("id");
         }
         catch (Exception e) {
-            System.out.println("Error al leer el JSON");
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            response.getWriter().println("Error interno en el servidor. Vuelva intentarlo más tarde");
             error = true;
         }
         
@@ -86,7 +87,7 @@ public class RemoveExercise extends HttpServlet {
                             encontrado = true;
                             // Deletes a user's performed exercise in BD
                             if (vo.isPredefined()) {
-                                if (!ExercisesDAO.deleteOwnExercise(user, vo.getName())) {
+                                if (!ExercisesDAO.deleteOwnExercise(user, Integer.parseInt(exercise))) {
                                     response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                                     response.getWriter().println("Error interno en el servidor. Vuelva intentarlo más tarde");
                                     error = true;
@@ -107,17 +108,17 @@ public class RemoveExercise extends HttpServlet {
                                 List<RecordVO> list;
                                 
                                 response.setStatus(HttpServletResponse.SC_OK);
-                                for (ExerciseVO vo : ExercisesDAO.listUserExercises(name)) {
-                                    exercise = JSONObject.fromObject(vo.serialize());
-                                    if(!(list=RecordsDAO.listRecords(name, vo.getId(), 1)).isEmpty()){
-                                        record = JSONObject.fromObject(list.get(0).serialize());
-                                        record.remove("exercise");
-                                        record.remove("nick");
-                                        record.remove("commentary");
-                                        record.remove("date");
-                                        exercise.putAll(record);
+                                for (ExerciseVO vo2 : ExercisesDAO.listUserExercises(user)) {
+                                    jExercise = JSONObject.fromObject(vo2.serialize());
+                                    if(!(list=RecordsDAO.listRecords(user, vo2.getId(), 1)).isEmpty()){
+                                        jRecord = JSONObject.fromObject(list.get(0).serialize());
+                                        jRecord.remove("exercise");
+                                        jRecord.remove("nick");
+                                        jRecord.remove("commentary");
+                                        jRecord.remove("date");
+                                        jExercise.putAll(jRecord);
                                     }
-                                    jsonExercises.add(exercise);
+                                    jsonExercises.add(jExercise);
                                 }
                                 response.setContentType("application/json; charset=UTF-8");
                                 response.getWriter().write(jsonExercises.toString());
@@ -128,33 +129,6 @@ public class RemoveExercise extends HttpServlet {
                         response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                         response.getWriter().write("Este ejercicio no forma parte de su rutina");
                     }
-                }
-                
-                if (ExercisessDAO.modifyExercise(Integer.parseInt(exerciseId), user)) {
-                    // Search for performed exercises in BD
-                    JSONArray jsonExercises = new JSONArray();
-                    JSONObject jExercise, jRecord;
-                    List<RecordVO> list;
-                    
-                    response.setStatus(HttpServletResponse.SC_OK);
-                    for (ExerciseVO vo : ExercisesDAO.listUserExercises(name)) {
-                        exercise = JSONObject.fromObject(vo.serialize());
-                        if(!(list=RecordsDAO.listRecords(name, vo.getId(), 1)).isEmpty()){
-                            record = JSONObject.fromObject(list.get(0).serialize());
-                            record.remove("exercise");
-                            record.remove("nick");
-                            record.remove("commentary");
-                            record.remove("date");
-                            exercise.putAll(record);
-                        }
-                        jsonExercises.add(exercise);
-                    }
-                    response.setContentType("application/json; charset=UTF-8");
-                    response.getWriter().write(jsonExercises.toString());
-                }
-                else {
-                    response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-                    response.getWriter().println("Error interno en el servidor. Vuelva intentarlo más tarde");
                 }
             }
             catch (Exception e) {

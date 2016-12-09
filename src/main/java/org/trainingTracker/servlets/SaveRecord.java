@@ -64,11 +64,10 @@ public class SaveRecord extends HttpServlet {
             series = json.getString("series");
             repetitions = json.getString("repetitions");
             commentary = json.getString("commentary");
-            
-            response.setContentType("text/html; charset=UTF-8");
         }
         catch (Exception e) {
-            System.out.println("Error al leer el JSON");
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            response.getWriter().println("Error interno en el servidor. Vuelva intentarlo más tarde");
             error = true;
         }
         
@@ -91,17 +90,17 @@ public class SaveRecord extends HttpServlet {
                     List<RecordVO> list;
                     
                     response.setStatus(HttpServletResponse.SC_OK);
-                    for (ExerciseVO vo : ExercisesDAO.listUserExercises(name)) {
-                        exercise = JSONObject.fromObject(vo.serialize());
-                        if(!(list=RecordsDAO.listRecords(name, vo.getId(), 1)).isEmpty()){
-                            record = JSONObject.fromObject(list.get(0).serialize());
-                            record.remove("exercise");
-                            record.remove("nick");
-                            record.remove("commentary");
-                            record.remove("date");
-                            exercise.putAll(record);
+                    for (ExerciseVO vo : ExercisesDAO.listUserExercises(user)) {
+                        jExercise = JSONObject.fromObject(vo.serialize());
+                        if(!(list=RecordsDAO.listRecords(user, vo.getId(), 1)).isEmpty()){
+                            jRecord = JSONObject.fromObject(list.get(0).serialize());
+                            jRecord.remove("exercise");
+                            jRecord.remove("nick");
+                            jRecord.remove("commentary");
+                            jRecord.remove("date");
+                            jExercise.putAll(jRecord);
                         }
-                        jsonExercises.add(exercise);
+                        jsonExercises.add(jExercise);
                     }
                     response.setContentType("application/json; charset=UTF-8");
                     response.getWriter().write(jsonExercises.toString());

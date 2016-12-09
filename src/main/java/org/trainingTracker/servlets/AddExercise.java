@@ -57,11 +57,10 @@ public class AddExercise extends HttpServlet {
             predefined = json.getString("id");
             muscleGroup = json.getString("muscleGroup");
             exercise = json.getString("name");
-            
-            response.setContentType("text/html; charset=UTF-8");
         }
         catch (Exception e) {
-            System.out.println("Error al leer el JSON");
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            response.getWriter().println("Error interno en el servidor. Vuelva intentarlo más tarde");
             error = true;
         }
         
