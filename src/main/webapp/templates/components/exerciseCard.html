@@ -2,7 +2,7 @@
 <div class="exerciseCardStyle row" ng-click="enterHistory()">
 
   <i ng-click="deleteEx()" class="fa fa-trash fa-lg exerciseIcons" name="delete"></i>
-  <i ng-click="modifyEx()" ng-if="exercise.predetermined" class="fa fa-pencil fa-lg exerciseIcons" name="modify"></i>
+  <i ng-click="modifyEx()" ng-if="!exercise.predetermined" class="fa fa-pencil fa-lg exerciseIcons" name="modify"></i>
   <i ng-click="addRecord()" class="fa fa-plus fa-lg exerciseIcons" name="add"></i>
 
   <div class="col-xs-12">
