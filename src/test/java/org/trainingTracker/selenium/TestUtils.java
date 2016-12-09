@@ -18,9 +18,13 @@ class TestUtils {
     static final String U_FIELD = "username";
     static final String P_FIELD = "password";
     static final String L_FIELD = "login";
+    static final String SC_FIELD = "successWithExerciseAction";
+    static final String ER_FIELD = "errorWithExerciseAction";
     static final String USERNAME = "test";
     static final String EMAIL= "test@prueba.com";
     static final String PASS = "pass";
+    static final String EXERCISE = "My Exercise";
+    static final String MG = "Espalda";
 
     /*
      * Checks the current URL and redirects to the

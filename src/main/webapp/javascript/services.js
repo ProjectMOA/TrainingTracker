@@ -129,6 +129,48 @@ angular.module('trainingTrackerApp')
                     callbackError(data);
                 });
             },
+            // modify a custom exercise
+            modifyExercise: function (exercise, callbackSuccess, callbackError, updateListExercise) {
+                var exerciseTemp = {
+                    user: auth.getUsername(),
+                    id: exercise.id,
+                    muscleGroup: exercise.muscleGroup,
+                    name: exercise.name
+                };
+                $http({
+                    method: 'POST',
+                    url: 'modifyExercise',
+                    data: JSON.stringify(exerciseTemp),
+                    headers: {
+                        'Content-Type': 'application/json; charset=UTF-8'
+                    }
+                }).success(function (data) {
+                    callbackSuccess('Ejercicio modificado correctamente');
+                    updateListExercise(data);
+                }).error(function (data) {
+                    callbackError(data);
+                });
+            },
+            // delete a custom exercise
+            deleteExercise: function (exercise, callbackSuccess, callbackError, updateListExercise) {
+                var exerciseTemp = {
+                    user: auth.getUsername(),
+                    id: exercise.id
+                };
+                $http({
+                    method: 'POST',
+                    url: 'removeExercise',
+                    data: JSON.stringify(exerciseTemp),
+                    headers: {
+                        'Content-Type': 'application/json; charset=UTF-8'
+                    }
+                }).success(function (data) {
+                    callbackSuccess('Ejercicio borrado correctamente');
+                    updateListExercise(data);
+                }).error(function (data) {
+                    callbackError(data);
+                });
+            },
             //get the predetermined exercises and predetermined muscle groups
             getPredetermined: function (callbackSuccess,callbackError) {
                 $http({

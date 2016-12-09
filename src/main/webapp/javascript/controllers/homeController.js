@@ -17,6 +17,7 @@ angular.module('trainingTrackerApp')
             $scope.seriesMaxLength = false;
             $scope.repetitionsMaxLength = false;
             $scope.commentaryMaxLength = false;
+            $scope.nameMaxLength = false;
 
             // Watches to control input variables length
             $scope.$watch('recordModal.weight', function () {
@@ -71,6 +72,19 @@ angular.module('trainingTrackerApp')
                     $scope.commentaryMaxLength = false;
                 }
             });
+            $scope.$watch('modifyModal.name', function () {
+                if ($scope.modifyModal.name != undefined) {
+                    if ($scope.modifyModal.name.length > 50) {
+                        $scope.modifyModal.name = $scope.modifyModal.name.slice(0, 50);
+                    } else if ($scope.modifyModal.name.length == 50) {
+                        $scope.nameMaxLength = true;
+                    } else {
+                        $scope.nameMaxLength = false;
+                    }
+                } else {
+                    $scope.nameMaxLength = false;
+                }
+            });
 
             // FEEDBACK MESSAGES
 
@@ -105,7 +119,7 @@ angular.module('trainingTrackerApp')
 
             $scope.getExercisesList();
 
-            // MODAL SECTION
+            // MODAL RECORD SECTION
 
             $scope.recordModal = {    // temporal record data on modals
                 id: 0,
@@ -159,5 +173,110 @@ angular.module('trainingTrackerApp')
                     commentary: ""
                 };
                 $("#recordModal").modal("hide");
+            };
+
+            // MODAL MODIFY SECTION
+
+            $scope.modifyModal = {    // temporal modify data on modals
+                id: 0,
+                name: "",
+                muscleGroup: ""
+            };
+
+            // open modal with [modify] information
+            $scope.openModifyModal = function (exercise) {
+                $("#modifyModal").modal("show");
+                $scope.modifyModal = {
+                    id: exercise.id,
+                    name: exercise.name,
+                    muscleGroup: exercise.muscleGroup
+                };
+            };
+
+            // modify exercise
+            $scope.modifyExerciseModal = function () {
+                $("#modifyModal").modal("hide");
+                $scope.saveModify = true; //flag to indicate that we are saving the exercise
+                $("#modifyModal").on('hidden.bs.modal', function () {
+                    if ($scope.saveModify) {
+                        exerciseService.modifyExercise($scope.modifyModal, showSuccess, showError,
+                            function (exercises) {
+                                $scope.exercisesList = exercises;
+                            });
+                        $scope.saveModify = false;
+                        $scope.modifyModal = {
+                            id: 0,
+                            name: "",
+                            muscleGroup: ""
+                        };
+                    }
+                });
+            };
+
+            //close modify
+            $scope.closeModifyModal = function () {
+                $scope.modifyModal = {
+                    id: 0,
+                    name: "",
+                    muscleGroup: ""
+                };
+                $("#modifyModal").modal("hide");
+            };
+
+            // MODAL DELETE SECTION
+
+            $scope.deleteModal = {    // temporal delete data on modals
+                id: 0,
+                name: "",
+                muscleGroup: ""
+            };
+
+            // open modal with [delete] information
+            $scope.openDeleteModal = function (exercise) {
+                $("#deleteModal").modal("show");
+                $scope.deleteModal = {
+                    id: exercise.id,
+                    name: exercise.name,
+                    muscleGroup: exercise.muscleGroup
+                };
+            };
+
+            //delete FORM modal
+            $scope.deleteFormModal = function () {
+                if ($scope.deleteModal) {
+                    $scope.deleteExerciseModal();
+                } else {
+                    $scope.closeDeleteModal();
+                }
+            };
+
+            // delete exercise
+            $scope.deleteExerciseModal = function () {
+                $("#deleteModal").modal("hide");
+                $scope.saveDelete = true; //flag to indicate that we are deleting the exercise
+                $("#deleteModal").on('hidden.bs.modal', function () {
+                    if ($scope.saveDelete) {
+                        exerciseService.deleteExercise($scope.deleteModal, showSuccess, showError,
+                            function (exercises) {
+                                $scope.exercisesList = exercises;
+                            });
+                        $scope.saveDelete = false;
+                        $scope.deleteModal = {
+                            id: 0,
+                            name: "",
+                            muscleGroup: ""
+                        };
+                    }
+                });
+            };
+
+            //close delete
+            $scope.closeDeleteModal = function () {
+                $scope.deleteModal = {
+                    id: 0,
+                    name: "",
+                    muscleGroup: ""
+                };
+                $("#deleteModal").modal("hide");
             };
         }]);

@@ -11,16 +11,44 @@
     </p>
 
     <!-- this div will show only when an error login occurs -->
-    <div class="alert alert-danger" ng-if="error" name="errorSavingRecord">
+    <div class="alert alert-danger" ng-if="error" name="errorWithExerciseAction">
       <strong>&#10008</strong> {{errorMsg}}
     </div>
     <!-- this div will show only when an success login occurs -->
-    <div class="alert alert-success" ng-if="success" name="successSavingRecord">
+    <div class="alert alert-success" ng-if="success" name="successWithExerciseAction">
       <strong>&#10004</strong> {{successMsg}}
     </div>
 
+    <div class="divider"></div>
+    <!-- filters -->
+    <div class="row">
+      <!-- exercise name filter -->
+      <div class="form-group col-sm-6">
+        <input id="nameExerciseFilter" ng-click="hideError();hideSuccess()" type="text" ng-model="nameFilter"
+               class="form-control" placeholder="Filtra por el nombre de tus ejercicios" />
+      </div>
+      <!-- muscle group filter -->
+      <div class="form-group col-sm-3">
+        <select id="selectMGFilter" ng-click="hideError();hideSuccess()" class="form-control" ng-model="mgFilter">
+          <option value="" disabled selected>Filtra por grupo muscular</option>
+          <option>Pecho</option>
+          <option>Espalda</option>
+          <option>Hombro</option>
+          <option>Bíceps</option>
+          <option>Tríceps</option>
+          <option>Abdominales</option>
+          <option>Pierna</option>
+        </select>
+      </div>
+      <div class="col-sm-3">
+        <button ng-click="mgFilter='';nameFilter=''" class="btn btn-default theme-accent"
+                style="font-weight:600;" name="clear">Limpiar filtros
+        </button>
+      </div>
+    </div>
+
     <!-- Exercise Card -->
-    <exercise-card ng-repeat="exercise in exercisesList"
+    <exercise-card ng-repeat="exercise in exercisesList | filter: {'muscleGroup': mgFilter, 'name': nameFilter}"
                    class="col-lg-3 col-md-4 col-sm-6"></exercise-card>
 
 
@@ -72,11 +100,82 @@
                 <p class="textMaxLength" ng-if="commentaryMaxLength" name="commentaryMaxLength">Límite de caracteres alcanzado</p>
               </div>
               <p style="font-size: 75%">* Campos obligatorios.</p>
-              <button class="btn btn-default" ng-click="closeRecordModal()" style="font-weight: 600;" name="Cancelar">
+              <button class="btn btn-default" ng-click="closeRecordModal()" style="font-weight: 600;" name="CancelarRec">
                 Cancelar
               </button>
-              <button type="submit" class="btn btn-success" style="font-weight: 600;" name="Guardar">
+              <button type="submit" class="btn btn-success" style="font-weight: 600;" name="GuardarRec">
                 Guardar
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- modify exercise modal popup -->
+    <div id="modifyModal" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+        <!-- modal content -->
+        <div class="modal-content">
+          <div class="modal-header">
+            <button class="close" data-dismiss="modal">&times;</button>
+            <h2>¡Modifica tu ejercicio personalizado!</h2>
+          </div>
+          <div class="modal-body">
+            <form role="form" ng-submit="modifyExerciseModal()">
+              <!-- name input exercise -->
+              <div class="form-group">
+                <label for="nameExercise"><strong>Nombre*: </strong></label>
+                <input id="nameExercise" type="text" ng-model="modifyModal.name" required
+                       class="form-control" placeholder="Introduce el nombre del ejercicio"
+                       ng-class="{maxLength: nameMaxLength}" />
+                <p class="textMaxLength" ng-if="nameMaxLength" name="nameMaxLength">Límite de caracteres alcanzado</p>
+              </div>
+
+              <!-- muscle group input exercise -->
+              <div class="form-group">
+                <label for="muscleGroupExercise"><strong>Grupo muscular*: </strong></label>
+                <select class="form-control" id="muscleGroupExercise" ng-model="modifyModal.muscleGroup" required>
+                  <option>Pecho</option>
+                  <option>Espalda</option>
+                  <option>Hombro</option>
+                  <option>Bíceps</option>
+                  <option>Tríceps</option>
+                  <option>Abdominales</option>
+                  <option>Pierna</option>
+                </select>
+              </div>
+              <p style="font-size: 75%">* Campos obligatorios.</p>
+              <button class="btn btn-default" ng-click="closeModifyModal()" style="font-weight: 600;" name="CancelarMod">
+                Cancelar
+              </button>
+              <button type="submit" class="btn btn-success" style="font-weight: 600;" name="GuardarMod">
+                Modificar
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- delete exercise modal popup -->
+    <div id="deleteModal" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+        <!-- modal content -->
+        <div class="modal-content">
+          <div class="modal-header">
+            <button class="close" data-dismiss="modal">&times;</button>
+            <h2>¿Estás seguro?</h2>
+          </div>
+          <div class="modal-body">
+            <form role="form" ng-submit="deleteFormModal()">
+              <p class="text-center"><strong>Nombre: </strong>{{deleteModal.name}}</p>
+              <p class="text-center"><strong>Grupo muscular: </strong>{{deleteModal.muscleGroup}}</p>
+              <button type="submit" class="btn btn-default" ng-click="deleteModal=false" style="font-weight: 600;" name="CancelarDel">
+                Cancelar
+              </button>
+              <button type="submit" ng-click="deleteModal=true" class="btn btn-danger" style="font-weight: 600;" name="Borrar">
+                Borrar
               </button>
             </form>
           </div>
