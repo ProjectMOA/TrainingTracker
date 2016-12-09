@@ -1,5 +1,5 @@
 <!-- mouse events to show or hide the delete option -->
-<div class="exerciseCardStyle row">
+<div class="exerciseCardStyle row" ng-click="enterHistory()">
 
   <i ng-click="deleteEx()" class="fa fa-trash fa-lg exerciseIcons" name="delete"></i>
   <i ng-click="modifyEx()" ng-if="exercise.predetermined" class="fa fa-pencil fa-lg exerciseIcons" name="modify"></i>

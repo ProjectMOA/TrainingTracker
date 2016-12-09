@@ -243,7 +243,7 @@ angular.module('trainingTrackerApp')
 
             //delete FORM modal
             $scope.deleteFormModal = function () {
-                if ($scope.deleteModal) {
+                if ($scope.deleteExercise) {
                     $scope.deleteExerciseModal();
                 } else {
                     $scope.closeDeleteModal();
