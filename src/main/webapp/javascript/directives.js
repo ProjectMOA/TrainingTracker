@@ -9,6 +9,16 @@ angular.module('trainingTrackerApp')
         }
     })
 
+    // include the 'record.html' into the <record> tag
+    .directive('record', function () {
+        return {
+            restrict: 'E',
+            templateUrl: 'templates/components/record.html',
+            controller: 'recordCtrl',
+            scope: true
+        }
+    })
+
     //include the 'exerciserCard.html' into the <exerciserCard> tag
     .directive('exerciseCard', function () {
         return {

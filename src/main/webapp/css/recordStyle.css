@@ -1,0 +1,11 @@
+#recordStyle .record {
+  border-radius: 10px;
+  border: 1px solid rgba(150, 150, 150, 0.6);
+  padding: 1%;
+  background-color: #ffffff;
+  cursor: pointer
+}
+
+#recordStyle .record:hover {
+  background-color: #e1e1e1;
+}
