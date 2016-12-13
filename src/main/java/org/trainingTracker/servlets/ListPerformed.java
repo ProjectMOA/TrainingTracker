@@ -49,7 +49,7 @@ public class ListPerformed extends HttpServlet {
             response.setStatus(HttpServletResponse.SC_OK);
             for (ExerciseVO vo : ExercisesDAO.listUserExercises(user)) {
                 jExercise = JSONObject.fromObject(vo.serialize());
-                if(!(list=RecordsDAO.listRecords(user, vo.getId(), 1)).isEmpty()){
+                if(!(list=RecordsDAO.listRecords(user, vo.getId(), 1, 1)).isEmpty()){
                     jRecord = JSONObject.fromObject(list.get(0).serialize());
                     jRecord.remove("exercise");
                     jRecord.remove("nick");

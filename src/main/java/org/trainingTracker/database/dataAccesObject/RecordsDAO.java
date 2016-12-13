@@ -98,18 +98,24 @@ public class RecordsDAO {
      * Returns a list a range of records saved for a given user and exercises.
      * @return
      */
-	public static List<RecordVO> listRecords(String user, int exercise, int size){
+	public static List<RecordVO> listRecords(String user, int exercise, int size, int page){
+
+        if( page<1 || size < 0 ){ //Prevents SQL syntax error
+            return new ArrayList<RecordVO>();
+        }
+
         try (Connection conn = ConnectionPool.requestConnection()) {
 
             PreparedStatement stmt;
 
-            //If size is lower than 0 it wont have a size limit
+            //If size is zero it wont have a size limit
             if (size > 0) {
                 stmt = conn.prepareStatement(
                     String.format( "SELECT * FROM %s WHERE %s=? AND %s=? " +
-                        "ORDER BY %s DESC LIMIT ?;",DBF_RECORD_TABLE_NAME, DBF_RECORD_EXERCISE,
+                        "ORDER BY %s DESC LIMIT ? OFFSET ?;",DBF_RECORD_TABLE_NAME, DBF_RECORD_EXERCISE,
                         DBF_RECORD_NICK, DBF_RECORD_DATE));
                 stmt.setInt(3,size);
+                stmt.setInt(4,(page-1)*size);
             } else {
                 stmt = conn.prepareStatement(
                     String.format( "SELECT * FROM %s WHERE %s=? AND %s=? " +
