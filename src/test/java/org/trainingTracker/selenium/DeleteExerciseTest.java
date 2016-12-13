@@ -2,7 +2,6 @@ package org.trainingTracker.selenium;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -13,7 +12,6 @@ import org.trainingTracker.database.dataAccesObject.UsersDAO;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -47,24 +45,18 @@ public class DeleteExerciseTest {
         }
     }
 
-    @Ignore
     @Test
     public void deleteTest(){
-        List<WebElement> trashIconList = driver.findElements(By.name(D_FIELD));
         WebElement delete = driver.findElement(By.name(B_FIELD));
         try{
-            trashIconList.get(1).click();
-            Thread.sleep(SLEEP_FOR_DISPLAY);
-            delete.click();
-            Thread.sleep(SLEEP_FOR_DISPLAY);
-            assertFalse((driver.findElements(By.name(SC_FIELD))).isEmpty());
+            for(int n=0;n<2;n++){
+                driver.findElements(By.name(D_FIELD)).get(0).click();
+                Thread.sleep(SLEEP_FOR_DISPLAY);
+                delete.click();
+                Thread.sleep(SLEEP_FOR_DISPLAY);
+                assertFalse((driver.findElements(By.name(SC_FIELD))).isEmpty());
+            }
             customExercises.remove(0);
-
-            trashIconList.get(0).click();
-            Thread.sleep(SLEEP_FOR_DISPLAY);
-            delete.click();
-            Thread.sleep(SLEEP_FOR_DISPLAY);
-            assertFalse((driver.findElements(By.name(SC_FIELD))).isEmpty());
         }
         catch (InterruptedException e){
             e.printStackTrace();

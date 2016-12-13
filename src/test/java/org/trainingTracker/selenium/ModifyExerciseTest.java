@@ -54,10 +54,8 @@ public class ModifyExerciseTest {
      * exercise in the user's home page. The method test all
      * the existing muscle groups with custom names.
      */
-    @Ignore
     @Test
     public void modifyTest(){
-        WebElement pencil = driver.findElement(By.name("modify"));
         WebElement name = driver.findElement(By.id(NAME_FIELD));
         WebElement save = driver.findElement(By.name(G_FIELD));
         Select select = new Select(driver.findElement(By.id(SEL_MG_FIELD)));
@@ -67,7 +65,7 @@ public class ModifyExerciseTest {
             for(int n=0; n<numOptions-1;n++){
                 // Inserts a custom name for the exercise, tries to add the new exercise and
                 // cheks if the process have been sucecssful
-                pencil.click();
+                driver.findElement(By.name("modify")).click();
                 Thread.sleep(SLEEP_FOR_DISPLAY);
                 name.clear();
                 name.sendKeys(EXERCISE+n);
@@ -96,7 +94,6 @@ public class ModifyExerciseTest {
     * Tests the process to modify an existing custom exercise leaving the
     * exercise name field blank, a field that is requested.
     */
-    @Ignore
     @Test
     public void blankNameTest(){
         WebElement pencil = driver.findElement(By.name("modify"));
@@ -129,7 +126,6 @@ public class ModifyExerciseTest {
      * Tests the process to modify an existing custom exercise introducing an
      * exercise name larger than allowed.
      */
-    @Ignore
     @Test
     public void nameFieldOverflowTest(){
         WebElement pencil = driver.findElement(By.name("modify"));
