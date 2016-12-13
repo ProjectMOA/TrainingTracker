@@ -39,5 +39,25 @@ angular.module('trainingTrackerApp')
             }, showError);
         };
         $scope.getRecordHistoryList();
+
+        $scope.loadingRecords = false; // flag to indicate that client is charging a new page of records
+
+        $(document).ready(function(){
+
+            $(document).scroll(function(e){
+
+                if ($scope.loadingRecords)
+                    return false;
+
+                if ($(window).scrollTop() >= $(document).height() - $(window).height() - 100){
+                    $scope.loadingRecords = true;
+                    console.log("doc: " + $(document).height());
+                    console.log("window: " + $(window).height());
+                    console.log("scroll: " + $(window).scrollTop());
+                    $scope.loadingRecords = false;
+                }
+            });
+        });
+
     }]);
 
