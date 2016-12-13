@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns="http://java.sun.com/xml/ns/javaee"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
@@ -65,5 +65,23 @@
     <servlet-mapping>
     <servlet-name>AddExercise</servlet-name>
     <url-pattern>/addExercise</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+    <servlet-name>ModifyExercise</servlet-name>
+    <servlet-class>org.trainingTracker.servlets.ModifyExercise</servlet-class>
+    </servlet>
+    <servlet-mapping>
+    <servlet-name>ModifyExercise</servlet-name>
+    <url-pattern>/modifyExercise</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+    <servlet-name>RemoveExercise</servlet-name>
+    <servlet-class>org.trainingTracker.servlets.RemoveExercise</servlet-class>
+    </servlet>
+    <servlet-mapping>
+    <servlet-name>RemoveExercise</servlet-name>
+    <url-pattern>/removeExercise</url-pattern>
     </servlet-mapping>
 </web-app>

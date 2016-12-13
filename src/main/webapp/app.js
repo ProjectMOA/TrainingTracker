@@ -36,11 +36,22 @@ angular.module('trainingTrackerApp', ['ui.router', 'base64'])
                     }
                 }
             })
-            //home screen
+            //add exercise screen
             .state('addExercise', {
                 url: "/addExercise",
                 templateUrl: "templates/addExercise.html",
                 controller: "addExerciseCtrl",
+                onEnter: function ($state, auth) {
+                    if (!auth.isAuthenticated()) {
+                        $state.go('starter');
+                    }
+                }
+            })
+            //exercise history screen
+            .state('exerciseHistory', {
+                url: "/exerciseHistory",
+                templateUrl: "templates/exerciseHistory.html",
+                controller: "exerciseHistoryCtrl",
                 onEnter: function ($state, auth) {
                     if (!auth.isAuthenticated()) {
                         $state.go('starter');
