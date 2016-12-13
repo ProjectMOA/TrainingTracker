@@ -31,7 +31,7 @@ public class ExerciseVO {
      */
 	@Override
 	public String toString() {
-		return String.format("_id: %s Name: %s Muscle Group: %s Predefined: %s;", id, name, muscleGroup, predefined);
+		return String.format("_id: %s Name: %s Muscle Group: %s Predetermined: %s;", id, name, muscleGroup, predefined);
 		
 	}
 
@@ -40,7 +40,7 @@ public class ExerciseVO {
      * @return
      */
     public String serialize(){
-        return String.format("{\"id\": \"%s\",  \"name\": \"%s\",  \"muscleGroup\": \"%s\", \"predefines\": \"%s\" }",
+        return String.format("{\"id\": \"%s\",  \"name\": \"%s\",  \"muscleGroup\": \"%s\", \"predetermined\": %s }",
             id, name, muscleGroup, predefined);
     }
 }
