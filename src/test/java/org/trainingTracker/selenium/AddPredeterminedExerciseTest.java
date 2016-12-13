@@ -3,7 +3,6 @@ package org.trainingTracker.selenium;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -24,10 +23,10 @@ import static org.trainingTracker.selenium.TestUtils.*;
 public class AddPredeterminedExerciseTest {
 
     private static WebDriver driver;
-    private static final String A_FIELD = "addPredButton";
-    private static final String SEL_MG_FIELD = "selectMGPredetermined";
-    private static final String SEL_EX_FIELD = "selectExercise";
-    private static final String SC_FIELD = "successAddingExercise";
+    private static final String ADD_EXERCISE_BUTTON = "addPredButton";
+    private static final String MG_SELECT = "selectMGPredetermined";
+    private static final String EXERCISE_SELECT = "selectExercise";
+    private static final String SUCCESS_MESSAGE = "successAddingExercise";
 
     @BeforeClass
     public static void setUp(){
@@ -55,9 +54,9 @@ public class AddPredeterminedExerciseTest {
     public void addPredeterminedExerciseTest(){
         try{
             selectPredetermined();
-            WebElement addButton = driver.findElement(By.name(A_FIELD));
+            WebElement addButton = driver.findElement(By.name(ADD_EXERCISE_BUTTON));
             // Finds the select with the muscle group options
-            Select select = new Select(driver.findElement(By.id(SEL_MG_FIELD)));
+            Select select = new Select(driver.findElement(By.id(MG_SELECT)));
             Iterator<WebElement> iter1 = select.getOptions().iterator();
             // Skips the first option in the select (which is blank)
             iter1.next();
@@ -66,7 +65,7 @@ public class AddPredeterminedExerciseTest {
                 iter1.next().click();
                 Thread.sleep(SLEEP_FOR_DISPLAY);
                 // Findes the select with the exercise options for the selected muscle group
-                select = new Select(driver.findElement(By.id(SEL_EX_FIELD)));
+                select = new Select(driver.findElement(By.id(EXERCISE_SELECT)));
                 Iterator<WebElement> iter2 = select.getOptions().iterator();
                 // Skips the first option in the select (which is blank)
                 iter2.next();
@@ -77,7 +76,7 @@ public class AddPredeterminedExerciseTest {
                     Thread.sleep(SLEEP_FOR_DISPLAY);
                     addButton.click();
                     Thread.sleep(SLEEP_FOR_DISPLAY);
-                    assertFalse(driver.findElements(By.name(SC_FIELD)).isEmpty());
+                    assertFalse(driver.findElements(By.name(SUCCESS_MESSAGE)).isEmpty());
                 }
             }
         }

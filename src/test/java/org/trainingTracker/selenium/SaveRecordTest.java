@@ -2,7 +2,6 @@ package org.trainingTracker.selenium;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -21,21 +20,21 @@ import static org.trainingTracker.selenium.TestUtils.*;
 public class SaveRecordTest {
 
     private static WebDriver driver;
-    private static final String A_FIELD = "add";
-    private static final String G_FIELD = "GuardarRec";
-    private static final String CAN_FIELD = "CancelarRec";
-    private static final String W_FIELD = "weightExercise";
-    private static final String S_FIELD = "seriesExercise";
-    private static final String R_FIELD = "repetitionsExercise";
-    private static final String C_FIELD = "commentaryExercise";
+    private static final String ADD_RECORD_ICON = "add";
+    private static final String SAVE_BUTTON = "GuardarRec";
+    private static final String CANCEL_BUTTON = "CancelarRec";
+    private static final String WEIGHT_FIELD = "weightExercise";
+    private static final String SERIES_FIELD = "seriesExercise";
+    private static final String REPETITIONS_FIELD = "repetitionsExercise";
+    private static final String COMMENTARY_FIELD = "commentaryExercise";
     private static final String WEIGHT = "10.2";
     private static final String SERIES = "4";
     private static final String REPETITIONS = "12";
     private static final String COMMENT = "Test comment";
-    private static final String MAX_WEIGHT_FIELD = "weightMaxLength";
-    private static final String MAX_SERIES_FIELD = "seriesMaxLength";
-    private static final String MAX_REPETITIONS_FIELD = "repetitionsMaxLength";
-    private static final String MAX_COMMENTARY_FIELD = "commentaryMaxLength";
+    private static final String WEIGHT_FIELD_MAX_LENGTH = "weightMaxLength";
+    private static final String SERIES_FIELD_MAX_LENGTH = "seriesMaxLength";
+    private static final String REPETITIONS_FIELD_MAX_LENGTH = "repetitionsMaxLength";
+    private static final String COMMENTARY_FIELD_MAX_LENGTH = "commentaryMaxLength";
     private static int ExerciseID;
 
     @BeforeClass
@@ -63,15 +62,15 @@ public class SaveRecordTest {
         WebElement element;
         try{
             // It clicks the "+" button to add a new record, it fills the fields and saves them.
-            element = driver.findElement(By.name(A_FIELD));
+            element = driver.findElement(By.name(ADD_RECORD_ICON));
             element.click();
             Thread.sleep(SLEEP_FOR_DISPLAY);
             fillForm(WEIGHT, SERIES, REPETITIONS, "");
-            element = driver.findElement(By.name(G_FIELD));
+            element = driver.findElement(By.name(SAVE_BUTTON));
             element.click();
             Thread.sleep(SLEEP_FOR_DISPLAY);
             // Checks if the process has been successful. If not, the test will fail.
-            assertFalse((driver.findElements(By.name(SC_FIELD))).isEmpty());
+            assertFalse((driver.findElements(By.name(SUCCESS_MESSAGE))).isEmpty());
         }
         catch (InterruptedException e){
             e.printStackTrace();
@@ -95,15 +94,15 @@ public class SaveRecordTest {
         WebElement element;
         try{
             // It clicks the "+" button to add a new record, it fills the fields and saves them.
-            element = driver.findElement(By.name(A_FIELD));
+            element = driver.findElement(By.name(ADD_RECORD_ICON));
             element.click();
             Thread.sleep(SLEEP_FOR_DISPLAY);
             fillForm(WEIGHT, SERIES, REPETITIONS, COMMENT);
-            element = driver.findElement(By.name(G_FIELD));
+            element = driver.findElement(By.name(SAVE_BUTTON));
             element.click();
             Thread.sleep(SLEEP_FOR_DISPLAY);
             // Checks if the process has been successful. If not, the test will fail.
-            assertFalse((driver.findElements(By.name(SC_FIELD))).isEmpty());
+            assertFalse((driver.findElements(By.name(SUCCESS_MESSAGE))).isEmpty());
         }
         catch (InterruptedException e){
             e.printStackTrace();
@@ -127,10 +126,10 @@ public class SaveRecordTest {
         String [] [] saveRecordArray = new String[8][3];
         String fields []= {WEIGHT, SERIES, REPETITIONS};
         fillArray(saveRecordArray, fields);
-        WebElement saveRecord = driver.findElement(By.name(G_FIELD));
+        WebElement saveRecord = driver.findElement(By.name(SAVE_BUTTON));
         WebElement element;
         try{
-            element = driver.findElement(By.name(A_FIELD));
+            element = driver.findElement(By.name(ADD_RECORD_ICON));
             element.click();
             Thread.sleep(SLEEP_FOR_DISPLAY);
             for (String [] s : saveRecordArray){
@@ -138,8 +137,8 @@ public class SaveRecordTest {
                 saveRecord.click();
                 Thread.sleep(SLEEP_FOR_DISPLAY);
                 // Checks if the process has been successful, which should not happen.
-                assertTrue((driver.findElements(By.name(SC_FIELD))).isEmpty() &&
-                    (driver.findElements(By.name(ER_FIELD))).isEmpty());
+                assertTrue((driver.findElements(By.name(SUCCESS_MESSAGE))).isEmpty() &&
+                    (driver.findElements(By.name(ERROR_MESSAGE))).isEmpty());
                 clearForm();
             }
         }
@@ -149,7 +148,7 @@ public class SaveRecordTest {
         finally {
             try {
                 // Closes the pop-up if any assert fails.
-                driver.findElement(By.name(CAN_FIELD)).click();
+                driver.findElement(By.name(CANCEL_BUTTON)).click();
                 Thread.sleep(SLEEP_FOR_LOAD);
             }
             catch (InterruptedException e){
@@ -164,8 +163,8 @@ public class SaveRecordTest {
      */
     @Test
     public void wrongInputsTest(){
-        WebElement addButton = driver.findElement(By.name(A_FIELD));
-        WebElement saveButton = driver.findElement(By.name(G_FIELD));
+        WebElement addButton = driver.findElement(By.name(ADD_RECORD_ICON));
+        WebElement saveButton = driver.findElement(By.name(SAVE_BUTTON));
         try{
             addButton.click();
             Thread.sleep(SLEEP_FOR_DISPLAY);
@@ -174,7 +173,7 @@ public class SaveRecordTest {
             saveButton.click();
             Thread.sleep(SLEEP_FOR_DISPLAY);
             // Checks if there's been an error, which should happen.
-            assertFalse((driver.findElements(By.name(ER_FIELD))).isEmpty());
+            assertFalse((driver.findElements(By.name(ERROR_MESSAGE))).isEmpty());
             addButton.click();
             Thread.sleep(SLEEP_FOR_DISPLAY);
             // Tries to input a real number instead of an integer in the "Repetitions" field.
@@ -182,7 +181,7 @@ public class SaveRecordTest {
             saveButton.click();
             Thread.sleep(SLEEP_FOR_DISPLAY);
             // Checks if there's been an error, which should happen.
-            assertFalse((driver.findElements(By.name(ER_FIELD))).isEmpty());
+            assertFalse((driver.findElements(By.name(ERROR_MESSAGE))).isEmpty());
             addButton.click();
             Thread.sleep(SLEEP_FOR_DISPLAY);
             // Tries to input a character string instead of a number in the "Weight" field.
@@ -190,7 +189,7 @@ public class SaveRecordTest {
             saveButton.click();
             Thread.sleep(SLEEP_FOR_DISPLAY);
             // Checks if there's been an error, which should happen.
-            assertFalse((driver.findElements(By.name(ER_FIELD))).isEmpty());
+            assertFalse((driver.findElements(By.name(ERROR_MESSAGE))).isEmpty());
             addButton.click();
             Thread.sleep(SLEEP_FOR_DISPLAY);
             // Tries to input a character string instead of a number in the "Series" field.
@@ -198,7 +197,7 @@ public class SaveRecordTest {
             saveButton.click();
             Thread.sleep(SLEEP_FOR_DISPLAY);
             // Checks if there's been an error, which should happen.
-            assertFalse((driver.findElements(By.name(ER_FIELD))).isEmpty());
+            assertFalse((driver.findElements(By.name(ERROR_MESSAGE))).isEmpty());
             addButton.click();
             Thread.sleep(SLEEP_FOR_DISPLAY);
             // Tries to input a character string instead of a number in the "Repetitions" field.
@@ -206,7 +205,7 @@ public class SaveRecordTest {
             saveButton.click();
             Thread.sleep(SLEEP_FOR_DISPLAY);
             // Checks if there's been an error, which should happen.
-            assertFalse((driver.findElements(By.name(ER_FIELD))).isEmpty());
+            assertFalse((driver.findElements(By.name(ERROR_MESSAGE))).isEmpty());
         }
         catch (InterruptedException e){
             e.printStackTrace();
@@ -225,27 +224,27 @@ public class SaveRecordTest {
     public void inputFieldsOverflowTest(){
         WebElement element;
         try{
-            element = driver.findElement(By.name(A_FIELD));
+            element = driver.findElement(By.name(ADD_RECORD_ICON));
             element.click();
             Thread.sleep(SLEEP_FOR_DISPLAY);
             quickFillForm("100.102", SERIES, REPETITIONS, COMMENT);
             Thread.sleep(SLEEP_FOR_DISPLAY);
-            assertFalse(driver.findElements(By.name(MAX_WEIGHT_FIELD)).isEmpty());
+            assertFalse(driver.findElements(By.name(WEIGHT_FIELD_MAX_LENGTH)).isEmpty());
             clearForm();
             quickFillForm(WEIGHT, "1000", REPETITIONS, COMMENT);
             Thread.sleep(SLEEP_FOR_DISPLAY);
-            assertFalse(driver.findElements(By.name(MAX_SERIES_FIELD)).isEmpty());
+            assertFalse(driver.findElements(By.name(SERIES_FIELD_MAX_LENGTH)).isEmpty());
             clearForm();
             quickFillForm(WEIGHT, SERIES, "1000", COMMENT);
             Thread.sleep(SLEEP_FOR_DISPLAY);
-            assertFalse(driver.findElements(By.name(MAX_REPETITIONS_FIELD)).isEmpty());
+            assertFalse(driver.findElements(By.name(REPETITIONS_FIELD_MAX_LENGTH)).isEmpty());
             clearForm();
             quickFillForm(WEIGHT, SERIES, REPETITIONS, "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" +
                 "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" +
                 "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" +
                 "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
             Thread.sleep(SLEEP_FOR_DISPLAY);
-            assertFalse(driver.findElements(By.name(MAX_COMMENTARY_FIELD)).isEmpty());
+            assertFalse(driver.findElements(By.name(COMMENTARY_FIELD_MAX_LENGTH)).isEmpty());
         }
         catch (InterruptedException e){
             e.printStackTrace();
@@ -253,7 +252,7 @@ public class SaveRecordTest {
         finally {
             try {
                 // Closes the pop-up if any assert fails.
-                driver.findElement(By.name(CAN_FIELD)).click();
+                driver.findElement(By.name(CANCEL_BUTTON)).click();
                 Thread.sleep(SLEEP_FOR_LOAD);
             }
             catch (InterruptedException e){
@@ -267,16 +266,16 @@ public class SaveRecordTest {
      */
     private static void fillForm(String w, String s, String r, String c) throws InterruptedException{
         WebElement element;
-        element = driver.findElement(By.id(W_FIELD));
+        element = driver.findElement(By.id(WEIGHT_FIELD));
         element.sendKeys(w);
         Thread.sleep(SLEEP_FOR_DISPLAY);
-        element = driver.findElement(By.id(S_FIELD));
+        element = driver.findElement(By.id(SERIES_FIELD));
         element.sendKeys(s);
         Thread.sleep(SLEEP_FOR_DISPLAY);
-        element = driver.findElement(By.id(R_FIELD));
+        element = driver.findElement(By.id(REPETITIONS_FIELD));
         element.sendKeys(r);
         Thread.sleep(SLEEP_FOR_DISPLAY);
-        element = driver.findElement(By.id(C_FIELD));
+        element = driver.findElement(By.id(COMMENTARY_FIELD));
         element.sendKeys(c);
         Thread.sleep(SLEEP_FOR_DISPLAY);
     }
@@ -287,13 +286,13 @@ public class SaveRecordTest {
      */
     private static void quickFillForm(String w, String s, String r, String c){
         WebElement element;
-        element = driver.findElement(By.id(W_FIELD));
+        element = driver.findElement(By.id(WEIGHT_FIELD));
         element.sendKeys(w);
-        element = driver.findElement(By.id(S_FIELD));
+        element = driver.findElement(By.id(SERIES_FIELD));
         element.sendKeys(s);
-        element = driver.findElement(By.id(R_FIELD));
+        element = driver.findElement(By.id(REPETITIONS_FIELD));
         element.sendKeys(r);
-        element = driver.findElement(By.id(C_FIELD));
+        element = driver.findElement(By.id(COMMENTARY_FIELD));
         element.sendKeys(c);
     }
 
@@ -302,13 +301,13 @@ public class SaveRecordTest {
      */
     private static void clearForm(){
         WebElement element;
-        element = driver.findElement(By.id(W_FIELD));
+        element = driver.findElement(By.id(WEIGHT_FIELD));
         element.clear();
-        element = driver.findElement(By.id(S_FIELD));
+        element = driver.findElement(By.id(SERIES_FIELD));
         element.clear();
-        element = driver.findElement(By.id(R_FIELD));
+        element = driver.findElement(By.id(REPETITIONS_FIELD));
         element.clear();
-        element = driver.findElement(By.id(C_FIELD));
+        element = driver.findElement(By.id(COMMENTARY_FIELD));
         element.clear();
     }
 

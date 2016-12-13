@@ -2,7 +2,6 @@ package org.trainingTracker.selenium;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -20,7 +19,7 @@ import static org.trainingTracker.selenium.TestUtils.*;
 public class SignInTest {
 
     private static WebDriver driver;
-    private static final String ER_FIELD = "errorSignIn";
+    private static final String ERROR_MESSAGE = "errorSignIn";
 
     @BeforeClass
     public static void setUp(){
@@ -44,17 +43,17 @@ public class SignInTest {
     public void signInTest(){
         WebElement element;
         try{
-            element = driver.findElement(By.name(U_FIELD));
+            element = driver.findElement(By.name(USERNAME_FIELD));
             element.sendKeys(USERNAME);
             Thread.sleep(SLEEP_FOR_DISPLAY);
-            element = driver.findElement(By.name(P_FIELD));
+            element = driver.findElement(By.name(PASSWORD_FIELD));
             element.sendKeys(PASS);
             Thread.sleep(SLEEP_FOR_DISPLAY);
-            element = driver.findElement(By.name(L_FIELD));
+            element = driver.findElement(By.name(LOGIN_BUTTON));
             element.click();
             Thread.sleep(SLEEP_FOR_LOAD);
             // Tries to find an error message. If there's an error, test will fail.
-            assertTrue((driver.findElements(By.name(ER_FIELD))).isEmpty());
+            assertTrue((driver.findElements(By.name(ERROR_MESSAGE))).isEmpty());
             // If there's no error, the process has been successful and checks wheter the redirection has been made.
             assertTrue((driver.getCurrentUrl().equals(HOME_URL)));
         }
@@ -78,17 +77,17 @@ public class SignInTest {
     public void wrongPassTest(){
         WebElement element;
         try{
-            element = driver.findElement(By.name(U_FIELD));
+            element = driver.findElement(By.name(USERNAME_FIELD));
             element.sendKeys(USERNAME);
             Thread.sleep(SLEEP_FOR_DISPLAY);
-            element = driver.findElement(By.name(P_FIELD));
+            element = driver.findElement(By.name(PASSWORD_FIELD));
             element.sendKeys("pas");
             Thread.sleep(SLEEP_FOR_DISPLAY);
-            element = driver.findElement(By.name(L_FIELD));
+            element = driver.findElement(By.name(LOGIN_BUTTON));
             element.click();
             Thread.sleep(SLEEP_FOR_LOAD);
             // Tries to find an error message. If there's no error, test will fail.
-            assertFalse((driver.findElements(By.name(ER_FIELD))).isEmpty());
+            assertFalse((driver.findElements(By.name(ERROR_MESSAGE))).isEmpty());
             // If there's an error, the process has failed and checks wheter the redirection has been made, which should not.
             assertFalse((driver.getCurrentUrl().equals(HOME_URL)));
         }
@@ -107,17 +106,17 @@ public class SignInTest {
     public void nonExistentUserTest(){
         WebElement element;
         try{
-            element = driver.findElement(By.name(U_FIELD));
+            element = driver.findElement(By.name(USERNAME_FIELD));
             element.sendKeys("doesNotExists");
             Thread.sleep(SLEEP_FOR_DISPLAY);
-            element = driver.findElement(By.name(P_FIELD));
+            element = driver.findElement(By.name(PASSWORD_FIELD));
             element.sendKeys(PASS);
             Thread.sleep(SLEEP_FOR_DISPLAY);
-            element = driver.findElement(By.name(L_FIELD));
+            element = driver.findElement(By.name(LOGIN_BUTTON));
             element.click();
             Thread.sleep(SLEEP_FOR_LOAD);
             // Tries to find an error message. If there's no error, test will fail.
-            assertFalse((driver.findElements(By.name(ER_FIELD))).isEmpty());
+            assertFalse((driver.findElements(By.name(ERROR_MESSAGE))).isEmpty());
             // If there's an error, the process has failed and checks wheter the redirection has been made, which should not.
             assertFalse((driver.getCurrentUrl().equals(HOME_URL)));
         }
@@ -135,7 +134,7 @@ public class SignInTest {
     @Test
     public void inputFieldsAreBlankTest(){
         WebElement element;
-        WebElement login = driver.findElement(By.name(L_FIELD));
+        WebElement login = driver.findElement(By.name(LOGIN_BUTTON));
         try{
             // Checks whether the user logs in with all fields blank.
             login.click();
@@ -143,7 +142,7 @@ public class SignInTest {
             assertFalse((driver.getCurrentUrl().equals(HOME_URL)));
 
             // Checks whether the user logs in with password field blank
-            element = driver.findElement(By.name(U_FIELD));
+            element = driver.findElement(By.name(USERNAME_FIELD));
             element.sendKeys(USERNAME);
             Thread.sleep(SLEEP_FOR_DISPLAY);
             login.click();
@@ -153,7 +152,7 @@ public class SignInTest {
             // Checks whether the user logs in with username field blank.
             element.clear();
             Thread.sleep(SLEEP_FOR_DISPLAY);
-            element = driver.findElement(By.name(P_FIELD));
+            element = driver.findElement(By.name(PASSWORD_FIELD));
             element.sendKeys(PASS);
             Thread.sleep(SLEEP_FOR_DISPLAY);
             login.click();
