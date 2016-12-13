@@ -50,7 +50,7 @@ public class ListPerformed extends HttpServlet {
             for (ExerciseVO vo : ExercisesDAO.listUserExercises(name)) {
                 exercise = JSONObject.fromObject(vo.serialize());
                 exercise.remove("predefines");
-                if(!(list=RecordsDAO.listRecords(name, vo.getId(), 1)).isEmpty()){
+                if(!(list=RecordsDAO.listRecords(name, vo.getId(), 1, 1)).isEmpty()){
                     record = JSONObject.fromObject(list.get(0).serialize());
                     record.remove("exercise");
                     record.remove("nick");
