@@ -52,9 +52,9 @@ public class AddPredeterminedExerciseTest {
      * with that muscle groups.
      */
     @Test
-    public void okPredeterminedTest(){
+    public void addPredeterminedExerciseTest(){
         try{
-            selectPredefined();
+            selectPredetermined();
             WebElement addButton = driver.findElement(By.name(A_FIELD));
             // Finds the select with the muscle group options
             Select select = new Select(driver.findElement(By.id(SEL_MG_FIELD)));
@@ -90,7 +90,7 @@ public class AddPredeterminedExerciseTest {
      * Redirects to 'addExercise' page begining from the 'home' page and
      * selects the "Predetermined" option.
      */
-    private static void selectPredefined() throws InterruptedException{
+    private static void selectPredetermined() throws InterruptedException{
         WebElement element;
         element = driver.findElement(By.name("predButton"));
         element.click();

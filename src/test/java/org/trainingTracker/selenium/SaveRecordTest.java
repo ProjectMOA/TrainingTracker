@@ -59,7 +59,7 @@ public class SaveRecordTest {
      * the correct inputs.
      */
     @Test
-    public void okTest(){
+    public void saveNewRecordTest(){
         WebElement element;
         try{
             // It clicks the "+" button to add a new record, it fills the fields and saves them.
@@ -91,7 +91,7 @@ public class SaveRecordTest {
     * the correct inputs, including the optional comment.
     */
     @Test
-    public void okTestWithCommentary(){
+    public void saveNewRecordWithCommentaryTest(){
         WebElement element;
         try{
             // It clicks the "+" button to add a new record, it fills the fields and saves them.
@@ -123,7 +123,7 @@ public class SaveRecordTest {
      * combinations in the form.
      */
     @Test
-    public void blankFields(){
+    public void inputFieldsAreBlankTest(){
         String [] [] saveRecordArray = new String[8][3];
         String fields []= {WEIGHT, SERIES, REPETITIONS};
         fillArray(saveRecordArray, fields);
@@ -163,7 +163,7 @@ public class SaveRecordTest {
      * inputs on each field.
      */
     @Test
-    public void wrongInputs(){
+    public void wrongInputsTest(){
         WebElement addButton = driver.findElement(By.name(A_FIELD));
         WebElement saveButton = driver.findElement(By.name(G_FIELD));
         try{
@@ -222,7 +222,7 @@ public class SaveRecordTest {
     }
 
     @Test
-    public void fieldsOverflow(){
+    public void inputFieldsOverflowTest(){
         WebElement element;
         try{
             element = driver.findElement(By.name(A_FIELD));

@@ -46,7 +46,7 @@ public class DeleteExerciseTest {
     }
 
     @Test
-    public void deleteTest(){
+    public void deleteExerciseTest(){
         WebElement delete = driver.findElement(By.name(B_FIELD));
         try{
             for(int n=0;n<2;n++){

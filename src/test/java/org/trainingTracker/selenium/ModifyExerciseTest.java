@@ -55,7 +55,7 @@ public class ModifyExerciseTest {
      * the existing muscle groups with custom names.
      */
     @Test
-    public void modifyTest(){
+    public void modifyExerciseTest(){
         WebElement name = driver.findElement(By.id(NAME_FIELD));
         WebElement save = driver.findElement(By.name(G_FIELD));
         Select select = new Select(driver.findElement(By.id(SEL_MG_FIELD)));
@@ -95,7 +95,7 @@ public class ModifyExerciseTest {
     * exercise name field blank, a field that is requested.
     */
     @Test
-    public void blankNameTest(){
+    public void nameFieldIsBlankTest(){
         WebElement pencil = driver.findElement(By.name("modify"));
         WebElement name = driver.findElement(By.id(NAME_FIELD));
         WebElement save = driver.findElement(By.name(G_FIELD));

@@ -46,7 +46,7 @@ public class SignUpTest {
      * in the form.
      */
     @Test
-    public void okTest(){
+    public void signUpTest(){
         WebElement element;
         try{
             // It calls a function to fill the registration form and clicks the registration button.
@@ -80,7 +80,7 @@ public class SignUpTest {
     * Tests the registration process with an already existing user.
     */
     @Test
-    public void existingUser(){
+    public void signUpWithExistingUserTest(){
         WebElement element;
         UsersDAO.addUser(USERNAME, PASS, EMAIL);
         try{
@@ -111,7 +111,7 @@ public class SignUpTest {
      * so both passwords doesn't match.
      */
     @Test
-    public void wrongRepass(){
+    public void wrongRepassTest(){
         WebElement element;
         try{
             // It calls a function to fill the registration form and clicks the registration button.
@@ -140,7 +140,7 @@ public class SignUpTest {
     * Tests the registration process introducing a bad 'email' input.
     */
     @Test
-    public void wrongEmail(){
+    public void wrongEmailTest(){
         WebElement element;
         try{
             // It calls a function to fill the registration form and clicks the registration button.
@@ -167,7 +167,7 @@ public class SignUpTest {
      * combinations in the form.
      */
     @Test
-    public void blankFields(){
+    public void inputFieldsAreBlankTest(){
         String [] [] signUpArray = new String[15][4];
         String fields []= {USERNAME, EMAIL, PASS, PASS};
         fillArray(signUpArray, fields);
@@ -195,7 +195,7 @@ public class SignUpTest {
      * in the fields with some size limits.
      */
     @Test
-    public void fieldsOverflow(){
+    public void inputFieldsOverflowTest(){
         try{
             quickFillForm("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", EMAIL, PASS, PASS);
             Thread.sleep(SLEEP_FOR_DISPLAY);

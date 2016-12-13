@@ -41,7 +41,7 @@ public class SignInTest {
      * in the form.
      */
     @Test
-    public void okTest(){
+    public void signInTest(){
         WebElement element;
         try{
             element = driver.findElement(By.name(U_FIELD));
@@ -75,7 +75,7 @@ public class SignInTest {
      * Tests the login process with a wrong password.
      */
     @Test
-    public void wrongPass(){
+    public void wrongPassTest(){
         WebElement element;
         try{
             element = driver.findElement(By.name(U_FIELD));
@@ -104,7 +104,7 @@ public class SignInTest {
      * Tests the login process with a non existent user.
      */
     @Test
-    public void nonExistentUser(){
+    public void nonExistentUserTest(){
         WebElement element;
         try{
             element = driver.findElement(By.name(U_FIELD));
@@ -133,7 +133,7 @@ public class SignInTest {
      * Tests the login process with some or all fields in blank.
      */
     @Test
-    public void blankFields(){
+    public void inputFieldsAreBlankTest(){
         WebElement element;
         WebElement login = driver.findElement(By.name(L_FIELD));
         try{

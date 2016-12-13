@@ -56,7 +56,7 @@ public class AddCustomExerciseTest {
      * the existing muscle groups with custom names.
      */
     @Test
-    public void okCustomTest(){
+    public void addCustomExerciseTest(){
         WebElement exerciseName = null;
         try{
             selectCustom();
@@ -94,7 +94,7 @@ public class AddCustomExerciseTest {
      * exercise name field blank, a field that is requested.
      */
     @Test
-    public void blankExName(){
+    public void nameFieldIsBlankTest(){
         try{
             selectCustom();
             Select select;
@@ -118,7 +118,7 @@ public class AddCustomExerciseTest {
      * exercise name larger than allowed.
      */
     @Test
-    public void ExNameOverflow(){
+    public void nameFieldOverflowTest(){
         WebElement exerciseName = null;
         try{
             selectCustom();
