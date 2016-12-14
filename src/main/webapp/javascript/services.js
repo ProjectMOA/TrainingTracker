@@ -221,16 +221,16 @@ angular.module('trainingTrackerApp')
                     callbackSuccess(data);
                 }).error(function (data) {
                     var record1 = [
-                        {weight: 1, series: 1, repetitions: 1, commentary: "blablabla", date: "1"},
-                        {weight: 2, series: 2, repetitions: 2, commentary: "blublublu", date: "1"},
-                        {weight: 3, series: 3, repetitions: 3, commentary: "bliblibli", date: "1"},
+                        {weight: 1, series: 1, repetitions: 1, commentary: "blablabla", date: "12"},
+                        {weight: 2, series: 2, repetitions: 2, commentary: "blublublu", date: "15"},
+                        {weight: 3, series: 3, repetitions: 3, commentary: "bliblibli", date: "01"},
                         {weight: 3, series: 3, repetitions: 3, commentary: "bliblibli", date: "1"},
                         {weight: 3, series: 3, repetitions: 3, commentary: "bliblibli", date: "1"}
                     ];
                     var record2 = [
-                        {weight: 3, series: 3, repetitions: 3, commentary: "bliblibli", date: "2"},
-                        {weight: 3, series: 3, repetitions: 3, commentary: "bliblibli", date: "2"},
-                        {weight: 3, series: 3, repetitions: 3, commentary: "bliblibli", date: "2"},
+                        {weight: 3, series: 3, repetitions: 3, commentary: "bliblibli", date: "02"},
+                        {weight: 3, series: 3, repetitions: 3, commentary: "bliblibli", date: "22"},
+                        {weight: 3, series: 3, repetitions: 3, commentary: "bliblibli", date: "20"},
                         {weight: 3, series: 3, repetitions: 3, commentary: "bliblibli", date: "2"},
                         {weight: 3, series: 3, repetitions: 3, commentary: "bliblibli", date: "2"}
                     ];
@@ -248,6 +248,7 @@ angular.module('trainingTrackerApp')
                         {weight: 3, series: 3, repetitions: 3, commentary: "bliblibli", date: "4"},
                         {weight: 4, series: 4, repetitions: 4, commentary: "blebleble", date: "4"}
                     ];
+                    var record5 = [];
                     switch (numPage) {
                         case 1:
                             callbackSuccess(record1);
@@ -258,8 +259,11 @@ angular.module('trainingTrackerApp')
                         case 3:
                             callbackSuccess(record3);
                             break;
-                        default:
+                        case 4:
                             callbackSuccess(record4);
+                            break;
+                        default:
+                            callbackSuccess(record5);
                     }
                     callbackError(data);
                 });

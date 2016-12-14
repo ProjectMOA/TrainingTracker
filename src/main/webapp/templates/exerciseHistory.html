@@ -14,8 +14,12 @@
       <record ng-repeat="record in recordHistory"></record>
     </div>
 
-    <div id="loaderRecords">
+    <div ng-if="!historyCompleted" id="loaderRecords">
       <div class="loader"></div>
+    </div>
+
+    <div ng-if="historyCompleted" id="historyFeedback">
+      <p>No hay más marcas que mostrar en el ejercicio</p>
     </div>
 
   </div>
