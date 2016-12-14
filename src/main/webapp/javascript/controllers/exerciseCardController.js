@@ -28,7 +28,7 @@ angular.module('trainingTrackerApp')
 
         $scope.enterHistory = function () {
             if ($scope.enterExercise) {
-                recordsService.setExerciseName($scope.exercise.name);
+                recordsService.setExerciseObject($scope.exercise);
                 $state.go('exerciseHistory');
             } else {
                 $scope.enterExercise = true;

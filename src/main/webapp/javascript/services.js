@@ -34,7 +34,7 @@ angular.module('trainingTrackerApp')
                 _identity = undefined;
                 _authenticated = false;
                 localStorage.removeItem('userIdentity');
-                localStorage.removeItem('exerciseName');
+                localStorage.removeItem('exerciseObject');
                 $state.go('starter');
             },
 
@@ -191,21 +191,24 @@ angular.module('trainingTrackerApp')
     // 'recordsService' service manage the records of the exercises functions with the server
     .factory('recordsService', function ($state, $http, auth) {
 
-        var exerciseName = undefined;
-        if ((exerciseName == undefined) && (localStorage.exerciseName !== undefined)) {
-            exerciseName = angular.fromJson(localStorage.exerciseName);
+        var exerciseObject = undefined;
+        if ((exerciseObject == undefined) && (localStorage.exerciseObject !== undefined)) {
+            exerciseObject = angular.fromJson(localStorage.exerciseObject);
         }
 
         return {
             // set the exercise name
-            setExerciseName: function (name) {
-                localStorage.exerciseName = angular.toJson(name);
-                exerciseName = name;
+            setExerciseObject: function (object) {
+                localStorage.exerciseObject = angular.toJson(object);
+                exerciseObject = object;
             },
-
             // get the exercise name
             getExerciseName: function () {
-                return exerciseName;
+                return exerciseObject.name;
+            },
+            // get the exercise id
+            getExerciseId: function () {
+                return exerciseObject.id;
             },
 
             //get the exercises list
@@ -215,56 +218,12 @@ angular.module('trainingTrackerApp')
                     url: 'listRecordHistory',
                     headers: {
                         'user': auth.getUsername(),
-                        'numPage': numPage
+                        'numPage': numPage,
+                        'id': this.getExerciseId()
                     }
                 }).success(function (data) {
                     callbackSuccess(data);
                 }).error(function (data) {
-                    var record1 = [
-                        {weight: 1, series: 1, repetitions: 1, commentary: "blablabla", date: "12"},
-                        {weight: 2, series: 2, repetitions: 2, commentary: "blublublu", date: "15"},
-                        {weight: 3, series: 3, repetitions: 3, commentary: "bliblibli", date: "01"},
-                        {weight: 3, series: 3, repetitions: 3, commentary: "bliblibli", date: "1"},
-                        {weight: 3, series: 3, repetitions: 3, commentary: "bliblibli", date: "1"}
-                    ];
-                    var record2 = [
-                        {weight: 3, series: 3, repetitions: 3, commentary: "bliblibli", date: "02"},
-                        {weight: 3, series: 3, repetitions: 3, commentary: "bliblibli", date: "22"},
-                        {weight: 3, series: 3, repetitions: 3, commentary: "bliblibli", date: "20"},
-                        {weight: 3, series: 3, repetitions: 3, commentary: "bliblibli", date: "2"},
-                        {weight: 3, series: 3, repetitions: 3, commentary: "bliblibli", date: "2"}
-                    ];
-                    var record3 = [
-                        {weight: 3, series: 3, repetitions: 3, commentary: "bliblibli", date: "3"},
-                        {weight: 3, series: 3, repetitions: 3, commentary: "bliblibli", date: "3"},
-                        {weight: 3, series: 3, repetitions: 3, commentary: "bliblibli", date: "3"},
-                        {weight: 3, series: 3, repetitions: 3, commentary: "bliblibli", date: "3"},
-                        {weight: 3, series: 3, repetitions: 3, commentary: "bliblibli", date: "3"}
-                    ];
-                    var record4 = [
-                        {weight: 3, series: 3, repetitions: 3, commentary: "bliblibli", date: "4"},
-                        {weight: 3, series: 3, repetitions: 3, commentary: "bliblibli", date: "4"},
-                        {weight: 3, series: 3, repetitions: 3, commentary: "bliblibli", date: "4"},
-                        {weight: 3, series: 3, repetitions: 3, commentary: "bliblibli", date: "4"},
-                        {weight: 4, series: 4, repetitions: 4, commentary: "blebleble", date: "4"}
-                    ];
-                    var record5 = [];
-                    switch (numPage) {
-                        case 1:
-                            callbackSuccess(record1);
-                            break;
-                        case 2:
-                            callbackSuccess(record2);
-                            break;
-                        case 3:
-                            callbackSuccess(record3);
-                            break;
-                        case 4:
-                            callbackSuccess(record4);
-                            break;
-                        default:
-                            callbackSuccess(record5);
-                    }
                     callbackError(data);
                 });
             },
