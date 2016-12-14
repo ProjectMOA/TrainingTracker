@@ -25,13 +25,16 @@ angular.module('trainingTrackerApp')
             //authenticate the [identity] user
             authenticate: function (identity) {
                 _identity = identity;
-                _authenticated = identity != null && identity != undefined;
+                _authenticated = identity !== undefined;
                 localStorage.userIdentity = angular.toJson(_identity);
             },
 
             //logout function
             logout: function () {
-                this.authenticate(null);
+                _identity = undefined;
+                _authenticated = false;
+                localStorage.removeItem('userIdentity');
+                localStorage.removeItem('exerciseObject');
                 $state.go('starter');
             },
 
@@ -101,30 +104,6 @@ angular.module('trainingTrackerApp')
                     }
                 }).success(function (data) {
                     callbackSuccess(data);
-                }).error(function (data) {
-                    callbackError(data);
-                });
-            },
-            // save record of a exercise
-            saveRecord: function (record,callbackSuccess,callbackError,updateListRecord) {
-                var recordTemp = {
-                    user: auth.getUsername(),
-                    id: record.id,
-                    weight: record.weight,
-                    series: record.series,
-                    repetitions: record.repetitions,
-                    commentary: record.commentary
-                };
-                $http({
-                    method: 'POST',
-                    url: 'saveRecord',
-                    data: JSON.stringify(recordTemp),
-                    headers: {
-                        'Content-Type': 'application/json; charset=UTF-8'
-                    }
-                }).success(function (data) {
-                    callbackSuccess('Marca añadida correctamente');
-                    updateListRecord(data);
                 }).error(function (data) {
                     callbackError(data);
                 });
@@ -202,6 +181,72 @@ angular.module('trainingTrackerApp')
                     }
                 }).success(function (data) {
                     callbackSuccess(data);
+                }).error(function (data) {
+                    callbackError(data);
+                });
+            }
+        };
+    })
+
+    // 'recordsService' service manage the records of the exercises functions with the server
+    .factory('recordsService', function ($state, $http, auth) {
+
+        var exerciseObject = undefined;
+        if ((exerciseObject == undefined) && (localStorage.exerciseObject !== undefined)) {
+            exerciseObject = angular.fromJson(localStorage.exerciseObject);
+        }
+
+        return {
+            // set the exercise name
+            setExerciseObject: function (object) {
+                localStorage.exerciseObject = angular.toJson(object);
+                exerciseObject = object;
+            },
+            // get the exercise name
+            getExerciseName: function () {
+                return exerciseObject.name;
+            },
+            // get the exercise id
+            getExerciseId: function () {
+                return exerciseObject.id;
+            },
+
+            //get the exercises list
+            getRecordHistoryList: function (numPage, callbackSuccess, callbackError) {
+                $http({
+                    method: 'GET',
+                    url: 'listRecordHistory',
+                    headers: {
+                        'user': auth.getUsername(),
+                        'numPage': numPage,
+                        'id': this.getExerciseId()
+                    }
+                }).success(function (data) {
+                    callbackSuccess(data);
+                }).error(function (data) {
+                    callbackError(data);
+                });
+            },
+            // save record of a exercise
+            saveRecord: function (record,callbackSuccess,callbackError,updateListRecord) {
+                var recordTemp = {
+                    user: auth.getUsername(),
+                    id: record.id,
+                    weight: record.weight,
+                    series: record.series,
+                    repetitions: record.repetitions,
+                    commentary: record.commentary
+                };
+                $http({
+                    method: 'POST',
+                    url: 'saveRecord',
+                    data: JSON.stringify(recordTemp),
+                    headers: {
+                        'Content-Type': 'application/json; charset=UTF-8'
+                    }
+                }).success(function (data) {
+                    callbackSuccess('Marca añadida correctamente');
+                    updateListRecord(data);
                 }).error(function (data) {
                     callbackError(data);
                 });
