@@ -2,7 +2,6 @@ package org.trainingTracker.selenium;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -11,8 +10,6 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.Select;
 import org.trainingTracker.database.dataAccesObject.ExercisesDAO;
 import org.trainingTracker.database.dataAccesObject.UsersDAO;
-
-import java.util.Iterator;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -27,11 +24,11 @@ public class ModifyExerciseTest {
 
     private static WebDriver driver;
     private static int ExerciseID;
-    private static final String NAME_FIELD = "nameExercise";
-    private static final String SEL_MG_FIELD = "muscleGroupExercise";
-    private static final String G_FIELD = "GuardarMod";
-    private static final String CAN_FIELD = "CancelarMod";
-    private static final String MAX_NAME_FIELD = "nameMaxLength";
+    private static final String EXERCISE_NAME_FIELD  = "nameExercise";
+    private static final String MG_SELECT = "muscleGroupExercise";
+    private static final String SAVE_BUTTON = "GuardarMod";
+    private static final String CANCEL_BUTTON = "CancelarMod";
+    private static final String NAME_FIELD_MAX_LENGTH  = "nameMaxLength";
 
     @BeforeClass
     public static void setUp(){
@@ -54,20 +51,18 @@ public class ModifyExerciseTest {
      * exercise in the user's home page. The method test all
      * the existing muscle groups with custom names.
      */
-    @Ignore
     @Test
-    public void modifyTest(){
-        WebElement pencil = driver.findElement(By.name("modify"));
-        WebElement name = driver.findElement(By.id(NAME_FIELD));
-        WebElement save = driver.findElement(By.name(G_FIELD));
-        Select select = new Select(driver.findElement(By.id(SEL_MG_FIELD)));
+    public void modifyExerciseTest(){
+        WebElement name = driver.findElement(By.id(EXERCISE_NAME_FIELD ));
+        WebElement save = driver.findElement(By.name(SAVE_BUTTON));
+        Select select = new Select(driver.findElement(By.id(MG_SELECT)));
         int numOptions = select.getOptions().size();
         try{
             //Iterates through all the muscle group options.
             for(int n=0; n<numOptions-1;n++){
                 // Inserts a custom name for the exercise, tries to add the new exercise and
                 // cheks if the process have been sucecssful
-                pencil.click();
+                driver.findElement(By.name("modify")).click();
                 Thread.sleep(SLEEP_FOR_DISPLAY);
                 name.clear();
                 name.sendKeys(EXERCISE+n);
@@ -76,7 +71,7 @@ public class ModifyExerciseTest {
                 Thread.sleep(SLEEP_FOR_DISPLAY);
                 save.click();
                 Thread.sleep(SLEEP_FOR_DISPLAY);
-                assertFalse(driver.findElements(By.name(SC_FIELD)).isEmpty());
+                assertFalse(driver.findElements(By.name(SUCCESS_MESSAGE)).isEmpty());
             }
         }
         catch (InterruptedException e){
@@ -96,12 +91,11 @@ public class ModifyExerciseTest {
     * Tests the process to modify an existing custom exercise leaving the
     * exercise name field blank, a field that is requested.
     */
-    @Ignore
     @Test
-    public void blankNameTest(){
+    public void nameFieldIsBlankTest(){
         WebElement pencil = driver.findElement(By.name("modify"));
-        WebElement name = driver.findElement(By.id(NAME_FIELD));
-        WebElement save = driver.findElement(By.name(G_FIELD));
+        WebElement name = driver.findElement(By.id(EXERCISE_NAME_FIELD ));
+        WebElement save = driver.findElement(By.name(SAVE_BUTTON));
         try{
             pencil.click();
             Thread.sleep(SLEEP_FOR_DISPLAY);
@@ -110,7 +104,7 @@ public class ModifyExerciseTest {
             save.click();
             Thread.sleep(SLEEP_FOR_DISPLAY);
             // Checks if the process to add a new exercise has been successful, which should not.
-            assertTrue((driver.findElements(By.name(SC_FIELD))).isEmpty() && (driver.findElements(By.name(ER_FIELD))).isEmpty());
+            assertTrue((driver.findElements(By.name(SUCCESS_MESSAGE))).isEmpty() && (driver.findElements(By.name(ERROR_MESSAGE))).isEmpty());
         }
         catch (InterruptedException e){
             e.printStackTrace();
@@ -129,12 +123,11 @@ public class ModifyExerciseTest {
      * Tests the process to modify an existing custom exercise introducing an
      * exercise name larger than allowed.
      */
-    @Ignore
     @Test
     public void nameFieldOverflowTest(){
         WebElement pencil = driver.findElement(By.name("modify"));
-        WebElement name = driver.findElement(By.id(NAME_FIELD));
-        WebElement cancel = driver.findElement(By.name(CAN_FIELD));
+        WebElement name = driver.findElement(By.id(EXERCISE_NAME_FIELD ));
+        WebElement cancel = driver.findElement(By.name(CANCEL_BUTTON));
         try{
             pencil.click();
             Thread.sleep(SLEEP_FOR_DISPLAY);
@@ -142,7 +135,7 @@ public class ModifyExerciseTest {
             name.sendKeys("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
             Thread.sleep(SLEEP_FOR_DISPLAY);
             // Checks if an error message has appeared because of the length of the exercise name.
-            assertFalse((driver.findElements(By.name(MAX_NAME_FIELD))).isEmpty());
+            assertFalse((driver.findElements(By.name(NAME_FIELD_MAX_LENGTH ))).isEmpty());
         }
         catch (InterruptedException e){
             e.printStackTrace();
