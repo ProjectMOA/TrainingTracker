@@ -209,40 +209,59 @@ angular.module('trainingTrackerApp')
             },
 
             //get the exercises list
-            getRecordHistoryList: function (callbackSuccess,callbackError) {
+            getRecordHistoryList: function (numPage, callbackSuccess, callbackError) {
                 $http({
                     method: 'GET',
                     url: 'listRecordHistory',
                     headers: {
-                        'user': auth.getUsername()
+                        'user': auth.getUsername(),
+                        'numPage': numPage
                     }
                 }).success(function (data) {
                     callbackSuccess(data);
                 }).error(function (data) {
-                    var recordHistory = [
-                        {weight: 1, series: 1, repetitions: 1, commentary: "blablabla", date: "aa"},
-                        {weight: 2, series: 2, repetitions: 2, commentary: "blublublu", date: "uu"},
-                        {weight: 3, series: 3, repetitions: 3, commentary: "bliblibli", date: "ii"},
-                        {weight: 3, series: 3, repetitions: 3, commentary: "bliblibli", date: "ii"},
-                        {weight: 3, series: 3, repetitions: 3, commentary: "bliblibli", date: "ii"},
-                        {weight: 3, series: 3, repetitions: 3, commentary: "bliblibli", date: "ii"},
-                        {weight: 3, series: 3, repetitions: 3, commentary: "bliblibli", date: "ii"},
-                        {weight: 3, series: 3, repetitions: 3, commentary: "bliblibli", date: "ii"},
-                        {weight: 3, series: 3, repetitions: 3, commentary: "bliblibli", date: "ii"},
-                        {weight: 3, series: 3, repetitions: 3, commentary: "bliblibli", date: "ii"},
-                        {weight: 3, series: 3, repetitions: 3, commentary: "bliblibli", date: "ii"},
-                        {weight: 3, series: 3, repetitions: 3, commentary: "bliblibli", date: "ii"},
-                        {weight: 3, series: 3, repetitions: 3, commentary: "bliblibli", date: "ii"},
-                        {weight: 3, series: 3, repetitions: 3, commentary: "bliblibli", date: "ii"},
-                        {weight: 3, series: 3, repetitions: 3, commentary: "bliblibli", date: "ii"},
-                        {weight: 3, series: 3, repetitions: 3, commentary: "bliblibli", date: "ii"},
-                        {weight: 3, series: 3, repetitions: 3, commentary: "bliblibli", date: "ii"},
-                        {weight: 3, series: 3, repetitions: 3, commentary: "bliblibli", date: "ii"},
-                        {weight: 3, series: 3, repetitions: 3, commentary: "bliblibli", date: "ii"},
-                        {weight: 4, series: 4, repetitions: 4, commentary: "blebleble", date: "ee"}
+                    var record1 = [
+                        {weight: 1, series: 1, repetitions: 1, commentary: "blablabla", date: "1"},
+                        {weight: 2, series: 2, repetitions: 2, commentary: "blublublu", date: "1"},
+                        {weight: 3, series: 3, repetitions: 3, commentary: "bliblibli", date: "1"},
+                        {weight: 3, series: 3, repetitions: 3, commentary: "bliblibli", date: "1"},
+                        {weight: 3, series: 3, repetitions: 3, commentary: "bliblibli", date: "1"}
                     ];
+                    var record2 = [
+                        {weight: 3, series: 3, repetitions: 3, commentary: "bliblibli", date: "2"},
+                        {weight: 3, series: 3, repetitions: 3, commentary: "bliblibli", date: "2"},
+                        {weight: 3, series: 3, repetitions: 3, commentary: "bliblibli", date: "2"},
+                        {weight: 3, series: 3, repetitions: 3, commentary: "bliblibli", date: "2"},
+                        {weight: 3, series: 3, repetitions: 3, commentary: "bliblibli", date: "2"}
+                    ];
+                    var record3 = [
+                        {weight: 3, series: 3, repetitions: 3, commentary: "bliblibli", date: "3"},
+                        {weight: 3, series: 3, repetitions: 3, commentary: "bliblibli", date: "3"},
+                        {weight: 3, series: 3, repetitions: 3, commentary: "bliblibli", date: "3"},
+                        {weight: 3, series: 3, repetitions: 3, commentary: "bliblibli", date: "3"},
+                        {weight: 3, series: 3, repetitions: 3, commentary: "bliblibli", date: "3"}
+                    ];
+                    var record4 = [
+                        {weight: 3, series: 3, repetitions: 3, commentary: "bliblibli", date: "4"},
+                        {weight: 3, series: 3, repetitions: 3, commentary: "bliblibli", date: "4"},
+                        {weight: 3, series: 3, repetitions: 3, commentary: "bliblibli", date: "4"},
+                        {weight: 3, series: 3, repetitions: 3, commentary: "bliblibli", date: "4"},
+                        {weight: 4, series: 4, repetitions: 4, commentary: "blebleble", date: "4"}
+                    ];
+                    switch (numPage) {
+                        case 1:
+                            callbackSuccess(record1);
+                            break;
+                        case 2:
+                            callbackSuccess(record2);
+                            break;
+                        case 3:
+                            callbackSuccess(record3);
+                            break;
+                        default:
+                            callbackSuccess(record4);
+                    }
                     callbackError(data);
-                    callbackSuccess(recordHistory);
                 });
             },
             // save record of a exercise

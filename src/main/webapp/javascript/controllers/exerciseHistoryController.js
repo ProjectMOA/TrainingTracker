@@ -1,9 +1,10 @@
 angular.module('trainingTrackerApp')
 
-    .controller('exerciseHistoryCtrl', ['$scope', '$state', 'recordsService', function ($scope, $state, recordsService) {
+    .controller('exerciseHistoryCtrl', ['$scope', '$state', '$timeout', 'recordsService', function ($scope, $state, $timeout, recordsService) {
 
         $scope.nameExercise = recordsService.getExerciseName();
         $scope.recordHistory = [];
+        $scope.numPage = 1;
 
         // sort the [list] array alphabetically by date
         function sortCustom (list) {
@@ -32,31 +33,38 @@ angular.module('trainingTrackerApp')
             $scope.error = true;
         };
 
+        // get initial records
         $scope.getRecordHistoryList = function () {
-            recordsService.getRecordHistoryList(function (records) {
-                $scope.recordHistory = records;
+            recordsService.getRecordHistoryList($scope.numPage, function (records) {
+                $scope.recordHistory = $scope.recordHistory.concat(records);
                 sortCustom($scope.recordHistory);
+                $scope.numPage ++;
+                $timeout(function(){
+                    if (window.innerHeight == $(window).height()) {
+                        $scope.getRecordHistoryList();
+                    }
+                },0,false);
             }, showError);
         };
         $scope.getRecordHistoryList();
 
         $scope.loadingRecords = false; // flag to indicate that client is charging a new page of records
+        // scroll's watcher to get infinite scrolling
+        $(document).scroll(function(e){
 
-        $(document).ready(function(){
+            if (!$scope.loadingRecords &&
+                ($(window).scrollTop() +  window.innerHeight + 30 >= $(window).height())){
 
-            $(document).scroll(function(e){
-
-                if ($scope.loadingRecords)
-                    return false;
-
-                if ($(window).scrollTop() >= $(document).height() - $(window).height() - 100){
-                    $scope.loadingRecords = true;
-                    console.log("doc: " + $(document).height());
-                    console.log("window: " + $(window).height());
-                    console.log("scroll: " + $(window).scrollTop());
-                    $scope.loadingRecords = false;
-                }
-            });
+                $scope.loadingRecords = true;
+                recordsService.getRecordHistoryList($scope.numPage, function (records) {
+                    $scope.recordHistory = $scope.recordHistory.concat(records);
+                    sortCustom($scope.recordHistory);
+                    $scope.numPage ++;
+                    $timeout(function(){
+                        $scope.loadingRecords = false;
+                    },0,false);
+                }, showError);
+            }
         });
 
     }]);
