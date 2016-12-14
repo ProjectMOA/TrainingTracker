@@ -15,11 +15,11 @@ class TestUtils {
     static final String ADD_NEW_URL ="http://localhost:8080/#/addExercise";
     static final int SLEEP_FOR_DISPLAY = 1000;
     static final int SLEEP_FOR_LOAD = 3000;
-    static final String U_FIELD = "username";
-    static final String P_FIELD = "password";
-    static final String L_FIELD = "login";
-    static final String SC_FIELD = "successWithExerciseAction";
-    static final String ER_FIELD = "errorWithExerciseAction";
+    static final String USERNAME_FIELD = "username";
+    static final String PASSWORD_FIELD = "password";
+    static final String LOGIN_BUTTON = "login";
+    static final String SUCCESS_MESSAGE = "successWithExerciseAction";
+    static final String ERROR_MESSAGE = "errorWithExerciseAction";
     static final String USERNAME = "test";
     static final String EMAIL= "test@prueba.com";
     static final String PASS = "pass";
@@ -75,11 +75,11 @@ class TestUtils {
     */
     static void login(WebDriver driver) throws InterruptedException{
         WebElement element;
-        element = driver.findElement(By.name(U_FIELD));
+        element = driver.findElement(By.name(USERNAME_FIELD));
         element.sendKeys(USERNAME);
-        element = driver.findElement(By.name(P_FIELD));
+        element = driver.findElement(By.name(PASSWORD_FIELD));
         element.sendKeys(PASS);
-        element = driver.findElement(By.name(L_FIELD));
+        element = driver.findElement(By.name(LOGIN_BUTTON));
         element.click();
         Thread.sleep(SLEEP_FOR_LOAD);
         assertTrue((driver.getCurrentUrl().equals(HOME_URL)));

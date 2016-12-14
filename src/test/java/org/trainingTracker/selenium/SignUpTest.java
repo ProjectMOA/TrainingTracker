@@ -2,7 +2,6 @@ package org.trainingTracker.selenium;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -20,13 +19,13 @@ import static org.trainingTracker.selenium.TestUtils.*;
 public class SignUpTest {
 
     private static WebDriver driver;
-    private static final String E_FIELD = "email";
-    private static final String RP_FIELD = "rePassword";
-    private static final String R_FIELD = "registrarse";
-    private static final String ER_FIELD = "errorSignUp";
-    private static final String MAX_USER_FIELD = "userMaxLength";
-    private static final String MAX_EMAIL_FIELD = "emailMaxLength";
-    private static final String MAX_PASS_FIELD = "passMaxLength";
+    private static final String ERROR_FIELD = "email";
+    private static final String REPASS_FIELD = "rePassword";
+    private static final String SIGNUP_BUTTON = "registrarse";
+    private static final String ERROR_MESSAGE = "errorSignUp";
+    private static final String USER_FIELD_MAX_LENGTH = "userMaxLength";
+    private static final String EMAIL_FIELD_MAX_LENGTH = "emailMaxLength";
+    private static final String PASS_FIELD_MAX_LENGTH = "passMaxLength";
 
     @BeforeClass
     public static void setUp(){
@@ -46,19 +45,19 @@ public class SignUpTest {
      * in the form.
      */
     @Test
-    public void okTest(){
+    public void signUpTest(){
         WebElement element;
         try{
             // It calls a function to fill the registration form and clicks the registration button.
             fillForm(USERNAME, EMAIL, PASS, PASS);
-            element = driver.findElement(By.name(R_FIELD));
+            element = driver.findElement(By.name(SIGNUP_BUTTON));
             element.click();
             // In this case, the sleep time is larger cause it has to wait for the request
             // to reach the backend and the database, return and redirect to the homepage
             // if the registration has been successful.
             Thread.sleep(SLEEP_FOR_LOAD);
             // Tries to find an error message. If there's an error, test will fail.
-            assertTrue((driver.findElements(By.name(ER_FIELD))).isEmpty());
+            assertTrue((driver.findElements(By.name(ERROR_MESSAGE))).isEmpty());
             // If there's no error, the process has been successful and checks wheter the redirection has been made.
             assertTrue((driver.getCurrentUrl().equals(HOME_URL)));
         }
@@ -80,20 +79,20 @@ public class SignUpTest {
     * Tests the registration process with an already existing user.
     */
     @Test
-    public void existingUser(){
+    public void signUpWithExistingUserTest(){
         WebElement element;
         UsersDAO.addUser(USERNAME, PASS, EMAIL);
         try{
             // It calls a function to fill the registration form and clicks the registration button.
             fillForm(USERNAME, EMAIL, PASS, PASS);
-            element = driver.findElement(By.name(R_FIELD));
+            element = driver.findElement(By.name(SIGNUP_BUTTON));
             element.click();
             // In this case, the sleep time is larger cause it has to wait for the request
             // to reach the backend and the database, return and redirect to the homepage
             // if the registration has been successful.
             Thread.sleep(SLEEP_FOR_LOAD);
             // Tries to find an error message. If there's an error, test will fail.
-            assertFalse((driver.findElements(By.name(ER_FIELD))).isEmpty());
+            assertFalse((driver.findElements(By.name(ERROR_MESSAGE))).isEmpty());
             // If there's an error, the process has been successful and checks wheter the redirection has been made.
             assertFalse((driver.getCurrentUrl().equals(HOME_URL)));
         }
@@ -111,19 +110,19 @@ public class SignUpTest {
      * so both passwords doesn't match.
      */
     @Test
-    public void wrongRepass(){
+    public void wrongRepassTest(){
         WebElement element;
         try{
             // It calls a function to fill the registration form and clicks the registration button.
             fillForm(USERNAME, EMAIL, PASS, "pas");
-            element = driver.findElement(By.name(R_FIELD));
+            element = driver.findElement(By.name(SIGNUP_BUTTON));
             element.click();
             // In this case, the sleep time is larger cause it has to wait for the request
             // to reach the backend and the database, return and redirect to the homepage
             // if the registration has been successful.
             Thread.sleep(SLEEP_FOR_LOAD);
             // Tries to find an error message. If there's no error, test will fail.
-            assertFalse((driver.findElements(By.name(ER_FIELD))).isEmpty());
+            assertFalse((driver.findElements(By.name(ERROR_MESSAGE))).isEmpty());
             // If there's an error, the process has failed and checks wheter the redirection has been made, which should not.
             assertFalse((driver.getCurrentUrl().equals(HOME_URL)));
 
@@ -140,12 +139,12 @@ public class SignUpTest {
     * Tests the registration process introducing a bad 'email' input.
     */
     @Test
-    public void wrongEmail(){
+    public void wrongEmailTest(){
         WebElement element;
         try{
             // It calls a function to fill the registration form and clicks the registration button.
             fillForm(USERNAME, "blablabla", PASS, PASS);
-            element = driver.findElement(By.name(R_FIELD));
+            element = driver.findElement(By.name(SIGNUP_BUTTON));
             element.click();
             // In this case, the sleep time is larger cause it has to wait for the request
             // to reach the backend and the database, return and redirect to the homepage
@@ -167,11 +166,11 @@ public class SignUpTest {
      * combinations in the form.
      */
     @Test
-    public void blankFields(){
+    public void inputFieldsAreBlankTest(){
         String [] [] signUpArray = new String[15][4];
         String fields []= {USERNAME, EMAIL, PASS, PASS};
         fillArray(signUpArray, fields);
-        WebElement registration = driver.findElement(By.name(R_FIELD));
+        WebElement registration = driver.findElement(By.name(SIGNUP_BUTTON));
         try{
             // Iterates the matrix
             for(String s [] : signUpArray){
@@ -195,19 +194,19 @@ public class SignUpTest {
      * in the fields with some size limits.
      */
     @Test
-    public void fieldsOverflow(){
+    public void inputFieldsOverflowTest(){
         try{
             quickFillForm("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", EMAIL, PASS, PASS);
             Thread.sleep(SLEEP_FOR_DISPLAY);
-            assertFalse(driver.findElements(By.name(MAX_USER_FIELD)).isEmpty());
+            assertFalse(driver.findElements(By.name(USER_FIELD_MAX_LENGTH)).isEmpty());
             clearForm();
             quickFillForm(USERNAME, "aaaaaaaaaaaaaaaaa@aaaaaaaaaaaaaaaaaaaaaaaaaaaa.com", PASS, PASS);
             Thread.sleep(SLEEP_FOR_DISPLAY);
-            assertFalse(driver.findElements(By.name(MAX_EMAIL_FIELD)).isEmpty());
+            assertFalse(driver.findElements(By.name(EMAIL_FIELD_MAX_LENGTH)).isEmpty());
             clearForm();
             quickFillForm(USERNAME, EMAIL, "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", PASS);
             Thread.sleep(SLEEP_FOR_DISPLAY);
-            assertFalse(driver.findElements(By.name(MAX_PASS_FIELD)).isEmpty());
+            assertFalse(driver.findElements(By.name(PASS_FIELD_MAX_LENGTH)).isEmpty());
             clearForm();
         }
         catch (InterruptedException e){
@@ -235,16 +234,16 @@ public class SignUpTest {
      */
     private void fillForm(String user, String email, String pass, String repass) throws InterruptedException{
         WebElement element;
-        element = driver.findElement(By.name(U_FIELD));
+        element = driver.findElement(By.name(USERNAME_FIELD));
         element.sendKeys(user);
         Thread.sleep(SLEEP_FOR_DISPLAY);
-        element = driver.findElement(By.name(E_FIELD));
+        element = driver.findElement(By.name(ERROR_FIELD));
         element.sendKeys(email);
         Thread.sleep(SLEEP_FOR_DISPLAY);
-        element = driver.findElement(By.name(P_FIELD));
+        element = driver.findElement(By.name(PASSWORD_FIELD));
         element.sendKeys(pass);
         Thread.sleep(SLEEP_FOR_DISPLAY);
-        element = driver.findElement(By.name(RP_FIELD));
+        element = driver.findElement(By.name(REPASS_FIELD));
         element.sendKeys(repass);
         Thread.sleep(SLEEP_FOR_DISPLAY);
     }
@@ -254,13 +253,13 @@ public class SignUpTest {
      */
     private void quickFillForm(String user, String email, String pass, String repass) {
         WebElement element;
-        element = driver.findElement(By.name(U_FIELD));
+        element = driver.findElement(By.name(USERNAME_FIELD));
         element.sendKeys(user);
-        element = driver.findElement(By.name(E_FIELD));
+        element = driver.findElement(By.name(ERROR_FIELD));
         element.sendKeys(email);
-        element = driver.findElement(By.name(P_FIELD));
+        element = driver.findElement(By.name(PASSWORD_FIELD));
         element.sendKeys(pass);
-        element = driver.findElement(By.name(RP_FIELD));
+        element = driver.findElement(By.name(REPASS_FIELD));
         element.sendKeys(repass);
     }
 
@@ -269,13 +268,13 @@ public class SignUpTest {
      */
     private void clearForm(){
         WebElement element;
-        element = driver.findElement(By.name(U_FIELD));
+        element = driver.findElement(By.name(USERNAME_FIELD));
         element.clear();
-        element = driver.findElement(By.name(E_FIELD));
+        element = driver.findElement(By.name(ERROR_FIELD));
         element.clear();
-        element = driver.findElement(By.name(P_FIELD));
+        element = driver.findElement(By.name(PASSWORD_FIELD));
         element.clear();
-        element = driver.findElement(By.name(RP_FIELD));
+        element = driver.findElement(By.name(REPASS_FIELD));
         element.clear();
     }
 

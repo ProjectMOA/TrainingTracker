@@ -2,7 +2,6 @@ package org.trainingTracker.selenium;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -27,15 +26,15 @@ public class FilterTest {
     private static WebDriver driver;
     private static ArrayList<Integer> predeterminedExercises;
     //Press banca-Pecho
-    private static final int PRED_EXERCISE1_ID = 1;
+    private static final int PREDETERMINED_EXERCISE1_ID = 1;
     //Vertical traction-Espalda
-    private static final int PRED_EXERCISE2_ID = 11;
+    private static final int PREDETERMINED_EXERCISE2_ID = 11;
     //Low row-Espalda
-    private static final int PRED_EXERCISE3_ID = 13;
-    private static final String EXERCISE_FIELD = "exercise-card";
-    private static final String MG_SELECT_FIELD = "selectMGFilter";
+    private static final int PREDETERMINED_EXERCISE3_ID = 13;
+    private static final String EXERCISE_CARD = "exercise-card";
+    private static final String MG_SELECT = "selectMGFilter";
     private static final String NAME_FILTER_FIELD = "nameExerciseFilter";
-    private static final String CLEAR_FILTER_FIELD = "clear";
+    private static final String CLEAR_FILTER_BUTTON = "clear";
     private static final String MG_TO_FILTER = "Espalda";
     private static final String NAME_TO_FILTER = "Low row";
 
@@ -44,9 +43,9 @@ public class FilterTest {
         boolean res = UsersDAO.addUser(USERNAME, PASS, EMAIL);
         System.out.println("***** EJECUTA CREATE EN FIL: " + res);
         predeterminedExercises = new ArrayList<>();
-        predeterminedExercises.add(ExercisesDAO.addDefaultExercise(PRED_EXERCISE1_ID, USERNAME));
-        predeterminedExercises.add(ExercisesDAO.addDefaultExercise(PRED_EXERCISE2_ID, USERNAME));
-        predeterminedExercises.add(ExercisesDAO.addDefaultExercise(PRED_EXERCISE3_ID, USERNAME));
+        predeterminedExercises.add(ExercisesDAO.addDefaultExercise(PREDETERMINED_EXERCISE1_ID, USERNAME));
+        predeterminedExercises.add(ExercisesDAO.addDefaultExercise(PREDETERMINED_EXERCISE2_ID, USERNAME));
+        predeterminedExercises.add(ExercisesDAO.addDefaultExercise(PREDETERMINED_EXERCISE3_ID, USERNAME));
         driver = new FirefoxDriver();
         driver.get(STARTER_URL);
         try{
@@ -64,14 +63,14 @@ public class FilterTest {
     */
     @Test
     public void filterByMGTest(){
-        List<WebElement> exercisesList = driver.findElements(By.tagName(EXERCISE_FIELD));
+        List<WebElement> exercisesList = driver.findElements(By.tagName(EXERCISE_CARD));
         int exNum = exercisesList.size();
-        WebElement clear = driver.findElement(By.name(CLEAR_FILTER_FIELD));
+        WebElement clear = driver.findElement(By.name(CLEAR_FILTER_BUTTON));
         try{
-            Select MGSelect = new Select(driver.findElement(By.id(MG_SELECT_FIELD)));
+            Select MGSelect = new Select(driver.findElement(By.id(MG_SELECT)));
             MGSelect.selectByValue(MG_TO_FILTER);
             Thread.sleep(SLEEP_FOR_DISPLAY);
-            exercisesList = driver.findElements(By.tagName(EXERCISE_FIELD));
+            exercisesList = driver.findElements(By.tagName(EXERCISE_CARD));
             int newExNum = exercisesList.size();
             assertTrue(exNum!=newExNum && newExNum==2);
             Thread.sleep(SLEEP_FOR_DISPLAY);
@@ -99,14 +98,14 @@ public class FilterTest {
     */
     @Test
     public void filterByNameTest(){
-        List<WebElement> exercisesList = driver.findElements(By.tagName(EXERCISE_FIELD));
+        List<WebElement> exercisesList = driver.findElements(By.tagName(EXERCISE_CARD));
         int exNum = exercisesList.size();
-        WebElement clear = driver.findElement(By.name(CLEAR_FILTER_FIELD));
+        WebElement clear = driver.findElement(By.name(CLEAR_FILTER_BUTTON));
         try{
             WebElement name = driver.findElement(By.id(NAME_FILTER_FIELD));
             name.sendKeys(NAME_TO_FILTER);
             Thread.sleep(SLEEP_FOR_DISPLAY);
-            exercisesList = driver.findElements(By.tagName(EXERCISE_FIELD));
+            exercisesList = driver.findElements(By.tagName(EXERCISE_CARD));
             int newExNum = exercisesList.size();
             assertTrue(exNum!=newExNum && newExNum==1);
             Thread.sleep(SLEEP_FOR_DISPLAY);
@@ -134,17 +133,17 @@ public class FilterTest {
     */
     @Test
     public void filterByMGAndNameTest(){
-        List<WebElement> exercisesList = driver.findElements(By.tagName(EXERCISE_FIELD));
+        List<WebElement> exercisesList = driver.findElements(By.tagName(EXERCISE_CARD));
         int exNum = exercisesList.size();
-        WebElement clear = driver.findElement(By.name(CLEAR_FILTER_FIELD));
+        WebElement clear = driver.findElement(By.name(CLEAR_FILTER_BUTTON));
         try{
-            Select MGSelect = new Select(driver.findElement(By.id(MG_SELECT_FIELD)));
+            Select MGSelect = new Select(driver.findElement(By.id(MG_SELECT)));
             MGSelect.selectByValue(MG_TO_FILTER);
             Thread.sleep(SLEEP_FOR_DISPLAY);
             WebElement name = driver.findElement(By.id(NAME_FILTER_FIELD));
             name.sendKeys(NAME_TO_FILTER);
             Thread.sleep(SLEEP_FOR_DISPLAY);
-            exercisesList = driver.findElements(By.tagName(EXERCISE_FIELD));
+            exercisesList = driver.findElements(By.tagName(EXERCISE_CARD));
             int newExNum = exercisesList.size();
             assertTrue(exNum!=newExNum && newExNum==1);
             Thread.sleep(SLEEP_FOR_DISPLAY);
