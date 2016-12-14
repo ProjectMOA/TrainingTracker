@@ -27,6 +27,10 @@ public class UsersDAO {
      */
 	public static boolean addUser( String nick, String pass, String mail){
 
+        if ( nick==null || nick.equals("") || pass==null || pass.equals("") || mail==null || mail.equals("") ){
+            return false;
+        }
+
         try (Connection conn = ConnectionPool.requestConnection()) {
 
             PreparedStatement stmt = conn.prepareStatement(
