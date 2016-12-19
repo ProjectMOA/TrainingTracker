@@ -33,6 +33,9 @@ public class ExercisesDAO {
      * @return
      */
     public static synchronized int addDefaultExercise(int exercise_id, String owner){
+        if( exercise_id<0 || owner==null || owner.equals("")){
+            return -1;
+        }
         try (Connection conn = ConnectionPool.requestConnection()) {
 
             PreparedStatement stmt = conn.prepareStatement(
@@ -59,6 +62,10 @@ public class ExercisesDAO {
      * @return
      */
 	public static synchronized int addCustomExercise(String exercise_name, String muscleGroup, String owner){
+        if ( exercise_name==null || muscleGroup==null || owner==null ||
+            exercise_name.equals("") || muscleGroup.equals("") || owner.equals("")){
+            return -1;
+        }
         try (Connection conn = ConnectionPool.requestConnection()) {
 
             PreparedStatement stmt = conn.prepareStatement(
@@ -97,6 +104,9 @@ public class ExercisesDAO {
      * @return
      */
     public static boolean deleteCustomExercise(int id){
+        if(id<0){
+            return false;
+        }
         try (Connection conn = ConnectionPool.requestConnection()) {
 
             PreparedStatement stmt = conn.prepareStatement(
@@ -124,6 +134,9 @@ public class ExercisesDAO {
      * @return
      */
     public static boolean deleteOwnExercise(String nick, int exercise){
+        if(nick==null || nick.equals("") || exercise<0){
+            return false;
+        }
         try (Connection conn = ConnectionPool.requestConnection()) {
 
             PreparedStatement stmt = conn.prepareStatement(
@@ -150,6 +163,10 @@ public class ExercisesDAO {
      * @return
      */
     public static boolean updateCustomExercise(int exercise, String newExerciseName, String newMuscleGroup){
+        if(exercise<0 || newExerciseName==null || newMuscleGroup==null ||
+            newExerciseName.equals("")  || newExerciseName.equals("")){
+            return false;
+        }
         try (Connection conn = ConnectionPool.requestConnection()) {
 
             PreparedStatement stmt = conn.prepareStatement(
@@ -173,6 +190,9 @@ public class ExercisesDAO {
      * @return
      */
 	public static List<ExerciseVO> listUserExercises(String user){
+        if(user==null || user.equals("")){
+            return null;
+        }
         try (Connection conn = ConnectionPool.requestConnection()) {
 
             PreparedStatement stmt = conn.prepareStatement(
@@ -207,7 +227,6 @@ public class ExercisesDAO {
      * @return
      */
     public static List<ExerciseVO> listDefaultExercises(){
-
         try (Connection conn = ConnectionPool.requestConnection()) {
 
             PreparedStatement stmt = conn.prepareStatement(
