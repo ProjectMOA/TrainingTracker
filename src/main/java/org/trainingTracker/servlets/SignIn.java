@@ -10,7 +10,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import net.sf.json.JSONObject;
-import net.sf.json.JSONException;
 
 import org.trainingTracker.database.dataAccesObject.UsersDAO;
 import org.trainingTracker.database.valueObject.UserVO;
@@ -39,6 +38,7 @@ public class SignIn extends HttpServlet {
         
         //Reads Authorization header and substracts user and password
         String header = request.getHeader("Authorization");
+
         header = header.substring(6);
         byte [] decoded = Base64.getDecoder().decode(header);
         String info = new String (decoded, "UTF-8");
