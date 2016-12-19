@@ -1,6 +1,6 @@
 angular.module('trainingTrackerApp')
 
-    .controller('exerciseCardCtrl', ['$scope', '$state', function ($scope, $state) {
+    .controller('exerciseCardCtrl', ['$scope', '$state', 'recordsService', function ($scope, $state, recordsService) {
 
         $scope.enterExercise = true;
 
@@ -28,6 +28,7 @@ angular.module('trainingTrackerApp')
 
         $scope.enterHistory = function () {
             if ($scope.enterExercise) {
+                recordsService.setExerciseObject($scope.exercise);
                 $state.go('exerciseHistory');
             } else {
                 $scope.enterExercise = true;

@@ -1,7 +1,7 @@
 angular.module('trainingTrackerApp')
 
-    .controller('homeCtrl', ['$scope', '$state', 'exerciseService',
-        function ($scope, $state, exerciseService) {
+    .controller('homeCtrl', ['$scope', '$state', 'exerciseService', 'recordsService',
+        function ($scope, $state, exerciseService, recordsService) {
 
             $scope.exercisesList = []; //exercise list
             // exercise list server request
@@ -147,7 +147,7 @@ angular.module('trainingTrackerApp')
                 $scope.save = true; //flag to indicate that we are saving the record
                 $("#recordModal").on('hidden.bs.modal', function () {
                     if ($scope.save) {
-                        exerciseService.saveRecord($scope.recordModal, showSuccess, showError,
+                        recordsService.saveRecord($scope.recordModal, showSuccess, showError,
                             function (exercises) {
                                 $scope.exercisesList = exercises;
                             });
