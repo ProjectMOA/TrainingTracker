@@ -84,4 +84,13 @@
     <servlet-name>RemoveExercise</servlet-name>
     <url-pattern>/removeExercise</url-pattern>
     </servlet-mapping>
+    
+    <servlet>
+    <servlet-name>ListRecordHistory</servlet-name>
+    <servlet-class>org.trainingTracker.servlets.ListRecordHistory</servlet-class>
+    </servlet>
+    <servlet-mapping>
+    <servlet-name>ListRecordHistory</servlet-name>
+    <url-pattern>/listRecordHistory</url-pattern>
+    </servlet-mapping>
 </web-app>
