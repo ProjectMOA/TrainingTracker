@@ -14,6 +14,13 @@ angular.module('trainingTrackerApp')
             });
         }
 
+        // modify format date
+        function formateDate (list) {
+            for (i = 0; i < list.length; i++) {
+                list[i].date = list[i].date.slice(0, 10);
+            }
+        }
+
         // feedback handling variables
         $scope.errorMsg = "";
         $scope.error = false;
@@ -35,6 +42,7 @@ angular.module('trainingTrackerApp')
             recordsService.getRecordHistoryList($scope.numPage, function (records) {
                 if (records.length > 0) {
                     $scope.recordHistory = $scope.recordHistory.concat(records);
+                    formateDate($scope.recordHistory);
                     sortCustom($scope.recordHistory);
                     $scope.numPage ++;
                     $timeout(function(){
@@ -60,6 +68,7 @@ angular.module('trainingTrackerApp')
                 recordsService.getRecordHistoryList($scope.numPage, function (records) {
                     if (records.length > 0) {
                         $scope.recordHistory = $scope.recordHistory.concat(records);
+                        formateDate($scope.recordHistory);
                         sortCustom($scope.recordHistory);
                         $scope.numPage ++;
                         $timeout(function(){
