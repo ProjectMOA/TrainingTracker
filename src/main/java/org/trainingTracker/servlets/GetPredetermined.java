@@ -37,8 +37,6 @@ public class GetPredetermined extends HttpServlet {
      * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
      */
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        //Reads User header and substracts user
-        String user = request.getHeader("user");
         
         try {
             // Search for predefined exercises in BD
