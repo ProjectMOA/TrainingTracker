@@ -20,7 +20,8 @@ angular.module('trainingTrackerApp')
         $scope.selectedPredetermined;
         $scope.cardioNameSelected;
         $scope.cardioTypeSelected;
-        $scope.mgSelected;
+        $scope.mgPredeterminedSelected;
+        $scope.mgCustomSelected;
         $scope.customName;
 
         // feedback handling variables
@@ -60,7 +61,7 @@ angular.module('trainingTrackerApp')
         $scope.addCustom = function () {
             var customExercise = {
                 id: 0,
-                muscleGroup: $scope.mgSelected,
+                muscleGroup: $scope.mgCustomSelected,
                 name: $scope.customName
             };
             exerciseService.addExercise(customExercise,showSuccess,showError);

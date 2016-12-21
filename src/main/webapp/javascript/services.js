@@ -159,16 +159,7 @@ angular.module('trainingTrackerApp')
                         'user': auth.getUsername()
                     }
                 }).success(function (data) {
-                    var types = ["nadar", "correr", "bici"];
-                    var exercises = [
-                        {name: "montaña", id:1, cardioType: "bici"},
-                        {name: "carretera", id:2, cardioType: "bici"},
-                        {name: "marcha", id:3, cardioType: "correr"},
-                        {name: "fondo", id:4, cardioType: "correr"},
-                        {name: "mariposa", id:5, cardioType: "nadar"},
-                        {name: "libres", id:6, cardioType: "nadar"}
-                    ];
-                    callbackSuccess(data.muscleGroups,data.predeterminedExercises, types, exercises);
+                    callbackSuccess(data.muscleGroups,data.predeterminedExercises, data.cardioTypes, data.cardioExercises);
                 }).error(function (data) {
                     callbackError(data);
                 });
