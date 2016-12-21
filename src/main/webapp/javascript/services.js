@@ -154,10 +154,7 @@ angular.module('trainingTrackerApp')
             getPredetermined: function (callbackSuccess,callbackError) {
                 $http({
                     method: 'GET',
-                    url: 'getPredetermined',
-                    headers: {
-                        'user': auth.getUsername()
-                    }
+                    url: 'getPredetermined'
                 }).success(function (data) {
                     callbackSuccess(data.muscleGroups,data.predeterminedExercises, data.cardioTypes, data.cardioExercises);
                 }).error(function (data) {
