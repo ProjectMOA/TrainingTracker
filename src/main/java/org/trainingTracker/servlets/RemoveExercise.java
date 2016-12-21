@@ -55,7 +55,6 @@ public class RemoveExercise extends HttpServlet {
         JSONObject json = null;
         try {
             json = ServletCommon.readJSON(request.getReader());
-            System.out.println(json.toString());
             user = json.getString("user");
             exercise = json.getString("id");
         }
