@@ -1,28 +1,34 @@
 package org.trainingTracker.servlets;
 
+
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.mockito.Mockito;
+import org.trainingTracker.database.dataAccesObject.ExercisesDAO;
+import org.trainingTracker.database.dataAccesObject.RecordsDAO;
 import org.trainingTracker.database.dataAccesObject.UsersDAO;
 
 import javax.servlet.ServletException;
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.StringReader;
 
 import static org.junit.Assert.assertTrue;
 import static org.trainingTracker.servlets.ServletTestUtils.*;
+import static org.trainingTracker.servlets.ServletTestUtils.mocksSetUp;
 
+public class ModifyExerciseServletTest extends Mockito{
 
-public class SignUpServletTest extends Mockito {
-
-    private static final String BAD_EMAIL_MESSAGE = "Email no válido";
-    private static final String BAD_REPASS_MESSAGE = "Las contraseñas no coinciden";
-    private static final String EXISTING_USERNAME_MESSAGE = "El nombre de usuario o el email ya está en uso";
-
+    private static int ExerciseID;
 
     @BeforeClass
     public static void setUp(){
+        UsersDAO.addUser(USERNAME, PASS, EMAIL);
+        ExerciseID = ExercisesDAO.addCustomExercise(EXERCISE, MG, USERNAME);
+        RecordsDAO.addRecord(ExerciseID, USERNAME, Double.parseDouble(WEIGHT),
+            Integer.parseInt(SERIES), Integer.parseInt(REPETITIONS), COMMENT);
         mocksSetUp();
     }
 
@@ -32,11 +38,14 @@ public class SignUpServletTest extends Mockito {
     }
 
     @Test
-    public void signUpTest(){
-        String body = "{\"user\":\""+USERNAME+"\",\"email\":\""+EMAIL+"\",\"pass\":\""+PASS+"\",\"repass\":\""+PASS+"\"}\n";
+    public void modifyExerciseTest(){
+        String body = "{\"user\":\""+USERNAME+"\",\"id\":\""+ExerciseID+"\",\"muscleGroup\":\""+MG+"\"," +
+            "\"name\":\""+EXERCISE+"\"}\n";
+        String responseMessage = "[{\"id\":\""+ExerciseID+"\",\"name\":\"My Exercise\",\"muscleGroup\":\"Espalda\"," +
+            "\"predetermined\":false,\"weight\":\"10.2\",\"series\":\"4\",\"repetitions\":\"12\"}]";
         BufferedReader bf = new BufferedReader(new StringReader(body));
         servletCall(bf);
-        assertTrue(sWriter.toString().equals(JSON_USER_RESPONSE));
+        assertTrue(sWriter.toString().equals(responseMessage));
     }
 
     @Test
@@ -45,26 +54,15 @@ public class SignUpServletTest extends Mockito {
         BufferedReader bf = new BufferedReader(new StringReader(body));
         servletCall(bf);
         assertTrue(sWriter.toString().contains(INTERNAL_ERROR_MESSAGE));
-        assertTrue(sWriter.toString().contains(BAD_USERNAME_MESSAGE));
-        assertTrue(sWriter.toString().contains(BAD_PASS_MESSAGE));
-        assertTrue(sWriter.toString().contains(BAD_REPASS_MESSAGE));
-        assertTrue(sWriter.toString().contains(BAD_EMAIL_MESSAGE));
-    }
-
-    @Test
-    public void existingUserTest(){
-        UsersDAO.addUser(USERNAME, PASS, EMAIL);
-        String body = "{\"user\":\""+USERNAME+"\",\"email\":\""+EMAIL+"\",\"pass\":\""+PASS+"\",\"repass\":\""+PASS+"\"}\n";
-        BufferedReader bf = new BufferedReader(new StringReader(body));
-        servletCall(bf);
-        assertTrue(sWriter.toString().contains(EXISTING_USERNAME_MESSAGE));
+        assertTrue(sWriter.toString().contains(WRONG_EXERCISE_MESSAGE));
+        assertTrue(sWriter.toString().contains(WRONG_MG_MESSAGE));
     }
 
     private static void servletCall(BufferedReader bf){
         try{
             when(request.getReader()).thenReturn(bf);
             when(response.getWriter()).thenReturn(writer);
-            new SignUp().doPost(request, response);
+            new ModifyExercise().doPost(request, response);
             verify(request, atLeast(1)).getReader();
             writer.flush();
         }
@@ -78,6 +76,7 @@ public class SignUpServletTest extends Mockito {
 
     @AfterClass
     public static void tearDown(){
+        ExercisesDAO.deleteCustomExercise(ExerciseID);
         UsersDAO.deleteUser(USERNAME);
     }
 }

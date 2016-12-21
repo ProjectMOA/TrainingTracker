@@ -2,10 +2,12 @@ package org.trainingTracker.servlets;
 
 
 import org.junit.AfterClass;
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.mockito.Mockito;
 import org.trainingTracker.database.dataAccesObject.ExercisesDAO;
+import org.trainingTracker.database.dataAccesObject.RecordsDAO;
 import org.trainingTracker.database.dataAccesObject.UsersDAO;
 
 import javax.servlet.ServletException;
@@ -16,15 +18,18 @@ import static org.trainingTracker.servlets.ServletTestUtils.*;
 
 public class ListPerformedServletTest extends Mockito {
 
-    private static final int PREDETERMINED_EXERCISE_ID = 1;
-    private static final String JSON_EXERCISE_LIST_RESPONSE =
-        "[{\"id\":\"1\",\"name\":\"Press banca\",\"muscleGroup\":\"Pecho\",\"predetermined\":true}]";
-
     @BeforeClass
     public static void setUp(){
         UsersDAO.addUser(USERNAME, PASS, EMAIL);
         ExercisesDAO.addDefaultExercise(PREDETERMINED_EXERCISE_ID, USERNAME);
-        testSetUp();
+        RecordsDAO.addRecord(PREDETERMINED_EXERCISE_ID, USERNAME, Double.parseDouble(WEIGHT),
+            Integer.parseInt(SERIES), Integer.parseInt(REPETITIONS), COMMENT);
+        mocksSetUp();
+    }
+
+    @Before
+    public void initializeWriter(){
+        writerSetUp();
     }
 
     @Test

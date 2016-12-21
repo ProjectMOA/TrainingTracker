@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 import static org.trainingTracker.servlets.ServletTestUtils.*;
 
 import org.junit.AfterClass;
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.mockito.Mockito;
 import java.io.*;
@@ -22,7 +23,12 @@ public class SignInServletTest extends Mockito {
     @BeforeClass
     public static void setUp(){
         UsersDAO.addUser(USERNAME, PASS, EMAIL);
-        testSetUp();
+        mocksSetUp();
+    }
+
+    @Before
+    public void initializeWriter(){
+        writerSetUp();
     }
 
     @Test
