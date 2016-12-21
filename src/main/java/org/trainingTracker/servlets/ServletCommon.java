@@ -24,8 +24,8 @@ class ServletCommon {
 		while ((line = bf.readLine()) != null) {
 			jb.append(line);
 		}
-		
-		return JSONObject.fromObject(jb.toString());
+
+        return JSONObject.fromObject(jb.toString());
 	}
 
 }
