@@ -4,16 +4,22 @@ angular.module('trainingTrackerApp')
 
         $scope.predeterminedExercises = [];    // predetermined exercises
         $scope.predeterminedMG = [];    // predetermined muscle groups
+        $scope.predeterminedCardioExercises = [];    // predetermined cardio exercises
+        $scope.predeterminedCardioTypes = [];    // predetermined cardio types
 
         $scope.getPredetermined = function () {
-            exerciseService.getPredetermined(function (predeterminedMG,predeterminedExercises) {
+            exerciseService.getPredetermined(function (predeterminedMG,predeterminedExercises, cardioTypes, cardioExercises) {
                 $scope.predeterminedMG = predeterminedMG;
                 $scope.predeterminedExercises = predeterminedExercises;
+                $scope.predeterminedCardioTypes = cardioTypes;
+                $scope.predeterminedCardioExercises = cardioExercises;
             },showError);
         };
 
         // options selected from the selectors html
         $scope.selectedPredetermined;
+        $scope.cardioNameSelected;
+        $scope.cardioTypeSelected;
         $scope.mgSelected;
         $scope.customName;
 
@@ -58,6 +64,9 @@ angular.module('trainingTrackerApp')
                 name: $scope.customName
             };
             exerciseService.addExercise(customExercise,showSuccess,showError);
+        };
+        $scope.addCardiovascular = function () {
+            exerciseService.addCardiovascular($scope.cardioNameSelected,showSuccess,showError);
         };
 
         // INPUTS CONTROL LENGTH

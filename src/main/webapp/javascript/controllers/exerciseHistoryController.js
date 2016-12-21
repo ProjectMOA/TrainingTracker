@@ -10,7 +10,11 @@ angular.module('trainingTrackerApp')
         // sort the [list] array numerically by date
         function sortCustom (list) {
             list.sort(function(a, b){
-                return a.date -b.date;
+                var x = a.date.toLowerCase();
+                var y = b.date.toLowerCase();
+                if (x < y) {return 1;}
+                if (x > y) {return -1;}
+                return 0;
             });
         }
 

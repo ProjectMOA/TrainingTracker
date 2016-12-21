@@ -159,7 +159,16 @@ angular.module('trainingTrackerApp')
                         'user': auth.getUsername()
                     }
                 }).success(function (data) {
-                    callbackSuccess(data.muscleGroups,data.predeterminedExercises);
+                    var types = ["nadar", "correr", "bici"];
+                    var exercises = [
+                        {name: "montaña", id:1, cardioType: "bici"},
+                        {name: "carretera", id:2, cardioType: "bici"},
+                        {name: "marcha", id:3, cardioType: "correr"},
+                        {name: "fondo", id:4, cardioType: "correr"},
+                        {name: "mariposa", id:5, cardioType: "nadar"},
+                        {name: "libres", id:6, cardioType: "nadar"}
+                    ];
+                    callbackSuccess(data.muscleGroups,data.predeterminedExercises, types, exercises);
                 }).error(function (data) {
                     callbackError(data);
                 });
@@ -175,6 +184,27 @@ angular.module('trainingTrackerApp')
                 $http({
                     method: 'POST',
                     url: 'addExercise',
+                    data: JSON.stringify(exerciseTemp),
+                    headers: {
+                        'Content-Type': 'application/json; charset=UTF-8'
+                    }
+                }).success(function (data) {
+                    callbackSuccess(data);
+                }).error(function (data) {
+                    callbackError(data);
+                });
+            },
+            // add a cardiovascular exercise to the list of performed exercises
+            addCardiovascular: function (exercise,callbackSuccess,callbackError) {
+                var exerciseTemp = {
+                    user: auth.getUsername(),
+                    id: exercise.id,
+                    name: exercise.name,
+                    cardioType: exercise.cardioType
+                };
+                $http({
+                    method: 'POST',
+                    url: 'addCardiovascular',
                     data: JSON.stringify(exerciseTemp),
                     headers: {
                         'Content-Type': 'application/json; charset=UTF-8'
