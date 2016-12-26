@@ -141,8 +141,7 @@ public class AddCustomExerciseTest {
     }
 
     /*
-     * Redirects to 'addExercise' page begining from the 'home' page and
-     * selects the "Custom" option.
+     * Selects the "Custom" option on the "addExercise" page.
      */
     private static void selectCustom() throws InterruptedException{
         WebElement element;
