@@ -51,17 +51,63 @@ public class ExercisesDAOTest {
 
     @Test
     public void addCustomExercise() throws Exception {
-        //TODO: Implement
+        List<ExerciseVO> list = ExercisesDAO.listUserExercises(USR);
+        Assert.assertEquals(0,list.size());
+
+        int exerciseNum = ExercisesDAO.addCustomExercise("ex_1","pierna",USR);
+
+        Assert.assertEquals( -1, ExercisesDAO.addCustomExercise("","pierna",USR) );
+        Assert.assertEquals( -1, ExercisesDAO.addCustomExercise("ex_1","",USR) );
+        Assert.assertEquals( -1, ExercisesDAO.addCustomExercise("ex_1","pierna","") );
+
+        Assert.assertEquals( -1, ExercisesDAO.addCustomExercise(null,"pierna",USR) );
+        Assert.assertEquals( -1, ExercisesDAO.addCustomExercise("ex_1",null,USR) );
+        Assert.assertEquals( -1, ExercisesDAO.addCustomExercise("ex_1","pierna",null) );
+
+        list = ExercisesDAO.listUserExercises(USR);
+        Assert.assertEquals(1,list.size());
+
+        ExercisesDAO.deleteCustomExercise(exerciseNum);
     }
 
     @Test
     public void deleteCustomExercise() throws Exception {
-        //TODO: Implement
+        int exerciseNum = ExercisesDAO.addCustomExercise("ex_1","pierna",USR);
+        List<ExerciseVO> list = ExercisesDAO.listUserExercises(USR);
+        Assert.assertEquals(1,list.size());
+
+        Assert.assertFalse( ExercisesDAO.deleteCustomExercise(-1) );
+        Assert.assertTrue( ExercisesDAO.deleteCustomExercise(9999999) );
+        list = ExercisesDAO.listUserExercises(USR); //Not deleted yet
+        Assert.assertEquals(1,list.size());
+
+        Assert.assertTrue( ExercisesDAO.deleteCustomExercise(exerciseNum) );
+        list = ExercisesDAO.listUserExercises(USR); //Already deleted
+        Assert.assertEquals(0,list.size());
     }
 
     @Test
     public void deleteOwnExercise() throws Exception {
-        //TODO: Implement
+        int customExerciseNum = ExercisesDAO.addCustomExercise("ex_1","pierna",USR);
+        int defaultExerciseNum = ExercisesDAO.addDefaultExercise(1,USR);
+        List<ExerciseVO> list = ExercisesDAO.listUserExercises(USR);
+        Assert.assertEquals(2,list.size());
+
+        Assert.assertFalse( ExercisesDAO.deleteOwnExercise(null, customExerciseNum) );
+        Assert.assertFalse( ExercisesDAO.deleteOwnExercise("", customExerciseNum) );
+        Assert.assertFalse( ExercisesDAO.deleteOwnExercise(USR, -1) );
+
+        list = ExercisesDAO.listUserExercises(USR); //Not yet deleted
+        Assert.assertEquals(2,list.size());
+
+        Assert.assertTrue( ExercisesDAO.deleteOwnExercise(USR, customExerciseNum) );
+        Assert.assertTrue( ExercisesDAO.deleteOwnExercise(USR, defaultExerciseNum) );
+
+        Assert.assertTrue( ExercisesDAO.deleteCustomExercise(customExerciseNum) );
+        list = ExercisesDAO.listUserExercises(USR); //Already deleted
+        Assert.assertEquals(0,list.size());
+
+        Assert.assertTrue( ExercisesDAO.deleteCustomExercise(customExerciseNum) ); //Clean up orphan exercise
     }
 
     @Test
@@ -91,7 +137,8 @@ public class ExercisesDAOTest {
 
     @Test
     public void listDefaultExercises() throws Exception {
-        //TODO: Implement
+        List<ExerciseVO> list = ExercisesDAO.listDefaultExercises();
+        Assert.assertTrue( list!=null && list.size() > 0);
     }
 
 }

@@ -4,6 +4,7 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.trainingTracker.database.valueObject.UserVO;
 
 import static org.junit.Assert.*;
 
@@ -26,7 +27,6 @@ public class UsersDAOTest {
 
     @Test
     public void addUser() throws Exception {
-        //TODO: Implement
         Assert.assertTrue( UsersDAO.addUser("usr1","pass","mail1") ); //Check it inserts OK
 
         Assert.assertFalse( UsersDAO.addUser("","pass","mail2") ); //nick can't be empty
@@ -42,8 +42,6 @@ public class UsersDAOTest {
 
     @Test
     public void deleteUser() throws Exception {
-        //TODO: Implement
-
         UsersDAO.addUser("usr1","pass","mail1"); //Add user
 
         Assert.assertEquals("usr1", UsersDAO.findUser("usr1").getNick()); //Check it exist
@@ -51,12 +49,16 @@ public class UsersDAOTest {
         Assert.assertEquals(null, UsersDAO.findUser("usr1")); //Check it doesnt exists
 
         Assert.assertTrue( UsersDAO.deleteUser("NO_NEXISTING_USER")); //Check it doesn't crash
-        Assert.assertTrue( UsersDAO.deleteUser(null)); //Check it doesn't crash
+        Assert.assertFalse( UsersDAO.deleteUser(null)); //Check it doesn't crash
     }
 
     @Test
     public void findUser() throws Exception {
-        //TODO: Implement
+        UserVO user = UsersDAO.findUser(USR);
+        Assert.assertEquals(USR, user.getNick());
+        Assert.assertEquals("pass", user.getPass());
+        Assert.assertEquals("mail", user.getMail());
+        Assert.assertNotNull(user.getDate());
     }
 
 }
