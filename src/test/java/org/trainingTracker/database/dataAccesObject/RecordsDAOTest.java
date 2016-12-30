@@ -38,7 +38,8 @@ public class RecordsDAOTest {
 
         Assert.assertTrue( RecordsDAO.addRecord(2,USR,0,0,0,"") );
         Thread.sleep(1000);
-        Assert.assertTrue( RecordsDAO.addRecord(2,USR,0,0,0,null) );
+        Assert.assertFalse( RecordsDAO.addRecord(2,USR,0,0,0,null) );
+        Thread.sleep(1000);
         Thread.sleep(1000);
         Assert.assertFalse( RecordsDAO.addRecord(0,USR,0,0,0,"") );
         Thread.sleep(1000);
@@ -47,7 +48,7 @@ public class RecordsDAOTest {
         Assert.assertFalse( RecordsDAO.addRecord(2,"NONEXISTINGUSER",0,0,0,"") );
 
         list = RecordsDAO.listRecords(USR,2,0,1); //List all
-        Assert.assertEquals(2,list.size());
+        Assert.assertEquals(1,list.size());
 
     }
 

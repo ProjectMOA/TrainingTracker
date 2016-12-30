@@ -49,7 +49,7 @@ public class UsersDAOTest {
         Assert.assertEquals(null, UsersDAO.findUser("usr1")); //Check it doesnt exists
 
         Assert.assertTrue( UsersDAO.deleteUser("NO_NEXISTING_USER")); //Check it doesn't crash
-        Assert.assertTrue( UsersDAO.deleteUser(null)); //Check it doesn't crash
+        Assert.assertFalse( UsersDAO.deleteUser(null)); //Check it doesn't crash
     }
 
     @Test
