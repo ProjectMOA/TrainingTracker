@@ -10,8 +10,19 @@ angular.module('trainingTrackerApp')
         // sort the [list] array numerically by date
         function sortCustom (list) {
             list.sort(function(a, b){
-                return a.date -b.date;
+                var x = a.date.toLowerCase();
+                var y = b.date.toLowerCase();
+                if (x < y) {return 1;}
+                if (x > y) {return -1;}
+                return 0;
             });
+        }
+
+        // modify format date
+        function formateDate (list) {
+            for (i = 0; i < list.length; i++) {
+                list[i].date = list[i].date.slice(0, 10);
+            }
         }
 
         // feedback handling variables
@@ -35,6 +46,7 @@ angular.module('trainingTrackerApp')
             recordsService.getRecordHistoryList($scope.numPage, function (records) {
                 if (records.length > 0) {
                     $scope.recordHistory = $scope.recordHistory.concat(records);
+                    formateDate($scope.recordHistory);
                     sortCustom($scope.recordHistory);
                     $scope.numPage ++;
                     $timeout(function(){
@@ -60,6 +72,7 @@ angular.module('trainingTrackerApp')
                 recordsService.getRecordHistoryList($scope.numPage, function (records) {
                     if (records.length > 0) {
                         $scope.recordHistory = $scope.recordHistory.concat(records);
+                        formateDate($scope.recordHistory);
                         sortCustom($scope.recordHistory);
                         $scope.numPage ++;
                         $timeout(function(){

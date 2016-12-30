@@ -2,8 +2,6 @@ package org.trainingTracker.servlets;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -15,20 +13,22 @@ import net.sf.json.JSONObject;
 import net.sf.json.JSONArray;
 
 import org.trainingTracker.database.dataAccesObject.ExercisesDAO;
+import org.trainingTracker.database.dataAccesObject.RecordsDAO;
 import org.trainingTracker.database.valueObject.ExerciseVO;
+import org.trainingTracker.database.valueObject.RecordVO;
 
 /**
- * Servlet implementation class GetPredetermined
+ * Servlet implementation class ListRecordHistory
  */
-@WebServlet("/getPredetermined")
-public class GetPredetermined extends HttpServlet {
+@WebServlet("/listRecordHistory")
+public class ListRecordHistory extends HttpServlet {
     
     private static final long serialVersionUID = 1L;
     
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public GetPredetermined() {
+    public ListRecordHistory() {
         super();
     }
 
@@ -37,28 +37,26 @@ public class GetPredetermined extends HttpServlet {
      * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
      */
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        //Reads headers and substracts user, exercise and numPage
+        String user = request.getHeader("user");
+        String exercise = request.getHeader("id");
+        String numPage = request.getHeader("numPage");
         
         try {
-            // Search for predefined exercises in BD
-            JSONObject jsonResponse = new JSONObject();
-            JSONArray jsonExercises = new JSONArray();
-            JSONObject exercise;
-            Set<String> groupsSorted = new TreeSet<String>();
+            // Search for exercise records in BD
+            JSONArray jsonRecords = new JSONArray();
+            JSONObject jRecord;
+            List<RecordVO> list;
             
             response.setStatus(HttpServletResponse.SC_OK);
-            for (ExerciseVO vo : ExercisesDAO.listDefaultExercises()) {
-                exercise = JSONObject.fromObject(vo.serialize());
-                exercise.remove("predefines");
-                jsonExercises.add(exercise);
-                exercise.remove("id");
-                exercise.remove("name");
-                // add muscleGroups in a Collection that don´t repeat elements and sorts it
-                groupsSorted.add(exercise.getString("muscleGroup"));
+            for (RecordVO vo : RecordsDAO.listRecords(user, Integer.parseInt(exercise), 5, Integer.parseInt(numPage))) {
+                jRecord = JSONObject.fromObject(vo.serialize());
+                jRecord.remove("exercise");
+                jRecord.remove("nick");
+                jsonRecords.add(jRecord);
             }
             response.setContentType("application/json; charset=UTF-8");
-            jsonResponse.put("muscleGroups", groupsSorted);
-            jsonResponse.put("predeterminedExercises", jsonExercises.toString());
-            response.getWriter().write(jsonResponse.toString());
+            response.getWriter().write(jsonRecords.toString());
         }
         catch (Exception e){
             e.printStackTrace();

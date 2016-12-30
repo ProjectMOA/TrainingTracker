@@ -154,12 +154,9 @@ angular.module('trainingTrackerApp')
             getPredetermined: function (callbackSuccess,callbackError) {
                 $http({
                     method: 'GET',
-                    url: 'getPredetermined',
-                    headers: {
-                        'user': auth.getUsername()
-                    }
+                    url: 'getPredetermined'
                 }).success(function (data) {
-                    callbackSuccess(data.muscleGroups,data.predeterminedExercises);
+                    callbackSuccess(data.muscleGroups,data.predeterminedExercises, data.cardioTypes, data.cardioExercises);
                 }).error(function (data) {
                     callbackError(data);
                 });
@@ -175,6 +172,27 @@ angular.module('trainingTrackerApp')
                 $http({
                     method: 'POST',
                     url: 'addExercise',
+                    data: JSON.stringify(exerciseTemp),
+                    headers: {
+                        'Content-Type': 'application/json; charset=UTF-8'
+                    }
+                }).success(function (data) {
+                    callbackSuccess(data);
+                }).error(function (data) {
+                    callbackError(data);
+                });
+            },
+            // add a cardiovascular exercise to the list of performed exercises
+            addCardiovascular: function (exercise,callbackSuccess,callbackError) {
+                var exerciseTemp = {
+                    user: auth.getUsername(),
+                    id: exercise.id,
+                    name: exercise.name,
+                    cardioType: exercise.cardioType
+                };
+                $http({
+                    method: 'POST',
+                    url: 'addCardiovascular',
                     data: JSON.stringify(exerciseTemp),
                     headers: {
                         'Content-Type': 'application/json; charset=UTF-8'
