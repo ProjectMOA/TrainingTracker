@@ -104,9 +104,9 @@ angular.module('trainingTrackerApp')
                     }
                 }).success(function (data) {
                     var listCardio = [
-                        {name: "mariposa", cardioType: "natación", time: 20, distance: 200, intensity: "media"},
-                        {name: "mariposa2", cardioType: "natación2", time: 202, distance: 2002, intensity: "media2"},
-                        {name: "mariposa3", cardioType: "natación3", time: 203, distance: 2003, intensity: "media3"}
+                        {name: "mariposa", cardioType: "natación", time: 20, distance: 200, intensity: "media", id:1},
+                        {name: "mariposa2", cardioType: "natación2", time: 202, distance: 2002, intensity: "media2", id:2},
+                        {name: "mariposa3", cardioType: "natación3", time: 203, distance: 2003, intensity: "media3", id:3}
                     ];
                     callbackSuccess(data, listCardio);
                 }).error(function (data) {
@@ -263,6 +263,29 @@ angular.module('trainingTrackerApp')
                 $http({
                     method: 'POST',
                     url: 'saveRecord',
+                    data: JSON.stringify(recordTemp),
+                    headers: {
+                        'Content-Type': 'application/json; charset=UTF-8'
+                    }
+                }).success(function (data) {
+                    callbackSuccess('Marca añadida correctamente');
+                    updateListRecord(data);
+                }).error(function (data) {
+                    callbackError(data);
+                });
+            },
+            // save record of a exercise
+            saveCardio: function (record,callbackSuccess,callbackError,updateListRecord) {
+                var recordTemp = {
+                    user: auth.getUsername(),
+                    id: record.id,
+                    distance: record.distance,
+                    time: record.time,
+                    intensity: record.time
+                };
+                $http({
+                    method: 'POST',
+                    url: 'saveCardiovascularRecord',
                     data: JSON.stringify(recordTemp),
                     headers: {
                         'Content-Type': 'application/json; charset=UTF-8'

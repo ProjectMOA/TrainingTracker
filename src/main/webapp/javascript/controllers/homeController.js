@@ -281,4 +281,58 @@ angular.module('trainingTrackerApp')
                 };
                 $("#deleteModal").modal("hide");
             };
+
+            // MODAL CARDIO SECTION
+
+            $scope.cardioModal = {    // temporal record data on modals
+                id: 0,
+                distance: "",
+                time: "",
+                intensity: ""
+            };
+
+            // open modal with [record] information
+            $scope.openCardioModal = function (cardio) {
+                $("#cardioModal").modal("show");
+                $scope.cardioModal = {
+                    id: cardio.id,
+                    distance: "",
+                    time: "",
+                    intensity: ""
+                };
+            };
+
+            // save cardio
+            $scope.saveCardio = function () {
+                $("#cardioModal").modal("hide");
+                $scope.saveCardioRecord = true; //flag to indicate that we are saving the record
+                $("#cardioModal").on('hidden.bs.modal', function () {
+                    if ($scope.saveCardioRecord) {
+                        recordsService.saveCardio($scope.cardioModal, showSuccess, showError,
+                            function (exercises, cardio) {
+                                $scope.exercisesList = exercises;
+                                $scope.cardioList = cardio;
+                            });
+                        $scope.saveCardioRecord = false;
+                        $scope.cardioModal = {
+                            id: 0,
+                            distance: "",
+                            time: "",
+                            intensity: ""
+                        };
+                    }
+                });
+            };
+
+            //close cardio
+            $scope.closeCardioModal = function () {
+                $scope.cardioModal = {
+                    id: 0,
+                    distance: "",
+                    time: "",
+                    intensity: ""
+                };
+                $("#cardioModal").modal("hide");
+            };
+
         }]);
