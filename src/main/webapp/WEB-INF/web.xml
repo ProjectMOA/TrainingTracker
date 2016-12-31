@@ -21,7 +21,7 @@
     <servlet-name>SignUp</servlet-name>
     <url-pattern>/signUp</url-pattern>
     </servlet-mapping>
-    
+
     <servlet>
     <servlet-name>SignIn</servlet-name>
     <servlet-class>org.trainingTracker.servlets.SignIn</servlet-class>
@@ -30,7 +30,7 @@
     <servlet-name>SignIn</servlet-name>
     <url-pattern>/signIn</url-pattern>
     </servlet-mapping>
-    
+
     <servlet>
     <servlet-name>ListPerformed</servlet-name>
     <servlet-class>org.trainingTracker.servlets.ListPerformed</servlet-class>
@@ -39,7 +39,7 @@
     <servlet-name>ListPerformed</servlet-name>
     <url-pattern>/listPerformed</url-pattern>
     </servlet-mapping>
-    
+
     <servlet>
     <servlet-name>SaveRecord</servlet-name>
     <servlet-class>org.trainingTracker.servlets.SaveRecord</servlet-class>
@@ -48,7 +48,7 @@
     <servlet-name>SaveRecord</servlet-name>
     <url-pattern>/saveRecord</url-pattern>
     </servlet-mapping>
-    
+
     <servlet>
     <servlet-name>GetPredetermined</servlet-name>
     <servlet-class>org.trainingTracker.servlets.GetPredetermined</servlet-class>
@@ -57,7 +57,7 @@
     <servlet-name>GetPredetermined</servlet-name>
     <url-pattern>/getPredetermined</url-pattern>
     </servlet-mapping>
-    
+
     <servlet>
     <servlet-name>AddExercise</servlet-name>
     <servlet-class>org.trainingTracker.servlets.AddExercise</servlet-class>
@@ -66,7 +66,7 @@
     <servlet-name>AddExercise</servlet-name>
     <url-pattern>/addExercise</url-pattern>
     </servlet-mapping>
-    
+
     <servlet>
     <servlet-name>ModifyExercise</servlet-name>
     <servlet-class>org.trainingTracker.servlets.ModifyExercise</servlet-class>
@@ -75,7 +75,7 @@
     <servlet-name>ModifyExercise</servlet-name>
     <url-pattern>/modifyExercise</url-pattern>
     </servlet-mapping>
-    
+
     <servlet>
     <servlet-name>RemoveExercise</servlet-name>
     <servlet-class>org.trainingTracker.servlets.RemoveExercise</servlet-class>
@@ -84,7 +84,7 @@
     <servlet-name>RemoveExercise</servlet-name>
     <url-pattern>/removeExercise</url-pattern>
     </servlet-mapping>
-    
+
     <servlet>
     <servlet-name>ListRecordHistory</servlet-name>
     <servlet-class>org.trainingTracker.servlets.ListRecordHistory</servlet-class>
@@ -92,5 +92,14 @@
     <servlet-mapping>
     <servlet-name>ListRecordHistory</servlet-name>
     <url-pattern>/listRecordHistory</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+      <servlet-name>AddCardioExercise</servlet-name>
+      <servlet-class>org.trainingTracker.servlets.AddCardioExercise</servlet-class>
+    </servlet>
+    <servlet-mapping>
+      <servlet-name>AddCardioExercise</servlet-name>
+      <url-pattern>/addCardiovascular</url-pattern>
     </servlet-mapping>
 </web-app>
