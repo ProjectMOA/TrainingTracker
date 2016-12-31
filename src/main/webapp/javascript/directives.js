@@ -27,4 +27,14 @@ angular.module('trainingTrackerApp')
             controller: 'exerciseCardCtrl',
             scope: true
         }
+    })
+
+    //include the 'cardioCard.html' into the <cardioCard> tag
+    .directive('cardioCard', function () {
+        return {
+            restrict: 'E',
+            templateUrl: 'templates/components/cardioCard.html',
+            controller: 'cardioCardCtrl',
+            scope: true
+        }
     });
