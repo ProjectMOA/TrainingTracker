@@ -103,12 +103,7 @@ angular.module('trainingTrackerApp')
                         'user': auth.getUsername()
                     }
                 }).success(function (data) {
-                    var listCardio = [
-                        {name: "mariposa", cardioType: "natación", time: 20, distance: 200, intensity: "media", id:1},
-                        {name: "mariposa2", cardioType: "natación2", time: 202, distance: 2002, intensity: "media2", id:2},
-                        {name: "mariposa3", cardioType: "natación3", time: 203, distance: 2003, intensity: "media3", id:3}
-                    ];
-                    callbackSuccess(data, listCardio);
+                    callbackSuccess(data, data.listCardioPerformed);
                 }).error(function (data) {
                     callbackError(data);
                 });
