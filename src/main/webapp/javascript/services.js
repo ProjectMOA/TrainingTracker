@@ -187,7 +187,6 @@ angular.module('trainingTrackerApp')
                 var exerciseTemp = {
                     user: auth.getUsername(),
                     id: exercise.id,
-                    name: exercise.name,
                     cardioType: exercise.cardioType
                 };
                 $http({
