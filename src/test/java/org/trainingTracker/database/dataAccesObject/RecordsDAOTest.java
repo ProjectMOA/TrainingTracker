@@ -33,13 +33,42 @@ public class RecordsDAOTest {
 
     @Test
     public void addRecord() throws Exception {
-        //TODO: Implement
+        List<RecordVO> list = RecordsDAO.listRecords(USR,2,0,1); //List all
+        Assert.assertEquals(0,list.size());
+
+        Assert.assertTrue( RecordsDAO.addRecord(2,USR,0,0,0,"") );
+        Thread.sleep(1000);
+        Assert.assertFalse( RecordsDAO.addRecord(2,USR,0,0,0,null) );
+        Thread.sleep(1000);
+        Thread.sleep(1000);
+        Assert.assertFalse( RecordsDAO.addRecord(0,USR,0,0,0,"") );
+        Thread.sleep(1000);
+        Assert.assertFalse( RecordsDAO.addRecord(2,"",0,0,0,"") );
+        Thread.sleep(1000);
+        Assert.assertFalse( RecordsDAO.addRecord(2,"NONEXISTINGUSER",0,0,0,"") );
+
+        list = RecordsDAO.listRecords(USR,2,0,1); //List all
+        Assert.assertEquals(1,list.size());
 
     }
 
     @Test
     public void deleteRecord() throws Exception {
-        //TODO: Implement
+        Assert.assertTrue( RecordsDAO.addRecord(2,USR,0,0,0,"") );
+        List<RecordVO> list = RecordsDAO.listRecords(USR,2,0,1);
+        Assert.assertEquals(1,list.size());
+
+        Assert.assertFalse( RecordsDAO.deleteRecord(2,null, list.get(0).getRecordDate()) );
+        Assert.assertFalse( RecordsDAO.deleteRecord(2,USR, "") );
+        Assert.assertFalse( RecordsDAO.deleteRecord(2,USR, null) );
+
+        list = RecordsDAO.listRecords(USR,2,0,1);
+        Assert.assertEquals(1,list.size());
+
+        RecordsDAO.deleteRecord(2,USR,list.get(0).getRecordDate());
+        list = RecordsDAO.listRecords(USR,2,0,1);
+        Assert.assertEquals(0,list.size());
+
     }
 
     @Test
@@ -69,8 +98,6 @@ public class RecordsDAOTest {
 
         Assert.assertEquals(0, RecordsDAO.listRecords(USR,1,3,0).size()); //Page zero must be empty
         Assert.assertEquals(0, RecordsDAO.listRecords(USR,1,3,-1).size()); //Negative pages should not exist
-
-
 
     }
 

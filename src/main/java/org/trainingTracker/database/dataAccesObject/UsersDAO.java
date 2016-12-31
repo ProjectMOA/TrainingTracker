@@ -57,6 +57,9 @@ public class UsersDAO {
      * @return
      */
     public static boolean deleteUser(String nick){
+        if(nick==null || nick.equals("")){
+            return false;
+        }
         try (Connection conn = ConnectionPool.requestConnection()) {
 
             PreparedStatement stmt = conn.prepareStatement(
@@ -81,6 +84,9 @@ public class UsersDAO {
      * @return User's value object
      */
 	public static UserVO findUser(String nick ){
+        if(nick==null || nick.equals("")){
+            return null;
+        }
         try (Connection conn = ConnectionPool.requestConnection()) {
 
             PreparedStatement stmt = conn.prepareStatement(
