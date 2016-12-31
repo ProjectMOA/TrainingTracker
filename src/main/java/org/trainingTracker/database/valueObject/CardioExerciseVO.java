@@ -40,7 +40,7 @@ public class CardioExerciseVO {
      * @return
      */
     public String serialize(){
-        return String.format("{\"id\": \"%s\",  \"name\": \"%s\",  \"muscleGroup\": \"%s\", \"predetermined\": %s }",
+        return String.format("{\"id\": \"%s\",  \"name\": \"%s\",  \"cardioType\": \"%s\", \"predetermined\": %s }",
             id, name, type, predefined);
     }
 }
