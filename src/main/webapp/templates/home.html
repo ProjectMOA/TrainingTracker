@@ -30,7 +30,7 @@
       <!-- muscle group filter -->
       <div class="form-group col-sm-3">
         <select id="selectMGFilter" ng-click="hideError();hideSuccess()" class="form-control" ng-model="mgFilter">
-          <option value="" disabled selected>Filtra por grupo muscular</option>
+          <option value="" disabled selected>Filtra por tipo</option>
           <option>Pecho</option>
           <option>Espalda</option>
           <option>Hombro</option>
@@ -50,7 +50,8 @@
     <!-- Exercise Card -->
     <exercise-card ng-repeat="exercise in exercisesList | filter: {'muscleGroup': mgFilter, 'name': nameFilter}"
                    class="col-lg-3 col-md-4 col-sm-6"></exercise-card>
-
+    <!-- Exercise Card -->
+    <cardio-card ng-repeat="cardio in cardioList" class="col-lg-3 col-md-4 col-sm-6"></cardio-card>
 
     <!-- MODAL SECTION -->
 

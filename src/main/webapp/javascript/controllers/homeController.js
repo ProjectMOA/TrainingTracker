@@ -4,10 +4,12 @@ angular.module('trainingTrackerApp')
         function ($scope, $state, exerciseService, recordsService) {
 
             $scope.exercisesList = []; //exercise list
+            $scope.cardioList = []; //cardio list
             // exercise list server request
             $scope.getExercisesList = function () {
-                exerciseService.getExercisesList(function (exercises) {
+                exerciseService.getExercisesList(function (exercises, cardio) {
                     $scope.exercisesList = exercises;
+                    $scope.cardioList = cardio;
                 },showError);
             };
 
