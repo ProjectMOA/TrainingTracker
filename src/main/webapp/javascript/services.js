@@ -103,7 +103,7 @@ angular.module('trainingTrackerApp')
                         'user': auth.getUsername()
                     }
                 }).success(function (data) {
-                    callbackSuccess(data);
+                    callbackSuccess(data, data.listCardioPerformed);
                 }).error(function (data) {
                     callbackError(data);
                 });
@@ -187,7 +187,6 @@ angular.module('trainingTrackerApp')
                 var exerciseTemp = {
                     user: auth.getUsername(),
                     id: exercise.id,
-                    name: exercise.name,
                     cardioType: exercise.cardioType
                 };
                 $http({
@@ -258,6 +257,29 @@ angular.module('trainingTrackerApp')
                 $http({
                     method: 'POST',
                     url: 'saveRecord',
+                    data: JSON.stringify(recordTemp),
+                    headers: {
+                        'Content-Type': 'application/json; charset=UTF-8'
+                    }
+                }).success(function (data) {
+                    callbackSuccess('Marca añadida correctamente');
+                    updateListRecord(data);
+                }).error(function (data) {
+                    callbackError(data);
+                });
+            },
+            // save record of a exercise
+            saveCardio: function (record,callbackSuccess,callbackError,updateListRecord) {
+                var recordTemp = {
+                    user: auth.getUsername(),
+                    id: record.id,
+                    distance: record.distance,
+                    time: record.time,
+                    intensity: record.time
+                };
+                $http({
+                    method: 'POST',
+                    url: 'saveCardiovascularRecord',
                     data: JSON.stringify(recordTemp),
                     headers: {
                         'Content-Type': 'application/json; charset=UTF-8'
