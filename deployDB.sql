@@ -47,6 +47,45 @@ CREATE TABLE Records (
     foreign key(user_nick) references Users(nick) ON DELETE CASCADE,
     primary key(exercise, user_nick, record_date)
 );
+
+DROP TABLE IF EXISTS CardioType;
+CREATE TABLE CardioType (
+    name VARCHAR(50) NOT NULL,
+    primary key(name)
+);
+
+DROP TABLE IF EXISTS CardioExercises;
+CREATE TABLE CardioExercises (
+    _id INTEGER auto_increment,
+    name VARCHAR(50),
+    type VARCHAR(50) NOT NULL,
+    predefined BOOL NOT NULL DEFAULT FALSE,
+    foreign key(type) references CardioType(name) ON DELETE CASCADE,
+    primary key(_id)
+);
+
+DROP TABLE IF EXISTS CardioOwn;
+CREATE TABLE CardioOwn (
+    nick VARCHAR(50),
+    exercise INTEGER,
+    foreign key(nick) references Users(nick) ON DELETE CASCADE,
+    foreign key(exercise) references CardioExercises(_id) ON DELETE CASCADE,
+    primary key(nick, exercise)
+);
+
+DROP TABLE IF EXISTS CardioRecords;
+CREATE TABLE CardioRecords (
+    exercise INTEGER NOT NULL,
+    user_nick VARCHAR(50),
+    time TIME NOT NULL,
+    intensity INTEGER NOT NULL,
+    comment TEXT,
+    record_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    foreign key(exercise) references CardioExercises(_id) ON DELETE CASCADE,
+    foreign key(user_nick) references Users(nick) ON DELETE CASCADE,
+    primary key(exercise, user_nick, record_date)
+);
+
 USE trainingTracker;
 INSERT INTO MuscleGroup (name) VALUES ('Pecho');
 INSERT INTO MuscleGroup (name) VALUES ('Espalda');
@@ -138,6 +177,30 @@ INSERT INTO Exercises (name, muscle_group, predefined) VALUES ('Glúteo máquina
 INSERT INTO Exercises (name, muscle_group, predefined) VALUES ('Media sentadilla', 'Pierna', 1);
 INSERT INTO Exercises (name, muscle_group, predefined) VALUES ('Isquio de pie', 'Pierna', 1);
 
+INSERT INTO CardioType (name) VALUES ('Carrera');
+INSERT INTO CardioType (name) VALUES ('Natación');
+INSERT INTO CardioType (name) VALUES ('MTB');
+INSERT INTO CardioType (name) VALUES ('Bici de carretera');
+INSERT INTO CardioType (name) VALUES ('Kayak');
+
+INSERT INTO CardioExercises (name, type, predefined) VALUES ('Carrera Contínua', 'Carrera', 1);
+INSERT INTO CardioExercises (name, type, predefined) VALUES ('HIIT', 'Carrera', 1);
+INSERT INTO CardioExercises (name, type, predefined) VALUES ('Series', 'Carrera', 1);
+
+INSERT INTO CardioExercises (name, type, predefined) VALUES ('Series mariposa', 'Natación', 1);
+INSERT INTO CardioExercises (name, type, predefined) VALUES ('Series braza', 'Natación', 1);
+INSERT INTO CardioExercises (name, type, predefined) VALUES ('Series espalda', 'Natación', 1);
+
+INSERT INTO CardioExercises (name, type, predefined) VALUES ('Travesía', 'MTB', 1);
+INSERT INTO CardioExercises (name, type, predefined) VALUES ('Series', 'MTB', 1);
+INSERT INTO CardioExercises (name, type, predefined) VALUES ('Descenso', 'MTB', 1);
+INSERT INTO CardioExercises (name, type, predefined) VALUES ('Velocidad', 'MTB', 1);
+
+INSERT INTO CardioExercises (name, type, predefined) VALUES ('Series', 'Bici de carretera', 1);
+INSERT INTO CardioExercises (name, type, predefined) VALUES ('Fondo', 'Bici de carretera', 1);
+INSERT INTO CardioExercises (name, type, predefined) VALUES ('Velocidad', 'Bici de carretera', 1);
+
+INSERT INTO CardioExercises (name, type, predefined) VALUES ('Descenso de barranco', 'Kayak', 1);
 
 
 

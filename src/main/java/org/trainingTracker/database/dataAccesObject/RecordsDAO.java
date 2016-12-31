@@ -39,7 +39,10 @@ public class RecordsDAO {
      */
 	public static boolean addRecord( int exercise, String user_nick, double weight, int series,
                                      int repetitions, String comment){
-
+        if(exercise<0 || user_nick==null || user_nick.equals("") || weight<0 ||
+            series < 0 || repetitions < 0 || comment==null){
+            return false;
+        }
 		try (Connection conn = ConnectionPool.requestConnection()) {
 
             PreparedStatement stmt = conn.prepareStatement(
@@ -73,7 +76,9 @@ public class RecordsDAO {
      * @return
      */
     public static boolean deleteRecord(int exercise, String user, String date){
-
+        if( user == null || date == null || date.equals("")){
+            return false;
+        }
         try (Connection conn = ConnectionPool.requestConnection()) {
 
             PreparedStatement stmt = conn.prepareStatement(
@@ -99,11 +104,9 @@ public class RecordsDAO {
      * @return
      */
 	public static List<RecordVO> listRecords(String user, int exercise, int size, int page){
-
         if( page<1 || size < 0 ){ //Prevents SQL syntax error
             return new ArrayList<RecordVO>();
         }
-
         try (Connection conn = ConnectionPool.requestConnection()) {
 
             PreparedStatement stmt;
