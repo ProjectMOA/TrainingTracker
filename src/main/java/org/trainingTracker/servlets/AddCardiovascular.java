@@ -1,6 +1,5 @@
 package org.trainingTracker.servlets;
 
-
 import net.sf.json.JSONObject;
 import org.trainingTracker.database.dataAccesObject.CardioExercisesDAO;
 import org.trainingTracker.database.valueObject.CardioExerciseVO;
@@ -12,14 +11,18 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Iterator;
 
-public class AddCardioExercise extends HttpServlet{
+/**
+ * Servlet implementation class AddCardiovascular
+ */
+@WebServlet("/addCardiovascular")
+public class AddCardiovascular extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
 
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public AddCardioExercise() {
+    public AddCardiovascular() {
         super();
     }
 
@@ -97,4 +100,5 @@ public class AddCardioExercise extends HttpServlet{
             }
         }
     }
+    
 }
