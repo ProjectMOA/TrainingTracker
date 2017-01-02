@@ -102,4 +102,13 @@
       <servlet-name>AddCardiovascular</servlet-name>
       <url-pattern>/addCardiovascular</url-pattern>
     </servlet-mapping>
+
+    <servlet>
+      <servlet-name>SaveCardiovascularRecord</servlet-name>
+      <servlet-class>org.trainingTracker.servlets.SaveCardiovascularRecord</servlet-class>
+    </servlet>
+    <servlet-mapping>
+      <servlet-name>SaveCardiovascularRecord</servlet-name>
+      <url-pattern>/saveCardiovascularRecord</url-pattern>
+    </servlet-mapping>
 </web-app>
