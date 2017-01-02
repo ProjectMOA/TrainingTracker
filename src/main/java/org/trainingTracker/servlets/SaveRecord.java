@@ -15,8 +15,12 @@ import net.sf.json.JSONArray;
 import org.trainingTracker.servlets.ServletCommon;
 import org.trainingTracker.database.dataAccesObject.ExercisesDAO;
 import org.trainingTracker.database.dataAccesObject.RecordsDAO;
+import org.trainingTracker.database.dataAccesObject.CardioExercisesDAO;
+import org.trainingTracker.database.dataAccesObject.CardioRecordsDAO;
 import org.trainingTracker.database.valueObject.ExerciseVO;
+import org.trainingTracker.database.valueObject.CardioExerciseVO;
 import org.trainingTracker.database.valueObject.RecordVO;
+import org.trainingTracker.database.valueObject.CardioRecordVO;
 
 /**
  * Servlet implementation class SaveRecord
@@ -86,6 +90,7 @@ public class SaveRecord extends HttpServlet {
                                          Integer.parseInt(series), Integer.parseInt(repetitions), commentary)) {
                     // Search for performed exercises in BD
                     JSONArray jsonExercises = new JSONArray();
+                    JSONArray jsonCardioExercises = new JSONArray();
                     JSONObject jExercise, jRecord;
                     List<RecordVO> list;
                     
@@ -102,8 +107,20 @@ public class SaveRecord extends HttpServlet {
                         }
                         jsonExercises.add(jExercise);
                     }
+
+                    List<CardioRecordVO> list;
+                    for (CardioExerciseVO vo : CardioExercisesDAO.listUserExercises(user)) {
+                        jExercise = JSONObject.fromObject(vo.serialize());
+                        if(!(list=CardioRecordsDAO.listRecords(user, vo.getId(), 1, 1)).isEmpty()){
+                            jRecord = JSONObject.fromObject(list.get(0).serialize());
+                            jExercise.putAll(jRecord);
+                        }
+                        jsonCardioExercises.add(jExercise);
+                    }
+                    
                     response.setContentType("application/json; charset=UTF-8");
                     response.getWriter().write(jsonExercises.toString());
+                    response.getWriter().write(jsonCardioExercises.toString());
                 }
                 else {
                     response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
