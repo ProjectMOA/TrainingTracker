@@ -19,6 +19,9 @@ import static org.junit.Assert.assertTrue;
 import static org.trainingTracker.servlets.ServletTestUtils.*;
 import static org.trainingTracker.servlets.ServletTestUtils.mocksSetUp;
 
+/**
+ * Test class to check if the RemoveExercise servlet works correctly.
+ */
 public class RemoveExerciseServletTest extends Mockito{
 
     private static int ExerciseID;
@@ -41,6 +44,9 @@ public class RemoveExerciseServletTest extends Mockito{
         writerSetUp();
     }
 
+    /*
+     * Checks if the process to remove an existing predetermined exercise works correctly.
+     */
     @Test
     public void removePredeterminedExerciseTest(){
         String body = "{\"user\":\""+USERNAME+"\",\"id\":\""+PREDETERMINED_EXERCISE_ID+"\"}";
@@ -52,6 +58,9 @@ public class RemoveExerciseServletTest extends Mockito{
         assertTrue(sWriter.toString().equals(responseMessage) || sWriter.toString().equals("[]"));
     }
 
+    /*
+     * Checks if the process to remove an existing custom exercise works correctly.
+     */
     @Test
     public void removeCustomExerciseTest(){
         String body = "{\"user\":\""+USERNAME+"\",\"id\":\""+ExerciseID+"\"}";
@@ -60,6 +69,9 @@ public class RemoveExerciseServletTest extends Mockito{
         assertTrue(sWriter.toString().equals(JSON_EXERCISE_LIST_RESPONSE) || sWriter.toString().equals("[]"));
     }
 
+    /*
+     * Checks if there's an error when the client sends a bad request to the server.
+     */
     @Test
     public void badRequestTest(){
         String body = "fail";
@@ -68,6 +80,10 @@ public class RemoveExerciseServletTest extends Mockito{
         assertTrue(sWriter.toString().contains(INTERNAL_ERROR_MESSAGE));
     }
 
+    /*
+     * Checks if the process to remove a non existing exercise works correctly.
+     * It should end with an error message.
+     */
     @Test
     public void nonExistingExerciseTest(){
         String body = "{\"user\":\""+USERNAME+"\",\"id\":\""+2+"\"}";
@@ -76,6 +92,10 @@ public class RemoveExerciseServletTest extends Mockito{
         assertTrue(sWriter.toString().contains(NON_EXISTING_EXERCISE_MESSAGE));
     }
 
+    /*
+     * Sets what the mocks must return when they are called from the servlet
+     * and makes a call to the servlet that is being tested.
+     */
     private static void servletCall(BufferedReader bf){
         try{
             when(request.getReader()).thenReturn(bf);

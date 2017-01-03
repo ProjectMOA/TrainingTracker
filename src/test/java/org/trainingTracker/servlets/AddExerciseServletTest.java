@@ -21,6 +21,9 @@ import static org.junit.Assert.assertTrue;
 import static org.trainingTracker.servlets.ServletTestUtils.*;
 import static org.trainingTracker.servlets.ServletTestUtils.mocksSetUp;
 
+/**
+ * Test class to check if the AddExercise servlet works correctly.
+ */
 public class AddExerciseServletTest extends Mockito{
 
     private static final String PREDETERMINED_EXERCISE_ADDED_MESSAGE = "Ejercicio predefinido añadido";
@@ -48,6 +51,9 @@ public class AddExerciseServletTest extends Mockito{
         writerSetUp();
     }
 
+    /*
+     * Checkes if the process to add a predetermined exercise works correctly.
+     */
     @Test
     public void addPredeterminedExerciseTest(){
         String body = "{\"user\":\""+USERNAME+"\",\"id\":"+PREDETERMINED_EXERCISE_ID+",\"name\":\""+EXERCISE2+"\"," +
@@ -57,6 +63,9 @@ public class AddExerciseServletTest extends Mockito{
         assertTrue(sWriter.toString().equals(PREDETERMINED_EXERCISE_ADDED_MESSAGE));
     }
 
+    /*
+    * Checkes if the process to add a custom exercise works correctly.
+    */
     @Test
     public void addCustomExerciseTest(){
         String body = "{\"user\":\""+USERNAME+"\",\"id\":0,\"name\":\""+EXERCISE2+"\"," +
@@ -66,6 +75,10 @@ public class AddExerciseServletTest extends Mockito{
         assertTrue(sWriter.toString().equals(CUSTOM_EXERCISE_ADDED_MESSAGE));
     }
 
+    /*
+    * Checkes if the process to add an existing exercise works correctly.
+    * The proccess should end with an error message.
+    */
     @Test
     public void addExistingExerciseTest(){
         String body = "{\"user\":\""+USERNAME+"\",\"id\":0,\"name\":\""+EXERCISE+"\"," +
@@ -75,6 +88,11 @@ public class AddExerciseServletTest extends Mockito{
         assertTrue(sWriter.toString().equals(EXISTING_EXERCISE_MESSAGE));
     }
 
+    /*
+    * Checkes if the process to add an exercise that is exactly the same as a predetermined exercise
+    * works correctly.
+    * The proccess should end with an error message.
+    */
     @Test
     public void addCustomExerciseEqualToPredetermined(){
         String body = "{\"user\":\""+USERNAME+"\",\"id\":0,\"name\":\""+PREDETERMINED_EXERCISE_NAME+"\"," +
@@ -84,7 +102,9 @@ public class AddExerciseServletTest extends Mockito{
         assertTrue(sWriter.toString().equals(EXISTING_PREDETERMINED_EXERCISE_MESSAGE));
     }
 
-
+    /*
+     * Checks if there's an error when the client sends a bad request to the server.
+     */
     @Test
     public void badRequestTest(){
         String body = "fail";
@@ -95,6 +115,10 @@ public class AddExerciseServletTest extends Mockito{
         assertTrue(sWriter.toString().contains(WRONG_MG_MESSAGE));
     }
 
+    /*
+     * Sets what the mocks must return when they are called from the servlet
+     * and makes a call to the servlet that is being tested.
+     */
     private static void servletcall(BufferedReader bf){
         try{
             when(request.getReader()).thenReturn(bf);

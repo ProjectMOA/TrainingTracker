@@ -16,6 +16,10 @@ import java.util.Iterator;
 import static org.junit.Assert.assertFalse;
 import static org.trainingTracker.selenium.TestUtils.*;
 
+/**
+ * Test class to check if the process to add a new cardiovascular exercise
+ * to the home page works correctly.
+ */
 public class AddCardiovascularExerciseTest {
 
     private static WebDriver driver;

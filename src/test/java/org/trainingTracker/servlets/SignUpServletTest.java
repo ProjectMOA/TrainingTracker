@@ -13,7 +13,9 @@ import java.io.*;
 import static org.junit.Assert.assertTrue;
 import static org.trainingTracker.servlets.ServletTestUtils.*;
 
-
+/**
+ * Test class to check if the SignUp servlet works correctly.
+ */
 public class SignUpServletTest extends Mockito {
 
     private static final String BAD_EMAIL_MESSAGE = "Email no válido";
@@ -31,6 +33,9 @@ public class SignUpServletTest extends Mockito {
         writerSetUp();
     }
 
+    /*
+     * Checks if the process to sign up a new user works correctly.
+     */
     @Test
     public void signUpTest(){
         String body = "{\"user\":\""+USERNAME+"\",\"email\":\""+EMAIL+"\",\"pass\":\""+PASS+"\",\"repass\":\""+PASS+"\"}\n";
@@ -39,6 +44,9 @@ public class SignUpServletTest extends Mockito {
         assertTrue(sWriter.toString().equals(JSON_USER_RESPONSE));
     }
 
+    /*
+     * Checks if there's an error when the client sends a bad request to the server.
+     */
     @Test
     public void badRequestTest(){
         String body = "fail";
@@ -51,6 +59,10 @@ public class SignUpServletTest extends Mockito {
         assertTrue(sWriter.toString().contains(BAD_EMAIL_MESSAGE));
     }
 
+    /*
+     * Checks if there's an error message when trying to sign up a new user
+     * with an existing username.
+     */
     @Test
     public void existingUserTest(){
         UsersDAO.addUser(USERNAME, PASS, EMAIL);
@@ -60,6 +72,10 @@ public class SignUpServletTest extends Mockito {
         assertTrue(sWriter.toString().contains(EXISTING_USERNAME_MESSAGE));
     }
 
+    /*
+     * Sets what the mocks must return when they are called from the servlet
+     * and makes a call to the servlet that is being tested.
+     */
     private static void servletCall(BufferedReader bf){
         try{
             when(request.getReader()).thenReturn(bf);
