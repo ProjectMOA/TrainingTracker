@@ -85,6 +85,9 @@ class TestUtils {
         assertTrue((driver.getCurrentUrl().equals(HOME_URL)));
     }
 
+    /*
+     * Redirects to 'addExercise' page begining from the 'home' page.
+     */
     static void goToAddExercise(WebDriver driver) throws InterruptedException{
         WebElement element;
         element = driver.findElement(By.id("addExercise"));
