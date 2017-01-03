@@ -73,7 +73,7 @@ public class AddCardioExercise extends HttpServlet{
                 while (userCardioExercisesList.hasNext() && !error){
                     vo = userCardioExercisesList.next();
                     // if the new exercise doesn't exists in user's routine
-                    if (cardioType.equals(vo.getType()) && id.equals(vo.getId())) {
+                    if (cardioType.equals(vo.getType()) && (Integer.parseInt(id)==vo.getId())) {
                         error = true;
                         response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                         response.getWriter().write("Este ejercicio ya forma parte de su rutina");
@@ -86,7 +86,7 @@ public class AddCardioExercise extends HttpServlet{
                     }
                     else {
                         response.setStatus(HttpServletResponse.SC_OK);
-                        response.getWriter().write("Ejercicio predefinido añadido");
+                        response.getWriter().write("Ejercicio cardiovascular añadido");
                     }
                 }
             }

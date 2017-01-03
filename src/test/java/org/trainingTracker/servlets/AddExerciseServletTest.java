@@ -30,7 +30,6 @@ public class AddExerciseServletTest extends Mockito{
     private static final String CUSTOM_EXERCISE_ADDED_MESSAGE = "Ejercicio personalizado añadido";
     private static final String EXISTING_EXERCISE_MESSAGE = "Este ejercicio ya forma parte de su rutina";
     private static final String EXISTING_PREDETERMINED_EXERCISE_MESSAGE = "Este ejercicio forma parte de los predefinidos";
-    private static int ExerciseID;
     private static final String EXERCISE2 = "My Exercise2";
     private static final String MG2 = "Hombro";
     private static final String PREDETERMINED_EXERCISE_NAME = "Press disco";
@@ -40,9 +39,7 @@ public class AddExerciseServletTest extends Mockito{
     @BeforeClass
     public static void setUp(){
         UsersDAO.addUser(USERNAME, PASS, EMAIL);
-        ExerciseID = ExercisesDAO.addCustomExercise(EXERCISE, MG, USERNAME);
-        RecordsDAO.addRecord(ExerciseID, USERNAME, Double.parseDouble(WEIGHT),
-            Integer.parseInt(SERIES), Integer.parseInt(REPETITIONS), COMMENT);
+        ExercisesDAO.addCustomExercise(EXERCISE, MG, USERNAME);
         mocksSetUp();
     }
 
