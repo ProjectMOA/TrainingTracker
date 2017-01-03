@@ -41,10 +41,10 @@ public class AddCardiovascularExerciseTest {
     }
 
     /*
-     * Tests the process of adding a new predetermined
+     * Tests the process of adding a new cardiovascular
      * exercise to the home page. The method test all
-     * the existing muscle groups and the exercises
-     * with that muscle groups.
+     * the existing cardio types and the exercises
+     * within that type.
      */
     @Test
     public void addCardiovascularExerciseTest(){

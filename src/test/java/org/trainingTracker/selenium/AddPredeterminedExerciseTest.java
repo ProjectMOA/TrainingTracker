@@ -48,7 +48,7 @@ public class AddPredeterminedExerciseTest {
      * Tests the process of adding a new predetermined
      * exercise to the home page. The method test all
      * the existing muscle groups and the exercises
-     * with that muscle groups.
+     * within that muscle groups.
      */
     @Test
     public void addPredeterminedExerciseTest(){
