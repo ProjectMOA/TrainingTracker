@@ -11,7 +11,7 @@
         <label class="radio-inline"><input type="radio" ng-model="exerciseType" ng-click="hideError();hideSuccess()"
                                            value="predetermined" name="predButton">Predeterminado</label>
         <label class="radio-inline"><input type="radio" ng-model="exerciseType" ng-click="hideError();hideSuccess()"
-                                           value="cardiovascular">Cardiovascular</label>
+                                           value="cardiovascular" name="cardioButton">Cardiovascular</label>
       </p>
 
       <!-- this div will show only when an error occurs -->
@@ -111,7 +111,7 @@
           </p>
           <!-- submit button form-->
           <p style="text-align:center">
-            <button type="submit" class="btn btn-default theme-accent" name="addPredButton">Añadir
+            <button type="submit" class="btn btn-default theme-accent" name="addCardioButton">Añadir
               ejercicio cardiovascular</button>
           </p>
         </form>

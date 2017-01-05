@@ -16,22 +16,18 @@ import java.util.Iterator;
 import static org.junit.Assert.assertFalse;
 import static org.trainingTracker.selenium.TestUtils.*;
 
-/**
- * Test class to check if the process to add a new predetermined exercise
- * to the home page works correctly.
- */
-public class AddPredeterminedExerciseTest {
+public class AddCardiovascularExerciseTest {
 
     private static WebDriver driver;
-    private static final String ADD_EXERCISE_BUTTON = "addPredButton";
-    private static final String MG_SELECT = "selectMGPredetermined";
-    private static final String EXERCISE_SELECT = "selectExercise";
+    private static final String ADD_EXERCISE_BUTTON = "addCardioButton";
+    private static final String TYPE_SELECT = "cardiovascularType";
+    private static final String EXERCISE_SELECT = "cardiovascularName";
     private static final String SUCCESS_MESSAGE = "successAddingExercise";
 
     @BeforeClass
     public static void setUp(){
         boolean res = UsersDAO.addUser(USERNAME, PASS, EMAIL);
-        System.out.println("***** EJECUTA CREATE EN PRED: " + res);
+        System.out.println("***** EJECUTA CREATE EN CARD: " + res);
         driver = new FirefoxDriver();
         driver.get(STARTER_URL);
         try{
@@ -51,25 +47,25 @@ public class AddPredeterminedExerciseTest {
      * with that muscle groups.
      */
     @Test
-    public void addPredeterminedExerciseTest(){
+    public void addCardiovascularExerciseTest(){
         try{
-            selectPredetermined();
+            selectCardiovascular();
             WebElement addButton = driver.findElement(By.name(ADD_EXERCISE_BUTTON));
-            // Finds the select with the muscle group options
-            Select select = new Select(driver.findElement(By.id(MG_SELECT)));
+            // Finds the select with the type options
+            Select select = new Select(driver.findElement(By.id(TYPE_SELECT)));
             Iterator<WebElement> iter1 = select.getOptions().iterator();
             // Skips the first option in the select (which is blank)
             iter1.next();
-            // Iterates all the muscle group options
+            // Iterates all the type options
             while (iter1.hasNext()){
                 iter1.next().click();
                 Thread.sleep(SLEEP_FOR_DISPLAY);
-                // Findes the select with the exercise options for the selected muscle group
+                // Finds the select with the exercise options for the selected type
                 select = new Select(driver.findElement(By.id(EXERCISE_SELECT)));
                 Iterator<WebElement> iter2 = select.getOptions().iterator();
                 // Skips the first option in the select (which is blank)
                 iter2.next();
-                // Iterates all the exercise options for that muscle group
+                // Iterates all the exercise options for that type
                 while (iter2.hasNext()){
                     // Tries to add a new exercise with the selected options and check if the process has been successful.
                     iter2.next().click();
@@ -86,11 +82,11 @@ public class AddPredeterminedExerciseTest {
     }
 
     /*
-     * Selects the "Predetermined" option on the "addExercise" page.
-     */
-    private static void selectPredetermined() throws InterruptedException{
+    * Selects the "Cardiovascular" option on the "addExercise" page.
+    */
+    private static void selectCardiovascular() throws InterruptedException{
         WebElement element;
-        element = driver.findElement(By.name("predButton"));
+        element = driver.findElement(By.name("cardioButton"));
         element.click();
         Thread.sleep(SLEEP_FOR_DISPLAY);
     }
@@ -99,7 +95,6 @@ public class AddPredeterminedExerciseTest {
     public static void tearDown(){
         driver.close();
         driver.quit();
-        System.out.println("EJECUTA DELETE EN PRED: " + UsersDAO.deleteUser(USERNAME));
+        System.out.println("EJECUTA DELETE EN CARD: " + UsersDAO.deleteUser(USERNAME));
     }
 }
-
