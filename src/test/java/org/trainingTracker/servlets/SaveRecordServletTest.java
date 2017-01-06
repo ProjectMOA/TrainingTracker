@@ -5,6 +5,7 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.Ignore;
 import org.mockito.Mockito;
 import org.trainingTracker.database.dataAccesObject.ExercisesDAO;
 import org.trainingTracker.database.dataAccesObject.UsersDAO;
@@ -17,6 +18,7 @@ import java.io.StringReader;
 import static org.junit.Assert.assertTrue;
 import static org.trainingTracker.servlets.ServletTestUtils.*;
 
+@Ignore
 public class SaveRecordServletTest extends Mockito{
 
     private static final String BAD_WEIGHT_MESSAGE = "Peso no válido";

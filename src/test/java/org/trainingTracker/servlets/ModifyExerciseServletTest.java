@@ -5,6 +5,7 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.Ignore;
 import org.mockito.Mockito;
 import org.trainingTracker.database.dataAccesObject.ExercisesDAO;
 import org.trainingTracker.database.dataAccesObject.RecordsDAO;
@@ -19,6 +20,7 @@ import static org.junit.Assert.assertTrue;
 import static org.trainingTracker.servlets.ServletTestUtils.*;
 import static org.trainingTracker.servlets.ServletTestUtils.mocksSetUp;
 
+@Ignore
 public class ModifyExerciseServletTest extends Mockito{
 
     private static int ExerciseID;
