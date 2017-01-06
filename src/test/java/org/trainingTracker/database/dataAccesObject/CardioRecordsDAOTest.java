@@ -52,6 +52,7 @@ public class CardioRecordsDAOTest {
 
     }
 
+    @Ignore
     @Test
     public void deleteRecord() throws Exception {
         Assert.assertTrue( CardioRecordsDAO.addRecord(2,USR,Time.valueOf("8:15:30"),0,"") );
