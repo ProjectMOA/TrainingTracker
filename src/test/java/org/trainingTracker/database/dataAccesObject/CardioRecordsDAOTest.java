@@ -31,6 +31,7 @@ public class CardioRecordsDAOTest {
         UsersDAO.deleteUser(USR);
     }
 
+    @Ignore
     @Test
     public void addRecord() throws Exception {
         List<CardioRecordVO> list = CardioRecordsDAO.listRecords(USR,2,0,1); //List all
@@ -52,7 +53,6 @@ public class CardioRecordsDAOTest {
 
     }
 
-    @Ignore
     @Test
     public void deleteRecord() throws Exception {
         Assert.assertTrue( CardioRecordsDAO.addRecord(2,USR,Time.valueOf("8:15:30"),0,"") );
