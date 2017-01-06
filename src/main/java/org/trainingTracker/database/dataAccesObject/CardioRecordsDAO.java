@@ -31,8 +31,8 @@ public class CardioRecordsDAO {
      * @param comment
      * @return
      */
-	public static boolean addRecord( int exercise, String user_nick, Time time, int intensity, String comment){
-        if(exercise<0 || user_nick==null || user_nick.equals("") || intensity<0 || comment==null || time==null){
+	public static boolean addRecord( int exercise, String user_nick, Time time, double distance, int intensity){
+        if(exercise<0 || user_nick==null || user_nick.equals("")  || time==null || distance<0  || intensity<0){
             return false;
         }
 		try (Connection conn = ConnectionPool.requestConnection()) {
@@ -45,7 +45,7 @@ public class CardioRecordsDAO {
             stmt.setString(2,user_nick);
             stmt.setString(3,time.toString());
             stmt.setInt(4,intensity);
-            stmt.setString(5,comment);
+            stmt.setDouble(5,distance);
 
 			stmt.execute();
 
