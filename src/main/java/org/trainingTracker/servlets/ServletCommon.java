@@ -11,9 +11,9 @@ import net.sf.json.JSONObject;
 
 class ServletCommon {
 
-    private static final Map<String, int> intensidades;
+    private static final Map<String, Integer> intensidades;
     static {
-        intensidades = new HashMap<String, int>(3);
+        intensidades = new HashMap<String, Integer>(3);
         intensidades.put("Baja", 1);
         intensidades.put("Media", 2);
         intensidades.put("Alta", 3);
@@ -22,7 +22,7 @@ class ServletCommon {
     /**
      * @returns HashMap intensidades.
      */
-    static HashMap<String, int> getIntensidades() {
+    static Map<String, Integer> getIntensidades() {
         return intensidades;
     }
     

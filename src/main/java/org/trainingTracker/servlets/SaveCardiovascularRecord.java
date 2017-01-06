@@ -7,14 +7,23 @@ import java.util.Iterator;
 import java.sql.Time;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import net.sf.json.JSONObject;
+import net.sf.json.JSONArray;
 
+import org.trainingTracker.servlets.ServletCommon;
+import org.trainingTracker.database.dataAccesObject.ExercisesDAO;
+import org.trainingTracker.database.dataAccesObject.RecordsDAO;
 import org.trainingTracker.database.dataAccesObject.CardioExercisesDAO;
+import org.trainingTracker.database.dataAccesObject.CardioRecordsDAO;
+import org.trainingTracker.database.valueObject.ExerciseVO;
 import org.trainingTracker.database.valueObject.CardioExerciseVO;
+import org.trainingTracker.database.valueObject.RecordVO;
+import org.trainingTracker.database.valueObject.CardioRecordVO;
 
 /**
  * Servlet implementation class SaveCardiovascularRecord
@@ -70,7 +79,7 @@ public class SaveCardiovascularRecord extends HttpServlet {
         // Field revision
         if (!isValidDistance(distance, response) |
             !isValidTime(time, response) |
-            !isValidintensity(intensity, response)) {
+            !isValidIntensity(intensity, response)) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             error = true;
         }
@@ -78,8 +87,8 @@ public class SaveCardiovascularRecord extends HttpServlet {
         if (!error) {
             try {
                 // Creates an record in BD
-                if (CardioRecordsDAO.addRecord(Integer.parseInt(exercise), user, new Time(intensity),
-                                         Double.parseDouble(distance), ServletCommon.getIntensidades().get(intensity)))) {
+                if (CardioRecordsDAO.addRecord(Integer.parseInt(exercise), user, new Time(Long.parseLong(intensity)),
+                                         Double.parseDouble(distance), ServletCommon.getIntensidades().get(intensity))) {
                     // Search for performed exercises in BD
                     JSONArray jsonExercises = new JSONArray();
                     JSONArray jsonCardioExercises = new JSONArray();
@@ -100,14 +109,14 @@ public class SaveCardiovascularRecord extends HttpServlet {
                         jsonExercises.add(jExercise);
                     }
 
-                    List<CardioRecordVO> list;
-                    Iterator<Map.Entry<String, int>> it;
-                    Map.Entry<String, int> entry;
-                    for (CardioExerciseVO vo : CardioExercisesDAO.listUserExercises(user)) {
-                        jExercise = JSONObject.fromObject(vo.serialize());
+                    List<CardioRecordVO> list2;
+                    Iterator<Map.Entry<String, Integer>> it;
+                    Map.Entry<String, Integer> entry;
+                    for (CardioExerciseVO vo2 : CardioExercisesDAO.listUserExercises(user)) {
+                        jExercise = JSONObject.fromObject(vo2.serialize());
                         jExercise.remove("predetermined");
-                        if(!(list=CardioRecordsDAO.listRecords(user, vo.getId(), 1, 1)).isEmpty()){
-                            jRecord = JSONObject.fromObject(list.get(0).serialize());
+                        if(!(list2=CardioRecordsDAO.listRecords(user, vo2.getId(), 1, 1)).isEmpty()){
+                            jRecord = JSONObject.fromObject(list2.get(0).serialize());
                             jRecord.remove("exercise");
                             jRecord.remove("nick");
                             jRecord.remove("date");
@@ -203,7 +212,7 @@ public class SaveCardiovascularRecord extends HttpServlet {
         boolean error = false;
         
         try {
-            if (!ServletCommons.containsKey(str)) {
+            if (!ServletCommon.getIntensidades().containsKey(str)) {
                 error = true;
             }
         }

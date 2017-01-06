@@ -108,15 +108,15 @@ public class ModifyExercise extends HttpServlet {
                         }
                         jsonExercises.add(jExercise);
                     }
-                    
-                    List<CardioRecordVO> list;
-                    Iterator<Map.Entry<String, int>> it;
-                    Map.Entry<String, int> entry;
-                    for (CardioExerciseVO vo : CardioExercisesDAO.listUserExercises(user)) {
-                        jExercise = JSONObject.fromObject(vo.serialize());
+
+                    List<CardioRecordVO> list2;
+                    Iterator<Map.Entry<String, Integer>> it;
+                    Map.Entry<String, Integer> entry;
+                    for (CardioExerciseVO vo2 : CardioExercisesDAO.listUserExercises(user)) {
+                        jExercise = JSONObject.fromObject(vo2.serialize());
                         jExercise.remove("predetermined");
-                        if(!(list=CardioRecordsDAO.listRecords(user, vo.getId(), 1, 1)).isEmpty()){
-                            jRecord = JSONObject.fromObject(list.get(0).serialize());
+                        if(!(list2=CardioRecordsDAO.listRecords(user, vo2.getId(), 1, 1)).isEmpty()){
+                            jRecord = JSONObject.fromObject(list2.get(0).serialize());
                             jRecord.remove("exercise");
                             jRecord.remove("nick");
                             jRecord.remove("date");

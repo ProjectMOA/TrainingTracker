@@ -113,9 +113,9 @@ public class RemoveExercise extends HttpServlet {
                                 List<RecordVO> list;
                                 
                                 response.setStatus(HttpServletResponse.SC_OK);
-                                for (ExerciseVO vo : ExercisesDAO.listUserExercises(user)) {
-                                    jExercise = JSONObject.fromObject(vo.serialize());
-                                    if(!(list=RecordsDAO.listRecords(user, vo.getId(), 1, 1)).isEmpty()){
+                                for (ExerciseVO vo2 : ExercisesDAO.listUserExercises(user)) {
+                                    jExercise = JSONObject.fromObject(vo2.serialize());
+                                    if(!(list=RecordsDAO.listRecords(user, vo2.getId(), 1, 1)).isEmpty()){
                                         jRecord = JSONObject.fromObject(list.get(0).serialize());
                                         jRecord.remove("exercise");
                                         jRecord.remove("nick");
@@ -125,22 +125,22 @@ public class RemoveExercise extends HttpServlet {
                                     }
                                     jsonExercises.add(jExercise);
                                 }
-                                
-                                List<CardioRecordVO> list;
-                                Iterator<Map.Entry<String, int>> it;
-                                Map.Entry<String, int> entry;
-                                for (CardioExerciseVO vo : CardioExercisesDAO.listUserExercises(user)) {
-                                    jExercise = JSONObject.fromObject(vo.serialize());
+
+                                List<CardioRecordVO> list2;
+                                Iterator<Map.Entry<String, Integer>> it2;
+                                Map.Entry<String, Integer> entry;
+                                for (CardioExerciseVO vo3 : CardioExercisesDAO.listUserExercises(user)) {
+                                    jExercise = JSONObject.fromObject(vo3.serialize());
                                     jExercise.remove("predetermined");
-                                    if(!(list=CardioRecordsDAO.listRecords(user, vo.getId(), 1, 1)).isEmpty()){
-                                        jRecord = JSONObject.fromObject(list.get(0).serialize());
+                                    if(!(list2=CardioRecordsDAO.listRecords(user, vo3.getId(), 1, 1)).isEmpty()){
+                                        jRecord = JSONObject.fromObject(list2.get(0).serialize());
                                         jRecord.remove("exercise");
                                         jRecord.remove("nick");
                                         jRecord.remove("date");
-                                        it = ServletCommon.getIntensidades().entrySet().iterator();
-                                        entry = it.next();
+                                        it2 = ServletCommon.getIntensidades().entrySet().iterator();
+                                        entry = it2.next();
                                         while (entry.getValue() != jRecord.getInt("intensity")) {
-                                            entry = it.next();
+                                            entry = it2.next();
                                         }
                                         jRecord.remove("intensity");
                                         jRecord.put("intensity", entry.getKey());
