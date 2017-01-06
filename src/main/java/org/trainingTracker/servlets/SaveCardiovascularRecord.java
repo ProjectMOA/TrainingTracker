@@ -1,15 +1,20 @@
 package org.trainingTracker.servlets;
 
-import net.sf.json.JSONObject;
-import org.trainingTracker.database.dataAccesObject.CardioExercisesDAO;
-import org.trainingTracker.database.valueObject.CardioExerciseVO;
+import java.io.IOException;
+import java.util.List;
+import java.util.Map;
+import java.util.Iterator;
+import java.sql.Time;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.util.Iterator;
+
+import net.sf.json.JSONObject;
+
+import org.trainingTracker.database.dataAccesObject.CardioExercisesDAO;
+import org.trainingTracker.database.valueObject.CardioExerciseVO;
 
 /**
  * Servlet implementation class SaveCardiovascularRecord
@@ -54,7 +59,7 @@ public class SaveCardiovascularRecord extends HttpServlet {
             exercise = json.getString("id");
             distance = json.getString("distance").replace(",", ".");
             time = json.getString("time");
-            intensity = json.getString("intensity").replace(",", ".");
+            intensity = json.getString("intensity");
         }
         catch (Exception e) {
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
@@ -73,8 +78,8 @@ public class SaveCardiovascularRecord extends HttpServlet {
         if (!error) {
             try {
                 // Creates an record in BD
-                if (CardioRecordsDAO.addRecord(Integer.parseInt(exercise), user, Double.parseDouble(distance),
-                                         Integer.parseInt(time), Double.parseDouble(intensity))) {
+                if (CardioRecordsDAO.addRecord(Integer.parseInt(exercise), user, new Time(intensity),
+                                         Double.parseDouble(distance), ServletCommon.getIntensidades().get(intensity)))) {
                     // Search for performed exercises in BD
                     JSONArray jsonExercises = new JSONArray();
                     JSONArray jsonCardioExercises = new JSONArray();
@@ -96,10 +101,23 @@ public class SaveCardiovascularRecord extends HttpServlet {
                     }
 
                     List<CardioRecordVO> list;
+                    Iterator<Map.Entry<String, int>> it;
+                    Map.Entry<String, int> entry;
                     for (CardioExerciseVO vo : CardioExercisesDAO.listUserExercises(user)) {
                         jExercise = JSONObject.fromObject(vo.serialize());
+                        jExercise.remove("predetermined");
                         if(!(list=CardioRecordsDAO.listRecords(user, vo.getId(), 1, 1)).isEmpty()){
                             jRecord = JSONObject.fromObject(list.get(0).serialize());
+                            jRecord.remove("exercise");
+                            jRecord.remove("nick");
+                            jRecord.remove("date");
+                            it = ServletCommon.getIntensidades().entrySet().iterator();
+                            entry = it.next();
+                            while (entry.getValue() != jRecord.getInt("intensity")) {
+                                entry = it.next();
+                            }
+                            jRecord.remove("intensity");
+                            jRecord.put("intensity", entry.getKey());
                             jExercise.putAll(jRecord);
                         }
                         jsonCardioExercises.add(jExercise);
@@ -158,7 +176,7 @@ public class SaveCardiovascularRecord extends HttpServlet {
         boolean error = false;
         
         try {
-            if (!(Integer.parseInt(str) > 0)) {
+            if (!(Long.parseLong(str) >= 0)) {
                 error = true;
             }
         }
@@ -185,14 +203,11 @@ public class SaveCardiovascularRecord extends HttpServlet {
         boolean error = false;
         
         try {
-            if (!(Double.parseDouble(str) > 0)) {
+            if (!ServletCommons.containsKey(str)) {
                 error = true;
             }
         }
         catch (NullPointerException e) {
-            error = true;
-        }
-        catch (NumberFormatException e) {
             error = true;
         }
         

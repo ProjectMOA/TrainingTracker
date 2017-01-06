@@ -2,6 +2,8 @@ package org.trainingTracker.servlets;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
+import java.util.Iterator;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -107,12 +109,25 @@ public class SaveRecord extends HttpServlet {
                         }
                         jsonExercises.add(jExercise);
                     }
-
+                    
                     List<CardioRecordVO> list;
+                    Iterator<Map.Entry<String, int>> it;
+                    Map.Entry<String, int> entry;
                     for (CardioExerciseVO vo : CardioExercisesDAO.listUserExercises(user)) {
                         jExercise = JSONObject.fromObject(vo.serialize());
+                        jExercise.remove("predetermined");
                         if(!(list=CardioRecordsDAO.listRecords(user, vo.getId(), 1, 1)).isEmpty()){
                             jRecord = JSONObject.fromObject(list.get(0).serialize());
+                            jRecord.remove("exercise");
+                            jRecord.remove("nick");
+                            jRecord.remove("date");
+                            it = ServletCommon.getIntensidades().entrySet().iterator();
+                            entry = it.next();
+                            while (entry.getValue() != jRecord.getInt("intensity")) {
+                                entry = it.next();
+                            }
+                            jRecord.remove("intensity");
+                            jRecord.put("intensity", entry.getKey());
                             jExercise.putAll(jRecord);
                         }
                         jsonCardioExercises.add(jExercise);
