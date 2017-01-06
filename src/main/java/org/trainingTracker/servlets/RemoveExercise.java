@@ -107,6 +107,7 @@ public class RemoveExercise extends HttpServlet {
                             
                             if (!error) {
                                 // Search for performed exercises in BD
+                                JSONObject jResponse = new JSONObject();
                                 JSONArray jsonExercises = new JSONArray();
                                 JSONArray jsonCardioExercises = new JSONArray();
                                 JSONObject jExercise, jRecord;
@@ -148,10 +149,11 @@ public class RemoveExercise extends HttpServlet {
                                     }
                                     jsonCardioExercises.add(jExercise);
                                 }
+                                jResponse.put("listPerformed", jsonExercises);
+                                jResponse.put("listCardioPerformed", jsonCardioExercises);
                                 
                                 response.setContentType("application/json; charset=UTF-8");
-                                response.getWriter().write(jsonExercises.toString());
-                                response.getWriter().write(jsonCardioExercises.toString());
+                                response.getWriter().write(jResponse.toString());
                             }
                         }
                     }

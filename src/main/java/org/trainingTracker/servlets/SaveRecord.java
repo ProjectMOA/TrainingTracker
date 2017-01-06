@@ -91,6 +91,7 @@ public class SaveRecord extends HttpServlet {
                 if (RecordsDAO.addRecord(Integer.parseInt(exercise), user, Double.parseDouble(weight),
                                          Integer.parseInt(series), Integer.parseInt(repetitions), commentary)) {
                     // Search for performed exercises in BD
+                    JSONObject jResponse = new JSONObject();
                     JSONArray jsonExercises = new JSONArray();
                     JSONArray jsonCardioExercises = new JSONArray();
                     JSONObject jExercise, jRecord;
@@ -132,10 +133,11 @@ public class SaveRecord extends HttpServlet {
                         }
                         jsonCardioExercises.add(jExercise);
                     }
+                    jResponse.put("listPerformed", jsonExercises);
+                    jResponse.put("listCardioPerformed", jsonCardioExercises);
                     
                     response.setContentType("application/json; charset=UTF-8");
-                    response.getWriter().write(jsonExercises.toString());
-                    response.getWriter().write(jsonCardioExercises.toString());
+                    response.getWriter().write(jResponse.toString());
                 }
                 else {
                     response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);

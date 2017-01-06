@@ -3,6 +3,7 @@ package org.trainingTracker.selenium;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.Ignore;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -21,6 +22,7 @@ import static org.trainingTracker.selenium.TestUtils.*;
 /**
  * Test class to check if the process to filter existing exercises works correctly.
  */
+@Ignore
 public class FilterTest {
 
     private static WebDriver driver;

@@ -90,6 +90,7 @@ public class SaveCardiovascularRecord extends HttpServlet {
                 if (CardioRecordsDAO.addRecord(Integer.parseInt(exercise), user, new Time(Long.parseLong(intensity)),
                                          Double.parseDouble(distance), ServletCommon.getIntensidades().get(intensity))) {
                     // Search for performed exercises in BD
+                    JSONObject jResponse = new JSONObject();
                     JSONArray jsonExercises = new JSONArray();
                     JSONArray jsonCardioExercises = new JSONArray();
                     JSONObject jExercise, jRecord;
@@ -131,10 +132,11 @@ public class SaveCardiovascularRecord extends HttpServlet {
                         }
                         jsonCardioExercises.add(jExercise);
                     }
+                    jResponse.put("listPerformed", jsonExercises);
+                    jResponse.put("listCardioPerformed", jsonCardioExercises);
                     
                     response.setContentType("application/json; charset=UTF-8");
-                    response.getWriter().write(jsonExercises.toString());
-                    response.getWriter().write(jsonCardioExercises.toString());
+                    response.getWriter().write(jResponse.toString());
                 }
                 else {
                     response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
