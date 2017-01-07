@@ -49,10 +49,12 @@ public class ModifyExerciseServletTest extends Mockito{
     public void modifyExerciseTest(){
         String body = "{\"user\":\""+USERNAME+"\",\"id\":\""+ExerciseID+"\",\"muscleGroup\":\""+MG+"\"," +
             "\"name\":\""+EXERCISE+"\"}\n";
-        String responseMessage = "[{\"id\":\""+ExerciseID+"\",\"name\":\"My Exercise\",\"muscleGroup\":\"Espalda\"," +
-            "\"predetermined\":false,\"weight\":\"10.2\",\"series\":\"4\",\"repetitions\":\"12\"}]";
+        String responseMessage = "{\"listPerformed\":[{\"id\":\""+ExerciseID+"\",\"name\":\"My Exercise\",\"muscleGroup\":\"Espalda\"," +
+            "\"predetermined\":false,\"weight\":\"10.2\",\"series\":\"4\",\"repetitions\":\"12\"}]," +
+            "\"listCardioPerformed\":[]}";
         BufferedReader bf = new BufferedReader(new StringReader(body));
         servletCall(bf);
+        System.out.println(sWriter.toString());
         assertTrue(sWriter.toString().equals(responseMessage));
     }
 

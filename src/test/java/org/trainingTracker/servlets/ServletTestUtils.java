@@ -21,8 +21,9 @@ public class ServletTestUtils {
     static final String REPETITIONS = "12";
     static final String COMMENT = "Test comment";
     static final String JSON_USER_RESPONSE = "{\"user\":\"test\",\"email\":\"test@prueba.com\"}";
-    static final String JSON_EXERCISE_LIST_RESPONSE = "[{\"id\":\"1\",\"name\":\"Press banca\"," +
-        "\"muscleGroup\":\"Pecho\",\"predetermined\":true,\"weight\":\"10.2\",\"series\":\"4\",\"repetitions\":\"12\"}]";
+    static final String JSON_EXERCISE_LIST_RESPONSE = "{\"listPerformed\":[{\"id\":\"1\",\"name\":\"Press banca\"," +
+        "\"muscleGroup\":\"Pecho\",\"predetermined\":true,\"weight\":\"10.2\",\"series\":\"4\",\"repetitions\":\"12\"}]," +
+        "\"listCardioPerformed\":[]}";
     static final String BAD_USERNAME_MESSAGE = "Nombre de usuario no válido";
     static final String BAD_PASS_MESSAGE = "Contraseña no válida";
     static final String INTERNAL_ERROR_MESSAGE = "Error interno en el servidor. Vuelva intentarlo más tarde";

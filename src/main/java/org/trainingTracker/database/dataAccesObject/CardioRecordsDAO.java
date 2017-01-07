@@ -28,7 +28,7 @@ public class CardioRecordsDAO {
      * @param user_nick
      * @param time
      * @param intensity
-     * @param comment
+     * @param distance
      * @return
      */
 	public static boolean addRecord(int exercise, String user_nick, double distance, Time time, int intensity){

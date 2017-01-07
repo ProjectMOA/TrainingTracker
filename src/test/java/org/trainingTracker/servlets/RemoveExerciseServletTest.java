@@ -56,7 +56,8 @@ public class RemoveExerciseServletTest extends Mockito{
         BufferedReader bf = new BufferedReader(new StringReader(body));
         servletCall(bf);
         System.out.println(sWriter.toString());
-        assertTrue(sWriter.toString().equals(responseMessage) || sWriter.toString().equals("[]"));
+        assertTrue(sWriter.toString().equals(responseMessage) || sWriter.toString().equals("{\"listPerformed\":[]," +
+            "\"listCardioPerformed\":[]}"));
     }
 
     /*
