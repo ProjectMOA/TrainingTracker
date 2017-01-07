@@ -150,8 +150,9 @@ angular.module('trainingTrackerApp')
                 $("#recordModal").on('hidden.bs.modal', function () {
                     if ($scope.save) {
                         recordsService.saveRecord($scope.recordModal, showSuccess, showError,
-                            function (exercises) {
+                            function (exercises, cardio) {
                                 $scope.exercisesList = exercises;
+                                $scope.cardioList = cardio;
                             });
                         $scope.save = false;
                         $scope.recordModal = {
@@ -202,8 +203,9 @@ angular.module('trainingTrackerApp')
                 $("#modifyModal").on('hidden.bs.modal', function () {
                     if ($scope.saveModify) {
                         exerciseService.modifyExercise($scope.modifyModal, showSuccess, showError,
-                            function (exercises) {
+                            function (exercises, cardio) {
                                 $scope.exercisesList = exercises;
+                                $scope.cardioList = cardio;
                             });
                         $scope.saveModify = false;
                         $scope.modifyModal = {
@@ -259,8 +261,9 @@ angular.module('trainingTrackerApp')
                 $("#deleteModal").on('hidden.bs.modal', function () {
                     if ($scope.saveDelete) {
                         exerciseService.deleteExercise($scope.deleteModal, showSuccess, showError,
-                            function (exercises) {
+                            function (exercises, cardio) {
                                 $scope.exercisesList = exercises;
+                                $scope.cardioList = cardio;
                             });
                         $scope.saveDelete = false;
                         $scope.deleteModal = {
