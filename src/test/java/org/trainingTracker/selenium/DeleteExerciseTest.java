@@ -17,6 +17,10 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.trainingTracker.selenium.TestUtils.*;
 
+/**
+ * Test class to check if the process to delete an existing exercise
+ * in the user's home page works correctly..
+ */
 public class DeleteExerciseTest {
 
     private static WebDriver driver;
@@ -45,11 +49,16 @@ public class DeleteExerciseTest {
         }
     }
 
+    /*
+     * Tests the process to delete both a custom and a predetermined exercise.
+     */
     @Test
     public void deleteExerciseTest(){
         WebElement delete = driver.findElement(By.name(TRASH_ICON));
         try{
             for(int n=0;n<2;n++){
+                // It uses the same index number 'cause after the first iteration
+                // the next exercise will be on the same possition as the deleted one.
                 driver.findElements(By.name(DELETE_BUTTON)).get(0).click();
                 Thread.sleep(SLEEP_FOR_DISPLAY);
                 delete.click();
@@ -71,6 +80,9 @@ public class DeleteExerciseTest {
         }
     }
 
+    /*
+     * Tests the process to cancel an ongoing exercise deletion.
+     */
     @Test
     public void cancelDeletionTest(){
         WebElement trash = driver.findElement(By.name(DELETE_BUTTON));
@@ -79,7 +91,9 @@ public class DeleteExerciseTest {
             trash.click();
             Thread.sleep(SLEEP_FOR_DISPLAY);
             cancel.click();
-            assertTrue(driver.findElements(By.name(SUCCESS_MESSAGE)).isEmpty() && driver.findElements(By.name(ERROR_MESSAGE)).isEmpty());
+            // Checks if there's been a success or error message, which should not.
+            assertTrue(driver.findElements(By.name(SUCCESS_MESSAGE)).isEmpty()
+                && driver.findElements(By.name(ERROR_MESSAGE)).isEmpty());
         }
         catch (InterruptedException e){
             e.printStackTrace();

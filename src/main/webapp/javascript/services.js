@@ -275,7 +275,7 @@ angular.module('trainingTrackerApp')
                     id: record.id,
                     distance: record.distance,
                     time: record.time,
-                    intensity: record.time
+                    intensity: record.intensity
                 };
                 $http({
                     method: 'POST',

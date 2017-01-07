@@ -20,7 +20,10 @@ import static org.junit.Assert.assertTrue;
 import static org.trainingTracker.servlets.ServletTestUtils.*;
 import static org.trainingTracker.servlets.ServletTestUtils.mocksSetUp;
 
-@Ignore
+
+/**
+ * Test class to check if the ModifyExercise servlet works correctly.
+ */
 public class ModifyExerciseServletTest extends Mockito{
 
     private static int ExerciseID;
@@ -39,17 +42,25 @@ public class ModifyExerciseServletTest extends Mockito{
         writerSetUp();
     }
 
+    /*
+     * Checks if the process to modify an existing custom exercise works correctly.
+     */
     @Test
     public void modifyExerciseTest(){
         String body = "{\"user\":\""+USERNAME+"\",\"id\":\""+ExerciseID+"\",\"muscleGroup\":\""+MG+"\"," +
             "\"name\":\""+EXERCISE+"\"}\n";
-        String responseMessage = "[{\"id\":\""+ExerciseID+"\",\"name\":\"My Exercise\",\"muscleGroup\":\"Espalda\"," +
-            "\"predetermined\":false,\"weight\":\"10.2\",\"series\":\"4\",\"repetitions\":\"12\"}]";
+        String responseMessage = "{\"listPerformed\":[{\"id\":\""+ExerciseID+"\",\"name\":\"My Exercise\",\"muscleGroup\":\"Espalda\"," +
+            "\"predetermined\":false,\"weight\":\"10.2\",\"series\":\"4\",\"repetitions\":\"12\"}]," +
+            "\"listCardioPerformed\":[]}";
         BufferedReader bf = new BufferedReader(new StringReader(body));
         servletCall(bf);
+        System.out.println(sWriter.toString());
         assertTrue(sWriter.toString().equals(responseMessage));
     }
 
+    /*
+     * Checks if there's an error when the client sends a bad request to the server.
+     */
     @Test
     public void badRequestTest(){
         String body = "fail";
@@ -60,6 +71,10 @@ public class ModifyExerciseServletTest extends Mockito{
         assertTrue(sWriter.toString().contains(WRONG_MG_MESSAGE));
     }
 
+    /*
+     * Sets what the mocks must return when they are called from the servlet
+     * and makes a call to the servlet that is being tested.
+     */
     private static void servletCall(BufferedReader bf){
         try{
             when(request.getReader()).thenReturn(bf);

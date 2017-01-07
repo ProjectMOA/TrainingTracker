@@ -18,7 +18,9 @@ import java.io.StringReader;
 import static org.junit.Assert.assertTrue;
 import static org.trainingTracker.servlets.ServletTestUtils.*;
 
-@Ignore
+/**
+ * Test class to check if the SaveRecord servlet works correctly.
+ */
 public class SaveRecordServletTest extends Mockito{
 
     private static final String BAD_WEIGHT_MESSAGE = "Peso no válido";
@@ -37,6 +39,9 @@ public class SaveRecordServletTest extends Mockito{
         writerSetUp();
     }
 
+    /*
+     * Checks if the process to save a new record works correctly.
+     */
     @Test
     public void saveRecordTest(){
         String body = "{\"user\":\""+USERNAME+"\",\"id\":\""+PREDETERMINED_EXERCISE_ID+"\",\"weight\":\""+WEIGHT+"\"," +
@@ -46,6 +51,9 @@ public class SaveRecordServletTest extends Mockito{
         assertTrue(sWriter.toString().equals(JSON_EXERCISE_LIST_RESPONSE));
     }
 
+    /*
+     * Checks if there's an error when the client sends a bad request to the server.
+     */
     @Test
     public void badRequestTest(){
         String body = "fail";
@@ -57,6 +65,10 @@ public class SaveRecordServletTest extends Mockito{
         assertTrue(sWriter.toString().contains(BAD_REPETITIONS_MESSAGE));
     }
 
+    /*
+     * Checks if there's an error message when the client sends wrong inputs
+     * in the process of saving a new record.
+     */
     @Test
     public void wrongInputsTest(){
         String body = "{\"user\":\""+USERNAME+"\",\"id\":\""+PREDETERMINED_EXERCISE_ID+"\",\"weight\":\"0\"," +
@@ -68,6 +80,10 @@ public class SaveRecordServletTest extends Mockito{
         assertTrue(sWriter.toString().contains(BAD_REPETITIONS_MESSAGE));
     }
 
+    /*
+     * Sets what the mocks must return when they are called from the servlet
+     * and makes a call to the servlet that is being tested.
+     */
     private static void servletCall(BufferedReader bf){
         try{
             when(request.getReader()).thenReturn(bf);
