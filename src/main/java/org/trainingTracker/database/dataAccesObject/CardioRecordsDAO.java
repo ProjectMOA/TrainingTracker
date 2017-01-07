@@ -17,9 +17,9 @@ public class CardioRecordsDAO {
     public static final String DBF_CARDIO_RECORD_TABLE_NAME = "CardioRecords";
     public static final String DBF_CARDIO_RECORD_EXERCISE = "exercise";
     public static final String DBF_CARDIO_RECORD_NICK = "user_nick";
+    public static final String DBF_CARDIO_RECORD_DISTANCE = "distance";
     public static final String DBF_CARDIO_RECORD_TIME = "time";
     public static final String DBF_CARDIO_RECORD_INTENSITY = "intensity";
-    public static final String DBF_CARDIO_RECORD_COMMENT = "comment";
     public static final String DBF_CARDIO_RECORD_DATE = "record_date";
 
     /**
@@ -31,21 +31,21 @@ public class CardioRecordsDAO {
      * @param comment
      * @return
      */
-	public static boolean addRecord( int exercise, String user_nick, Time time, int intensity, String comment){
-        if(exercise<0 || user_nick==null || user_nick.equals("") || intensity<0 || comment==null || time==null){
+	public static boolean addRecord(int exercise, String user_nick, double distance, Time time, int intensity){
+        if(exercise<0 || user_nick==null || user_nick.equals("")  || distance<0  || time==null || intensity<0){
             return false;
         }
 		try (Connection conn = ConnectionPool.requestConnection()) {
 
             PreparedStatement stmt = conn.prepareStatement(
                 String.format( "INSERT INTO %s (%s, %s, %s, %s, %s) VALUES (?,?,?,?,?);",
-                    DBF_CARDIO_RECORD_TABLE_NAME, DBF_CARDIO_RECORD_EXERCISE, DBF_CARDIO_RECORD_NICK, DBF_CARDIO_RECORD_TIME,
-                    DBF_CARDIO_RECORD_INTENSITY, DBF_CARDIO_RECORD_COMMENT));
+                    DBF_CARDIO_RECORD_TABLE_NAME, DBF_CARDIO_RECORD_EXERCISE, DBF_CARDIO_RECORD_NICK,
+                    DBF_CARDIO_RECORD_DISTANCE, DBF_CARDIO_RECORD_TIME, DBF_CARDIO_RECORD_INTENSITY));
             stmt.setInt(1,exercise);
             stmt.setString(2,user_nick);
-            stmt.setString(3,time.toString());
-            stmt.setInt(4,intensity);
-            stmt.setString(5,comment);
+            stmt.setDouble(3,distance);
+            stmt.setString(4,time.toString());
+            stmt.setInt(5,intensity);
 
 			stmt.execute();
 
@@ -128,8 +128,8 @@ public class CardioRecordsDAO {
             if( rs.first() ){
                 do {
                     list.add(new CardioRecordVO(rs.getInt(DBF_CARDIO_RECORD_EXERCISE), rs.getString(DBF_CARDIO_RECORD_NICK),
-                        rs.getString(DBF_CARDIO_RECORD_TIME), rs.getInt(DBF_CARDIO_RECORD_INTENSITY),
-                        rs.getString(DBF_CARDIO_RECORD_COMMENT), rs.getString(DBF_CARDIO_RECORD_DATE)));
+                        rs.getString(DBF_CARDIO_RECORD_DISTANCE), rs.getString(DBF_CARDIO_RECORD_TIME),
+                        rs.getInt(DBF_CARDIO_RECORD_INTENSITY), rs.getString(DBF_CARDIO_RECORD_DATE)));
                 } while (rs.next());
             }
 			return list;

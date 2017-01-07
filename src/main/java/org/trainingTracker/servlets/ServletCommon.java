@@ -1,9 +1,7 @@
 package org.trainingTracker.servlets;
 
-import java.io.IOException;
-import java.lang.NullPointerException;
-import java.lang.NumberFormatException;
-
+import java.util.Map;
+import java.util.HashMap;
 import java.lang.StringBuffer;
 import java.io.BufferedReader;
 
@@ -13,6 +11,21 @@ import net.sf.json.JSONObject;
 
 class ServletCommon {
 
+    private static final Map<String, Integer> intensidades;
+    static {
+        intensidades = new HashMap<String, Integer>(3);
+        intensidades.put("Baja", 1);
+        intensidades.put("Media", 2);
+        intensidades.put("Alta", 3);
+    }
+    
+    /**
+     * @returns HashMap intensidades.
+     */
+    static Map<String, Integer> getIntensidades() {
+        return intensidades;
+    }
+    
 	/**
      * @param bf
      * @returns JSON Object that contains all the content readed from buffer bf.

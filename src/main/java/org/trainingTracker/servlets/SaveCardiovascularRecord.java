@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.Iterator;
+import java.sql.Time;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -25,20 +26,20 @@ import org.trainingTracker.database.valueObject.RecordVO;
 import org.trainingTracker.database.valueObject.CardioRecordVO;
 
 /**
- * Servlet implementation class SaveRecord
+ * Servlet implementation class SaveCardiovascularRecord
  */
-@WebServlet("/saveRecord")
-public class SaveRecord extends HttpServlet {
-    
+@WebServlet("/saveCardiovascularRecord")
+public class SaveCardiovascularRecord extends HttpServlet {
+
     private static final long serialVersionUID = 1L;
-    
+
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public SaveRecord() {
+    public SaveCardiovascularRecord() {
         super();
     }
-    
+
     @Override
     /**
      * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
@@ -55,10 +56,9 @@ public class SaveRecord extends HttpServlet {
         boolean error = false;
         String user = "";
         String exercise = "";
-        String weight = "";
-        String series = "";
-        String repetitions = "";
-        String commentary = "";
+        String distance = "";
+        String time = "";
+        String intensity = "";
         
         // Reads a JSON Object from request and captures his fields
         JSONObject json = null;
@@ -66,10 +66,9 @@ public class SaveRecord extends HttpServlet {
             json = ServletCommon.readJSON(request.getReader());
             user = json.getString("user");
             exercise = json.getString("id");
-            weight = json.getString("weight").replace(",", ".");
-            series = json.getString("series");
-            repetitions = json.getString("repetitions");
-            commentary = json.getString("commentary");
+            distance = json.getString("distance").replace(",", ".");
+            time = json.getString("time");
+            intensity = json.getString("intensity");
         }
         catch (Exception e) {
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
@@ -78,9 +77,9 @@ public class SaveRecord extends HttpServlet {
         }
         
         // Field revision
-        if (!isValidWeight(weight, response) |
-            !isValidSeries(series, response) |
-            !isValidRepetitions(repetitions, response)) {
+        if (!isValidDistance(distance, response) |
+            !isValidTime(time, response) |
+            !isValidIntensity(intensity, response)) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             error = true;
         }
@@ -88,8 +87,8 @@ public class SaveRecord extends HttpServlet {
         if (!error) {
             try {
                 // Creates an record in BD
-                if (RecordsDAO.addRecord(Integer.parseInt(exercise), user, Double.parseDouble(weight),
-                                         Integer.parseInt(series), Integer.parseInt(repetitions), commentary)) {
+                if (CardioRecordsDAO.addRecord(Integer.parseInt(exercise), user, Double.parseDouble(distance),
+                                   new Time(Long.parseLong(time)), ServletCommon.getIntensidades().get(intensity))) {
                     // Search for performed exercises in BD
                     JSONObject jResponse = new JSONObject();
                     JSONArray jsonExercises = new JSONArray();
@@ -155,10 +154,11 @@ public class SaveRecord extends HttpServlet {
     /**
      * @param str
      * @param response
-     * @returns true if str confirms weight specifications
+     * @returns true if str confirms distance specifications
      */
-    static boolean isValidWeight (String str, HttpServletResponse response) throws IOException {
+    static boolean isValidDistance (String str, HttpServletResponse response) throws IOException {
         boolean error = false;
+        
         try {
             if (!(Double.parseDouble(str) > 0)) {
                 error = true;
@@ -172,7 +172,7 @@ public class SaveRecord extends HttpServlet {
         }
         
         if (error) {
-            response.getWriter().println("Peso no válido");
+            response.getWriter().println("Distancia no válida");
         }
         
         return !error;
@@ -181,13 +181,13 @@ public class SaveRecord extends HttpServlet {
     /**
      * @param str
      * @param response
-     * @returns true if str confirms series specifications
+     * @returns true if str confirms time specifications
      */
-    static boolean isValidSeries (String str, HttpServletResponse response) throws IOException {
+    static boolean isValidTime (String str, HttpServletResponse response) throws IOException {
         boolean error = false;
         
         try {
-            if (!(Integer.parseInt(str) > 0)) {
+            if (!(Long.parseLong(str) >= 0)) {
                 error = true;
             }
         }
@@ -199,7 +199,7 @@ public class SaveRecord extends HttpServlet {
         }
         
         if (error) {
-            response.getWriter().println("Número de series no válido");
+            response.getWriter().println("Tiempo no válido");
         }
         
         return !error;
@@ -208,25 +208,22 @@ public class SaveRecord extends HttpServlet {
     /**
      * @param str
      * @param response
-     * @returns true if str confirms repetitions specifications
+     * @returns true if str confirms intensity specifications
      */
-    static boolean isValidRepetitions (String str, HttpServletResponse response) throws IOException {
+    static boolean isValidIntensity (String str, HttpServletResponse response) throws IOException {
         boolean error = false;
         
         try {
-            if (!(Integer.parseInt(str) > 0)) {
+            if (!ServletCommon.getIntensidades().containsKey(str)) {
                 error = true;
             }
         }
         catch (NullPointerException e) {
             error = true;
         }
-        catch (NumberFormatException e) {
-            error = true;
-        }
         
         if (error) {
-            response.getWriter().println("Número de repeticiones no válido");
+            response.getWriter().println("Intensidad no válida");
         }
         
         return !error;
