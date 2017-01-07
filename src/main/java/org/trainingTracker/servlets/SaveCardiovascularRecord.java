@@ -86,8 +86,12 @@ public class SaveCardiovascularRecord extends HttpServlet {
         
         if (!error) {
             try {
+                Double parsedDistance = 0.0;
+                if(!distance.equals("")){
+                    parsedDistance = Double.parseDouble(distance);
+                }
                 // Creates an record in BD
-                if (CardioRecordsDAO.addRecord(Integer.parseInt(exercise), user, Double.parseDouble(distance),
+                if (CardioRecordsDAO.addRecord(Integer.parseInt(exercise), user, parsedDistance,
                                    new Time(Long.parseLong(time)), ServletCommon.getIntensidades().get(intensity))) {
                     // Search for performed exercises in BD
                     JSONObject jResponse = new JSONObject();
@@ -158,23 +162,24 @@ public class SaveCardiovascularRecord extends HttpServlet {
      */
     static boolean isValidDistance (String str, HttpServletResponse response) throws IOException {
         boolean error = false;
-        
-        try {
-            if (!(Double.parseDouble(str) > 0)) {
+        if(!str.equals("")){
+            try {
+                if (!(Double.parseDouble(str) > 0)) {
+                    error = true;
+                }
+            }
+            catch (NullPointerException e) {
                 error = true;
             }
+            catch (NumberFormatException e) {
+                error = true;
+            }
+
+            if (error) {
+                response.getWriter().println("Distancia no válida");
+            }
+
         }
-        catch (NullPointerException e) {
-            error = true;
-        }
-        catch (NumberFormatException e) {
-            error = true;
-        }
-        
-        if (error) {
-            response.getWriter().println("Distancia no válida");
-        }
-        
         return !error;
     }
     
@@ -185,7 +190,7 @@ public class SaveCardiovascularRecord extends HttpServlet {
      */
     static boolean isValidTime (String str, HttpServletResponse response) throws IOException {
         boolean error = false;
-        
+
         try {
             if (!(Long.parseLong(str) >= 0)) {
                 error = true;
@@ -197,11 +202,11 @@ public class SaveCardiovascularRecord extends HttpServlet {
         catch (NumberFormatException e) {
             error = true;
         }
-        
+
         if (error) {
             response.getWriter().println("Tiempo no válido");
         }
-        
+
         return !error;
     }
     

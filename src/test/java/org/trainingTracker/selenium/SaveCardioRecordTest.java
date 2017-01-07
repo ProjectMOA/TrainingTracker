@@ -12,6 +12,8 @@ import org.openqa.selenium.support.ui.Select;
 import org.trainingTracker.database.dataAccesObject.CardioExercisesDAO;
 import org.trainingTracker.database.dataAccesObject.UsersDAO;
 
+import java.util.List;
+
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.trainingTracker.selenium.TestUtils.*;
@@ -126,14 +128,14 @@ public class SaveCardioRecordTest {
             WebElement element = driver.findElement(By.name(ADD_CARDIO_RECORD_ICON));
             element.click();
             Thread.sleep(SLEEP_FOR_DISPLAY);
-            fillForm("", INTENSITY, "");
+            fillForm(TIME, 0, "");
             saveButton.click();
             Thread.sleep(SLEEP_FOR_DISPLAY);
             // Checks if the process has been successful, which should not happen.
             assertTrue((driver.findElements(By.name(SUCCESS_MESSAGE))).isEmpty() &&
                 (driver.findElements(By.name(ERROR_MESSAGE))).isEmpty());
             clearForm();
-            fillForm(TIME, 0, "");
+            fillForm("", INTENSITY, "");
             saveButton.click();
             Thread.sleep(SLEEP_FOR_DISPLAY);
             // Checks if the process has been successful, which should not happen.
@@ -201,7 +203,7 @@ public class SaveCardioRecordTest {
         element.sendKeys(t);
         Thread.sleep(SLEEP_FOR_DISPLAY);
         Select intensity = new Select(driver.findElement(By.id(INTENSITY_SELECT)));
-        intensity.selectByIndex(INTENSITY);
+        intensity.selectByIndex(i);
         Thread.sleep(SLEEP_FOR_DISPLAY);
         element = driver.findElement(By.id(DISTANCE_FIELD));
         element.sendKeys(d);
