@@ -89,7 +89,7 @@ public class AddCardioExerciseServletTest extends Mockito{
         try{
             when(request.getReader()).thenReturn(bf);
             when(response.getWriter()).thenReturn(writer);
-            new AddCardioExercise().doPost(request, response);
+            new AddCardiovascular().doPost(request, response);
             verify(request, atLeast(1)).getReader();
             writer.flush();
         }

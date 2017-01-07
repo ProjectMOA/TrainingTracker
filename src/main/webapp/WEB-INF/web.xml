@@ -95,11 +95,20 @@
     </servlet-mapping>
 
     <servlet>
-      <servlet-name>AddCardioExercise</servlet-name>
-      <servlet-class>org.trainingTracker.servlets.AddCardioExercise</servlet-class>
+      <servlet-name>AddCardiovascular</servlet-name>
+      <servlet-class>org.trainingTracker.servlets.AddCardiovascular</servlet-class>
     </servlet>
     <servlet-mapping>
-      <servlet-name>AddCardioExercise</servlet-name>
+      <servlet-name>AddCardiovascular</servlet-name>
       <url-pattern>/addCardiovascular</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+      <servlet-name>SaveCardiovascularRecord</servlet-name>
+      <servlet-class>org.trainingTracker.servlets.SaveCardiovascularRecord</servlet-class>
+    </servlet>
+    <servlet-mapping>
+      <servlet-name>SaveCardiovascularRecord</servlet-name>
+      <url-pattern>/saveCardiovascularRecord</url-pattern>
     </servlet-mapping>
 </web-app>

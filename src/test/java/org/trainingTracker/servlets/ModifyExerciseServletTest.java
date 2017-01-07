@@ -5,6 +5,7 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.Ignore;
 import org.mockito.Mockito;
 import org.trainingTracker.database.dataAccesObject.ExercisesDAO;
 import org.trainingTracker.database.dataAccesObject.RecordsDAO;
@@ -18,6 +19,7 @@ import java.io.StringReader;
 import static org.junit.Assert.assertTrue;
 import static org.trainingTracker.servlets.ServletTestUtils.*;
 import static org.trainingTracker.servlets.ServletTestUtils.mocksSetUp;
+
 
 /**
  * Test class to check if the ModifyExercise servlet works correctly.

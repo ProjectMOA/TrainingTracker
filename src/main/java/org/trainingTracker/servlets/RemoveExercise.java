@@ -2,6 +2,7 @@ package org.trainingTracker.servlets;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import java.util.Iterator;
 
 import javax.servlet.ServletException;
@@ -16,8 +17,12 @@ import net.sf.json.JSONArray;
 import org.trainingTracker.servlets.ServletCommon;
 import org.trainingTracker.database.dataAccesObject.ExercisesDAO;
 import org.trainingTracker.database.dataAccesObject.RecordsDAO;
+import org.trainingTracker.database.dataAccesObject.CardioExercisesDAO;
+import org.trainingTracker.database.dataAccesObject.CardioRecordsDAO;
 import org.trainingTracker.database.valueObject.ExerciseVO;
+import org.trainingTracker.database.valueObject.CardioExerciseVO;
 import org.trainingTracker.database.valueObject.RecordVO;
+import org.trainingTracker.database.valueObject.CardioRecordVO;
 
 /**
  * Servlet implementation class RemoveExercise
@@ -102,7 +107,9 @@ public class RemoveExercise extends HttpServlet {
                             
                             if (!error) {
                                 // Search for performed exercises in BD
+                                JSONObject jResponse = new JSONObject();
                                 JSONArray jsonExercises = new JSONArray();
+                                JSONArray jsonCardioExercises = new JSONArray();
                                 JSONObject jExercise, jRecord;
                                 List<RecordVO> list;
                                 
@@ -119,8 +126,34 @@ public class RemoveExercise extends HttpServlet {
                                     }
                                     jsonExercises.add(jExercise);
                                 }
+
+                                List<CardioRecordVO> list2;
+                                Iterator<Map.Entry<String, Integer>> it2;
+                                Map.Entry<String, Integer> entry;
+                                for (CardioExerciseVO vo3 : CardioExercisesDAO.listUserExercises(user)) {
+                                    jExercise = JSONObject.fromObject(vo3.serialize());
+                                    jExercise.remove("predetermined");
+                                    if(!(list2=CardioRecordsDAO.listRecords(user, vo3.getId(), 1, 1)).isEmpty()){
+                                        jRecord = JSONObject.fromObject(list2.get(0).serialize());
+                                        jRecord.remove("exercise");
+                                        jRecord.remove("nick");
+                                        jRecord.remove("date");
+                                        it2 = ServletCommon.getIntensidades().entrySet().iterator();
+                                        entry = it2.next();
+                                        while (entry.getValue() != jRecord.getInt("intensity")) {
+                                            entry = it2.next();
+                                        }
+                                        jRecord.remove("intensity");
+                                        jRecord.put("intensity", entry.getKey());
+                                        jExercise.putAll(jRecord);
+                                    }
+                                    jsonCardioExercises.add(jExercise);
+                                }
+                                jResponse.put("listPerformed", jsonExercises);
+                                jResponse.put("listCardioPerformed", jsonCardioExercises);
+                                
                                 response.setContentType("application/json; charset=UTF-8");
-                                response.getWriter().write(jsonExercises.toString());
+                                response.getWriter().write(jResponse.toString());
                             }
                         }
                     }

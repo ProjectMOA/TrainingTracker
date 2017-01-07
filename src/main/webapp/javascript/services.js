@@ -103,7 +103,7 @@ angular.module('trainingTrackerApp')
                         'user': auth.getUsername()
                     }
                 }).success(function (data) {
-                    callbackSuccess(data, data.listCardioPerformed);
+                    callbackSuccess(data.listPerformed, data.listCardioPerformed);
                 }).error(function (data) {
                     callbackError(data);
                 });
@@ -125,7 +125,7 @@ angular.module('trainingTrackerApp')
                     }
                 }).success(function (data) {
                     callbackSuccess('Ejercicio modificado correctamente');
-                    updateListExercise(data);
+                    updateListExercise(data.listPerformed, data.listCardioPerformed);
                 }).error(function (data) {
                     callbackError(data);
                 });
@@ -145,7 +145,7 @@ angular.module('trainingTrackerApp')
                     }
                 }).success(function (data) {
                     callbackSuccess('Ejercicio borrado correctamente');
-                    updateListExercise(data);
+                    updateListExercise(data.listPerformed, data.listCardioPerformed);
                 }).error(function (data) {
                     callbackError(data);
                 });
@@ -263,7 +263,7 @@ angular.module('trainingTrackerApp')
                     }
                 }).success(function (data) {
                     callbackSuccess('Marca añadida correctamente');
-                    updateListRecord(data);
+                    updateListRecord(data.listPerformed, data.listCardioPerformed);
                 }).error(function (data) {
                     callbackError(data);
                 });
@@ -286,7 +286,7 @@ angular.module('trainingTrackerApp')
                     }
                 }).success(function (data) {
                     callbackSuccess('Marca añadida correctamente');
-                    updateListRecord(data);
+                    updateListRecord(data.listPerformed, data.listCardioPerformed);
                 }).error(function (data) {
                     callbackError(data);
                 });
