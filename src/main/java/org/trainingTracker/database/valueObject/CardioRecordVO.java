@@ -3,7 +3,7 @@ package org.trainingTracker.database.valueObject;
 public class CardioRecordVO {
 	private int exercise;
 	private String user_nick;
-    private String distance;
+    private double distance;
     private String time;
     private int intensity;
 	private String record_date;
@@ -17,7 +17,7 @@ public class CardioRecordVO {
      * @param intensity
      * @param record_date
      */
-	public CardioRecordVO(int exercise, String user_nick, String distance, String time, int intensity, String record_date){
+	public CardioRecordVO(int exercise, String user_nick, double distance, String time, int intensity, String record_date){
 		this.exercise = exercise;
 		this.user_nick = user_nick;
         this.distance = distance;
@@ -28,7 +28,7 @@ public class CardioRecordVO {
 
     public int getExercise() { return exercise;}
     public String getUserNick() { return user_nick;}
-    public String getDistance() { return distance;}
+    public double getDistance() { return distance;}
     public String getTime() { return time;}
     public int getIntensity() { return intensity;}
     public String getRecordDate() { return record_date;}
@@ -39,8 +39,8 @@ public class CardioRecordVO {
      */
 	@Override
 	public String toString() {
-		return String.format("Exercise: %d Nick: %s Distance: %.2f Time: %s Intensity: %d RecordDate: %s",
-            exercise, user_nick, distance, time, intensity, record_date);
+		return String.format("Exercise: %d Nick: %s Distance: %f Time: %s Intensity: %d RecordDate: %s",
+            exercise, user_nick, distance, time.toString(), intensity, record_date);
 		
 	}
 
@@ -49,9 +49,9 @@ public class CardioRecordVO {
      * @return
      */
     public String serialize(){
-        return String.format("{\"exercise\": \"%s\",  \"nick\": \"%s\",  \"distance\": \"%s\", " +
+        return String.format("{\"exercise\": \"%s\",  \"nick\": \"%s\",  \"distance\": \"%f\", " +
                 "\"time\": \"%s\",  \"intensity\": \"%s\", \"date\": \"%s\" }",
-            exercise, user_nick, distance, time, intensity, record_date);
+            exercise, user_nick, distance, time.toString(), intensity, record_date);
     }
 
 }
