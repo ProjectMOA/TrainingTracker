@@ -32,7 +32,7 @@ public class CardioRecordsDAO {
      * @return
      */
 	public static boolean addRecord(int exercise, String user_nick, double distance, Time time, int intensity){
-        if(exercise<0 || user_nick==null || user_nick.equals("")  || distance<=0  || time==null || intensity<0){
+        if(exercise<0 || user_nick==null || user_nick.equals("")  || distance<0  || time==null || intensity<0){
             return false;
         }
 		try (Connection conn = ConnectionPool.requestConnection()) {
