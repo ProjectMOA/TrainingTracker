@@ -87,8 +87,8 @@ public class SaveCardiovascularRecord extends HttpServlet {
         if (!error) {
             try {
                 // Creates an record in BD
-                if (CardioRecordsDAO.addRecord(Integer.parseInt(exercise), user, new Time(Long.parseLong(intensity)),
-                                         Double.parseDouble(distance), ServletCommon.getIntensidades().get(intensity))) {
+                if (CardioRecordsDAO.addRecord(Integer.parseInt(exercise), user, Double.parseDouble(distance),
+                                   new Time(Long.parseLong(time)), ServletCommon.getIntensidades().get(intensity))) {
                     // Search for performed exercises in BD
                     JSONObject jResponse = new JSONObject();
                     JSONArray jsonExercises = new JSONArray();

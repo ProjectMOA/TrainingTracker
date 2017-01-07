@@ -77,9 +77,9 @@ DROP TABLE IF EXISTS CardioRecords;
 CREATE TABLE CardioRecords (
     exercise INTEGER NOT NULL,
     user_nick VARCHAR(50),
+    distance DOUBLE NOT NULL,
     time TIME NOT NULL,
     intensity INTEGER NOT NULL,
-    comment TEXT,
     record_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     foreign key(exercise) references CardioExercises(_id) ON DELETE CASCADE,
     foreign key(user_nick) references Users(nick) ON DELETE CASCADE,
