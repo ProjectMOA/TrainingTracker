@@ -3,6 +3,7 @@ angular.module('trainingTrackerApp')
     .controller('exerciseHistoryCtrl', ['$scope', '$state', '$timeout', 'recordsService', function ($scope, $state, $timeout, recordsService) {
 
         $scope.nameExercise = recordsService.getExerciseName();
+        $scope.idExercise = '../img/' + recordsService.getExerciseId() + '.png';
         $scope.recordHistory = [];
         $scope.numPage = 1;
         $scope.historyCompleted = false;
