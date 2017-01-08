@@ -72,13 +72,14 @@
             </select>
           </div>
 
-          <img class="img-responsive col-md-offset-4 col-md-4" src="../img/login.jpeg" style="padding:1%">
-
           <div class="row">
-            <p class="home col-xs-12">
-              Para ver la lista de los ejercicios añadidos pulsa <a href="#/home">aquí</a>
-            </p>
+            <img class="img-responsive col-xs-offset-4 col-xs-4" style="padding:1%"
+                 ng-src="{{'../img/' + $parent.selectedPredetermined.id + '.png'}}">
           </div>
+
+          <p class="home">
+            Para ver la lista de los ejercicios añadidos pulsa <a href="#/home">aquí</a>
+          </p>
 
           <!-- submit button form-->
           <p style="text-align:center">
