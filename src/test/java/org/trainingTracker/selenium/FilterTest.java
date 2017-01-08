@@ -27,16 +27,16 @@ public class FilterTest {
     private static ArrayList<Integer> predeterminedExercises;
     //Press banca-Pecho
     private static final int PREDETERMINED_EXERCISE1_ID = 1;
-    //Vertical traction-Espalda
-    private static final int PREDETERMINED_EXERCISE2_ID = 11;
-    //Low row-Espalda
-    private static final int PREDETERMINED_EXERCISE3_ID = 13;
+    //Dominada con peso libre-Espalda
+    private static final int PREDETERMINED_EXERCISE2_ID = 3;
+    //Remo-Espalda
+    private static final int PREDETERMINED_EXERCISE3_ID = 4;
     private static final String EXERCISE_CARD = "exercise-card";
     private static final String MG_SELECT = "selectMGFilter";
     private static final String NAME_FILTER_FIELD = "nameExerciseFilter";
     private static final String CLEAR_FILTER_BUTTON = "clear";
     private static final String MG_TO_FILTER = "Espalda";
-    private static final String NAME_TO_FILTER = "Low row";
+    private static final String NAME_TO_FILTER = "Remo";
 
     @BeforeClass
     public static void setUp(){
