@@ -32,8 +32,8 @@ public class AddExerciseServletTest extends Mockito{
     private static final String EXISTING_PREDETERMINED_EXERCISE_MESSAGE = "Este ejercicio forma parte de los predefinidos";
     private static final String EXERCISE2 = "My Exercise2";
     private static final String MG2 = "Hombro";
-    private static final String PREDETERMINED_EXERCISE_NAME = "Press disco";
-    private static final String PREDETERMINED_EXERCISE_MG = "Pecho";
+    private static final String PREDETERMINED_EXERCISE_NAME = "Remo";
+    private static final String PREDETERMINED_EXERCISE_MG = "Espalda";
 
 
     @BeforeClass

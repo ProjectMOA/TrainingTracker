@@ -26,9 +26,9 @@ public class CardioRecordsDAO {
      * Adds the given cardio record to the data base.
      * @param exercise
      * @param user_nick
+     * @param distance
      * @param time
      * @param intensity
-     * @param distance
      * @return
      */
 	public static boolean addRecord(int exercise, String user_nick, double distance, Time time, int intensity){
@@ -128,7 +128,7 @@ public class CardioRecordsDAO {
             if( rs.first() ){
                 do {
                     list.add(new CardioRecordVO(rs.getInt(DBF_CARDIO_RECORD_EXERCISE), rs.getString(DBF_CARDIO_RECORD_NICK),
-                        rs.getString(DBF_CARDIO_RECORD_DISTANCE), rs.getString(DBF_CARDIO_RECORD_TIME),
+                        rs.getDouble(DBF_CARDIO_RECORD_DISTANCE), rs.getString(DBF_CARDIO_RECORD_TIME),
                         rs.getInt(DBF_CARDIO_RECORD_INTENSITY), rs.getString(DBF_CARDIO_RECORD_DATE)));
                 } while (rs.next());
             }
