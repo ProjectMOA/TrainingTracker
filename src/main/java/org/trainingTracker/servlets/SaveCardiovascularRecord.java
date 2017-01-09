@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Iterator;
 import java.sql.Time;
+import java.text.SimpleDateFormat;
+import java.util.TimeZone;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -90,9 +92,13 @@ public class SaveCardiovascularRecord extends HttpServlet {
                 if(!distance.equals("")){
                     parsedDistance = Double.parseDouble(distance);
                 }
+                Time rawTime = new Time((long) (Integer.parseInt(time)*60000));
+                SimpleDateFormat sdfm = new SimpleDateFormat("HH:mm:ss");
+                sdfm.setTimeZone(TimeZone.getTimeZone("GMT"));
                 // Creates an record in BD
                 if (CardioRecordsDAO.addRecord(Integer.parseInt(exercise), user, parsedDistance,
-                                   new Time(Long.parseLong(time)), ServletCommon.getIntensidades().get(intensity))) {
+                                   Time.valueOf(sdfm.format(rawTime)),
+                                   ServletCommon.getIntensidades().get(intensity))) {
                     // Search for performed exercises in BD
                     JSONObject jResponse = new JSONObject();
                     JSONArray jsonExercises = new JSONArray();
@@ -164,7 +170,7 @@ public class SaveCardiovascularRecord extends HttpServlet {
         boolean error = false;
         if(!str.equals("")){
             try {
-                if (!(Double.parseDouble(str) > 0)) {
+                if (!(Double.parseDouble(str) >= 0)) {
                     error = true;
                 }
             }
@@ -192,7 +198,7 @@ public class SaveCardiovascularRecord extends HttpServlet {
         boolean error = false;
 
         try {
-            if (!(Long.parseLong(str) >= 0)) {
+            if (!(Integer.parseInt(str) >= 0)) {
                 error = true;
             }
         }
