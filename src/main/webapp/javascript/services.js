@@ -227,6 +227,10 @@ angular.module('trainingTrackerApp')
             getExerciseId: function () {
                 return exerciseObject.id;
             },
+            // get the exercise id
+            getPredetermined: function () {
+                return exerciseObject.predetermined;
+            },
 
             //get the exercises list
             getRecordHistoryList: function (numPage, callbackSuccess, callbackError) {

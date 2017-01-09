@@ -23,6 +23,13 @@ angular.module('trainingTrackerApp')
         $scope.mgPredeterminedSelected;
         $scope.mgCustomSelected;
         $scope.customName;
+        $scope.getIcon = function () {
+            if ($scope.selectedPredetermined != undefined) {
+                return true;
+            } else {
+                return false;
+            }
+        };
 
         // feedback handling variables
         $scope.error = false;
