@@ -4,6 +4,9 @@ angular.module('trainingTrackerApp')
 
         $scope.nameExercise = recordsService.getExerciseName();
         $scope.idExercise = '../img/' + recordsService.getExerciseId() + '.png';
+        $scope.getPredetermined = function () {
+            return recordsService.getPredetermined();
+        };
         $scope.recordHistory = [];
         $scope.numPage = 1;
         $scope.historyCompleted = false;
