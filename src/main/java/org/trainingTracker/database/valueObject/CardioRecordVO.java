@@ -39,7 +39,7 @@ public class CardioRecordVO {
      */
 	@Override
 	public String toString() {
-		return String.format("Exercise: %d Nick: %s Distance: %f Time: %s Intensity: %d RecordDate: %s",
+		return String.format("Exercise: %d Nick: %s Distance: %.1f Time: %s Intensity: %d RecordDate: %s",
             exercise, user_nick, distance, time.toString(), intensity, record_date);
 		
 	}
@@ -49,7 +49,7 @@ public class CardioRecordVO {
      * @return
      */
     public String serialize(){
-        return String.format("{\"exercise\": \"%s\",  \"nick\": \"%s\",  \"distance\": \"%f\", " +
+        return String.format("{\"exercise\": \"%s\",  \"nick\": \"%s\",  \"distance\": \"%.1f\", " +
                 "\"time\": \"%s\",  \"intensity\": \"%s\", \"date\": \"%s\" }",
             exercise, user_nick, distance, time.toString(), intensity, record_date);
     }
