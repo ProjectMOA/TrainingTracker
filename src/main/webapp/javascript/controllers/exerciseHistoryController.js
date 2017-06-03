@@ -71,6 +71,10 @@ angular.module('trainingTrackerApp')
 
             if (!$scope.loadingRecords && !$scope.historyCompleted &&
                 ($(window).scrollTop() +  window.innerHeight + 30 >= $(window).height())){
+                console.log("SCROLL: ");
+                console.log("1: " + $(window).scrollTop());
+                console.log("2: " + window.innerHeight);
+                console.log("3: " + $(window).height());
 
                 $scope.loadingRecords = true;
                 recordsService.getRecordHistoryList($scope.numPage, function (records) {
